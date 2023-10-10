@@ -1,4 +1,4 @@
-package GestionFacturas;
+package gestionFacturas;
 
 public class Factura {
 	private int codigo;
