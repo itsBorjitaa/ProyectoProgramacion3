@@ -13,13 +13,8 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaPrincipal extends JFrame{
 	private DefaultTableModel tablaModelo;
 	private JTable tabla;
-	private JPanel panelBotones;
-	private JPanel panelCalendario;
-	private JButton botonCategorias;
-	private JButton botonGastos;
-	private JButton botonCerrarSesion;
-	private JButton botonMeses;
-	private JButton botonAños;
+	private JPanel panelBotones, panelCalendario;
+	private JButton botonCategorias, botonGastos, botonCerrarSesion, botonMeses, botonAños, botonAjustes;
 	
 	public VentanaPrincipal() {
 		
@@ -62,8 +57,8 @@ public class VentanaPrincipal extends JFrame{
 		panelCalendario.add(botonAños);
 		getContentPane().add(panelCalendario, BorderLayout.WEST);
 		
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setBounds(415,200,700,500);
+		setDefaultCloseOperation(EXIT_ON_CLOSE); //cambiarlo más tarde a DO_NOTHING_ON_CLOSE
+		setBounds(300, 200, 600, 400);
 		setTitle("Aplicación de Gestión de Facturas");
 		setVisible(true);
 	}
