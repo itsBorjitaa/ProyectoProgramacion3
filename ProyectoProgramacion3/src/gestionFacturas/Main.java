@@ -2,6 +2,7 @@ package gestionFacturas;
 
 public class Main {
 	public static void main(String[] args) {
-		VentanaPrincipal v = new VentanaPrincipal();
+		VentanaInicioSesion vis = new VentanaInicioSesion();
+		//VentanaPrincipal vp = new VentanaPrincipal();
 	}
 }

@@ -1,5 +1,6 @@
 package gestionFacturas;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -21,10 +22,12 @@ public class VentanaInicioSesion extends JFrame{
 		/*CREACIÓN DE PANELES Y COMPONENTES*/
 		pDatos = new JPanel(new GridLayout(2,2));
 		pBotones = new JPanel(new GridLayout(1,3));
+		getContentPane().add(pDatos, BorderLayout.NORTH);
+		getContentPane().add(pBotones, BorderLayout.SOUTH);
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE); //cambiarlo más tarde a DO_NOTHING_ON_CLOSE
 		setBounds(300, 200, 600, 400);
-		setTitle("Aplicación de Gestión de Facturas");
+		setTitle("VentanaInicioSesion");
 		setVisible(true);
 	}
 }
