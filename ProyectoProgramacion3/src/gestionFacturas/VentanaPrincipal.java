@@ -15,8 +15,10 @@ public class VentanaPrincipal extends JFrame{
 	private JTable tabla;
 	private JPanel panelCalendario, panelBotones;
 	private JButton botonCategorias, botonGastos, botonCerrarSesion, botonAjustes;
+	private JFrame vActual, vAnterior;
 	
 	public VentanaPrincipal() {
+		vActual = this;
 		
 		tablaModelo = new DefaultTableModel(); //creamos el modelo
 		Object[] titulos = {"CALENDARIO", "ACCIONES"}; //creamos los identificadores de columna
@@ -49,6 +51,13 @@ public class VentanaPrincipal extends JFrame{
 		 */
 
 		getContentPane().add(panelCalendario, BorderLayout.WEST);
+		
+		/*EVENTOS*/
+		botonCerrarSesion.addActionListener((e)->{
+			BaseDatos.guardarListaUsuariosEnFichero("./datos/BaseDeDatos.csv");
+			new VentanaInicioSesion();
+			vActual.dispose();
+		});
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE); //cambiarlo más tarde a DO_NOTHING_ON_CLOSE
 		setBounds(300, 200, 600, 400);
