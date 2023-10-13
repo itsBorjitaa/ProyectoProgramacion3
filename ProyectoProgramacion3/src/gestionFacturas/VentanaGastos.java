@@ -52,7 +52,7 @@ public class VentanaGastos extends JFrame{
 		add(panelTabla,BorderLayout.NORTH);//Añadimos los paneles
 		add(panelBotones,BorderLayout.SOUTH);
 		
-		
+		setTitle("VentanaGastos");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBounds(600, 200, 800, 600);
 		setVisible(true);
