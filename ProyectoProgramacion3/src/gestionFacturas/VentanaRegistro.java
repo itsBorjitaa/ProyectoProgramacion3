@@ -61,10 +61,14 @@ public class VentanaRegistro extends JFrame{
 			if((usuario.length()>1)&(contrasenya.length()>1)&(BaseDatos.buscarUsuario(usuario) == null)) { //mediante esta condición compruebo que el usuario no esté en el fichero para añadirlo
 				BaseDatos.anyadirUsuario(u);
 				JOptionPane.showMessageDialog(null, "Usuario registrado correctamente","REGISTRO",JOptionPane.INFORMATION_MESSAGE);
-			}else if((usuario.length()<1)&(contrasenya.length()<1)&(BaseDatos.buscarUsuario(usuario) == null)){ //mediante esta condición detectamos si se ha dejado algún hueco del registro sin rellenar
+			}else if((usuario.length()<1)&(contrasenya.length()<1)){ //mediante esta condición detectamos si se ha dejado algún hueco del registro sin rellenar
 				JOptionPane.showMessageDialog(null, "No dejes ningún hueco en blanco para el registro","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
-			}else if((usuario.length()>1)&(contrasenya.length()>1)&!(BaseDatos.buscarUsuario(usuario) == null)){ //pongo ! delante de la condición de buscarUsuario para ver que sí está en el fichero el usuario
+			}else if((usuario.length()>1)&(contrasenya.length()>1)&!(BaseDatos.buscarUsuario(usuario) == null)){ 
 				JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese nombre","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
+			}else if(usuario.length()<1) {
+				JOptionPane.showMessageDialog(null, "Escribe el nombre del usuario","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
+			}else if(contrasenya.length()<1) {
+				JOptionPane.showMessageDialog(null, "Escribe la contraseña del usuario","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
 			}
 			
 			limpiarCampos();
