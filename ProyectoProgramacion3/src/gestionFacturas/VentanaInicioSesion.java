@@ -61,7 +61,7 @@ public class VentanaInicioSesion extends JFrame{
 			if(u == null) {
 				JOptionPane.showMessageDialog(null, "El usuario no está registrado","ERROR EN EL INICIO DE SESIÓN",JOptionPane.ERROR_MESSAGE);
 			}else if(u.getContrasenya().equals(contrasenya)) {
-				JOptionPane.showMessageDialog(null, "Bienvenido!!","INICIO DE SESIÓN",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Bienvenido!","INICIO DE SESIÓN",JOptionPane.INFORMATION_MESSAGE);
 				new VentanaPrincipal();
 				vActual.dispose();
 			}else {
