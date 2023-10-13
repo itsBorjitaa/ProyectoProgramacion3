@@ -2,6 +2,8 @@ package gestionFacturas;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -59,6 +61,24 @@ public class VentanaPrincipal extends JFrame{
 			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BaseDeDatos.csv");
 			new VentanaInicioSesion();
 			vActual.dispose();
+		});
+		
+		botonGastos.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new VentanaGastos();
+				vActual.dispose();
+			}
+		});
+		
+		botonCategorias.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new VentanaCategorias();
+				vActual.dispose();
+			}
 		});
 		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
