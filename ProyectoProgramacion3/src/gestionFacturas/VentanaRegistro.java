@@ -57,12 +57,16 @@ public class VentanaRegistro extends JFrame{
 			String usuario = txtUsuario.getText();
 			String contrasenya = txtContrasenya.getText();
 			Usuario u = new Usuario(usuario, contrasenya);
-			if(BaseDatos.buscarUsuario(usuario) == null) {
+			
+			if((usuario.length()>1)&(contrasenya.length()>1)&(BaseDatos.buscarUsuario(usuario) == null)) { //mediante esta condición compruebo que el usuario no esté en el fichero para añadirlo
 				BaseDatos.anyadirUsuario(u);
 				JOptionPane.showMessageDialog(null, "Usuario registrado correctamente","REGISTRO",JOptionPane.INFORMATION_MESSAGE);
-			}else {
+			}else if((usuario.length()<1)&(contrasenya.length()<1)&(BaseDatos.buscarUsuario(usuario) == null)){ //mediante esta condición detectamos si se ha dejado algún hueco del registro sin rellenar
+				JOptionPane.showMessageDialog(null, "No dejes ningún hueco en blanco para el registro","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
+			}else if((usuario.length()>1)&(contrasenya.length()>1)&!(BaseDatos.buscarUsuario(usuario) == null)){ //pongo ! delante de la condición de buscarUsuario para ver que sí está en el fichero el usuario
 				JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese nombre","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
 			}
+			
 			limpiarCampos();
 		});
 		
