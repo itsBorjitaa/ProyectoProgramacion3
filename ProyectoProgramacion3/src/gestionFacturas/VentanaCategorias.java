@@ -16,7 +16,7 @@ public class VentanaCategorias extends JFrame {
 	private JScrollPane scrollClases;
 	private JPanel panelDerechaBotones, panelIzquierda;
 	private ArrayList<ClasesTickets> listaClases;
-	private JFrame vActual, VAnterior;
+	private JFrame vActual;
 	
 	public VentanaCategorias() {
 		vActual = this;
@@ -44,7 +44,8 @@ public class VentanaCategorias extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				new VentanaAnyadirCategoria();
+				vActual.dispose();
 				
 			}
 		});
@@ -62,7 +63,8 @@ public class VentanaCategorias extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				new VentanaModificarCategoria();
+				vActual.dispose();
 				
 			}
 		});
@@ -71,7 +73,8 @@ public class VentanaCategorias extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				new VentanaPrincipal();
+				vActual.dispose();
 				
 			}
 		});
