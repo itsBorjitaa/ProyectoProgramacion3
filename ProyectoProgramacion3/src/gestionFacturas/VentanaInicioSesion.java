@@ -19,6 +19,8 @@ public class VentanaInicioSesion extends JFrame{
 	private JPanel pDatos, pBotones;
 	private JFrame vActual;
 	
+	private static final String RUTA_FICHEROS = "datos/";
+	
 	public VentanaInicioSesion() {
 		vActual = this;
 		/*CREACIÓN DE PANELES Y COMPONENTES*/
@@ -44,11 +46,11 @@ public class VentanaInicioSesion extends JFrame{
 		pBotones.add(botonCerrar);
 		
 		/*CARGAMOS LAS COLECCIONES CON LOS DATOS INICIALES*/
-		BaseDatos.cargarFicheroUsuariosEnLista("./datos/BaseDeDatos.csv");
+		BaseDatos.cargarFicheroUsuariosEnLista(RUTA_FICHEROS+"BaseDeDatos.csv");
 		
 		/*EVENTOS*/
 		botonCerrar.addActionListener((e)->{
-			BaseDatos.guardarListaUsuariosEnFichero("./datos/BaseDeDatos.csv");
+			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BaseDeDatos.csv");
 			System.exit(0);
 		});
 		

@@ -17,6 +17,8 @@ public class VentanaPrincipal extends JFrame{
 	private JButton botonCategorias, botonGastos, botonCerrarSesion, botonAjustes;
 	private JFrame vActual, vAnterior;
 	
+	private static final String RUTA_FICHEROS = "datos/";
+	
 	public VentanaPrincipal() {
 		vActual = this;
 		
@@ -54,12 +56,12 @@ public class VentanaPrincipal extends JFrame{
 		
 		/*EVENTOS*/
 		botonCerrarSesion.addActionListener((e)->{
-			BaseDatos.guardarListaUsuariosEnFichero("./datos/BaseDeDatos.csv");
+			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BaseDeDatos.csv");
 			new VentanaInicioSesion();
 			vActual.dispose();
 		});
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE); //cambiarlo más tarde a DO_NOTHING_ON_CLOSE
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(300, 200, 600, 400);
 		setTitle("VentanaPrincipal");
 		setVisible(true);
