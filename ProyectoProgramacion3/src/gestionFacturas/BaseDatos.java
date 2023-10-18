@@ -18,6 +18,8 @@ public class BaseDatos {
 	private static Set<Factura> facturas = new TreeSet<>();
 	private static Map<Usuario, List<Factura>> facturasUsuario = new TreeMap<>();
 	
+	/* BASE DE DATOS USUARIOS */
+	
 	public static void anyadirUsuario(Usuario u) {
 		usuarios.add(u);
 	}
@@ -101,4 +103,5 @@ public class BaseDatos {
 			e.printStackTrace();
 		}
 	}
+	
 }
