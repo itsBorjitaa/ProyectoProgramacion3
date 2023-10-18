@@ -68,7 +68,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 		
 		/*ESPECIFICACIÓN VENTANA*/
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setBounds(300, 200, 600, 400);
+		setBounds(450, 300, 600, 400);
 		setTitle("Ventana añadir categorias");
 		setVisible(true);
 	}

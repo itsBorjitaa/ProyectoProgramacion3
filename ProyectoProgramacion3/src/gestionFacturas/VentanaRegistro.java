@@ -44,11 +44,11 @@ public class VentanaRegistro extends JFrame{
 		pBotones.add(botonVolver);
 		
 		/*CARGAMOS LAS COLECCIONES CON LOS DATOS INICIALES*/
-		BaseDatos.cargarFicheroUsuariosEnLista(RUTA_FICHEROS+"BaseDeDatos.csv");
+		BaseDatos.cargarFicheroUsuariosEnLista(RUTA_FICHEROS+"BDUsuario.csv");
 		
 		/*EVENTOS*/
 		botonVolver.addActionListener((e)->{
-			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BaseDeDatos.csv");
+			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BDUsuario.csv");
 			new VentanaInicioSesion();
 			vActual.dispose();
 		});
@@ -75,7 +75,7 @@ public class VentanaRegistro extends JFrame{
 		});
 		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setBounds(300, 200, 600, 100);
+		setBounds(450, 300, 600, 100);
 		setTitle("VentanaRegistro");
 		setVisible(true);
 	}

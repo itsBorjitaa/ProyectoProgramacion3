@@ -54,7 +54,7 @@ public class VentanaGastos extends JFrame{
 		
 		setTitle("VentanaGastos");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setBounds(600, 200, 800, 600);
+		setBounds(450, 300, 800, 600);
 		setVisible(true);
 	}
 }

@@ -58,7 +58,7 @@ public class VentanaPrincipal extends JFrame{
 		
 		/*EVENTOS*/
 		botonCerrarSesion.addActionListener((e)->{
-			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BaseDeDatos.csv");
+			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BDUsuario.csv");
 			new VentanaInicioSesion();
 			vActual.dispose();
 		});
@@ -82,7 +82,7 @@ public class VentanaPrincipal extends JFrame{
 		});
 		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setBounds(300, 200, 600, 400);
+		setBounds(450, 300, 600, 400);
 		setTitle("VentanaPrincipal");
 		setVisible(true);
 	}
