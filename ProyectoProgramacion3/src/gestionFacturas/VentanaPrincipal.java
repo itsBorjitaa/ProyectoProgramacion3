@@ -15,8 +15,8 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaPrincipal extends JFrame{
 	private DefaultTableModel tablaModelo;
 	private JTable tabla;
-	private JPanel panelCalendario, panelBotones;
-	private JButton botonCategorias, botonGastos, botonCerrarSesion, botonAjustes;
+	private JPanel panelCalendario, panelBotones,panelDias;
+	private JButton botonCategorias, botonGastos, botonDias, botonCerrarSesion, botonAjustes;
 	private JFrame vActual, vAnterior;
 	
 	private static final String RUTA_FICHEROS = "datos/";
@@ -32,12 +32,13 @@ public class VentanaPrincipal extends JFrame{
 		/**
 		 * Paneles de la ventana principal
 		 */
-		panelBotones = new JPanel(new GridLayout(3,1));
+		panelBotones = new JPanel(new GridLayout(4,1));
 		panelCalendario = new JPanel(new GridLayout(1,2));
 		
 		/**
 		 * Botones del panel de botones
 		 */
+		botonDias=new JButton("TICKETS POR FECHA");
 		botonCategorias = new JButton("CATEGORÍAS");
 		botonGastos = new JButton("GASTOS");
 		botonCerrarSesion = new JButton("CERRAR SESIÓN");
@@ -45,6 +46,7 @@ public class VentanaPrincipal extends JFrame{
 		/**
 		 * Añadimos los botones al panel de botones
 		 */
+		panelBotones.add(botonDias);
 		panelBotones.add(botonCategorias);
 		panelBotones.add(botonGastos);
 		panelBotones.add(botonCerrarSesion);
@@ -77,6 +79,14 @@ public class VentanaPrincipal extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new VentanaCategorias();
+				vActual.dispose();
+			}
+		});
+		botonDias.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new VentanaDiaCalendario();
 				vActual.dispose();
 			}
 		});
