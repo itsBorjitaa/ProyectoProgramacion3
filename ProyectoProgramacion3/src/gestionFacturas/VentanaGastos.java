@@ -3,6 +3,8 @@ package gestionFacturas;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class VentanaGastos extends JFrame{
 	
@@ -10,20 +12,22 @@ public class VentanaGastos extends JFrame{
 	private DefaultTableModel tablaGastos;
 	private JRadioButton botonMes,botonTrimestre,botonAnyo;
 	private ButtonGroup grupoBotones;
+	private JButton botonVolver;
 	
 	public VentanaGastos() {
 		/**
 		 * Paneles de la ventana gastos
 		 */
-		panelBotones=new JPanel(new GridLayout(4,1));
+		panelBotones=new JPanel(new GridLayout(5,1));
 		panelTabla=new JPanel();
 		
 		/**
 		 * Elementos del panel de botones
 		 */
-		botonMes=new JRadioButton("Mes");
-		botonTrimestre=new JRadioButton("Trimestre"); 
-		botonAnyo=new JRadioButton("Año");
+		botonVolver=new JButton("Volver");
+		botonMes=new JRadioButton("Mensual");
+		botonTrimestre=new JRadioButton("Trimestral"); 
+		botonAnyo=new JRadioButton("Anual");
 		grupoBotones=new ButtonGroup();
 		
 		/**
@@ -40,11 +44,22 @@ public class VentanaGastos extends JFrame{
 		panelBotones.add(botonMes);
 		panelBotones.add(botonTrimestre);
 		panelBotones.add(botonAnyo); 
+		panelBotones.add(botonVolver);
 		panelBotones.setBorder(BorderFactory.createBevelBorder(1));
 		
 		/**
-		 * Añadimos la tabla al 
+		 * Añadimos la tabla a la ventana
 		 */
+		botonVolver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new VentanaPrincipal();
+				dispose();
+			}
+		});
+		/**
 		
 		/**
 		 * Añadimos los paneles
@@ -52,9 +67,9 @@ public class VentanaGastos extends JFrame{
 		add(panelTabla,BorderLayout.NORTH);//Añadimos los paneles
 		add(panelBotones,BorderLayout.SOUTH);
 		
-		setTitle("VentanaGastos");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setBounds(450, 300, 800, 600);
+		setTitle("Ventana Gastos");
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setBounds(450, 300, 600, 400);
 		setVisible(true);
 	}
 }
