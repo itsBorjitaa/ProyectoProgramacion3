@@ -1,16 +1,15 @@
 package gestionFacturas;
 
-public class ClasesTickets {
+public class Ticket {
 	private String nombre, descripcion;
 
-	public ClasesTickets(String nombre, String descripcion) {
+	public Ticket(String nombre, String descripcion) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 	}
 	
-	public ClasesTickets() {
-		
+	public Ticket() {
 	}
 
 	public String getNombre() {
@@ -31,6 +30,6 @@ public class ClasesTickets {
 
 	@Override
 	public String toString() {
-		return "ClasesTickets [nombre=" + nombre + ", descripcion=" + descripcion + "]";
+		return "Ticket [nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
 }
