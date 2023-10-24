@@ -57,10 +57,10 @@ public class VentanaDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(!listaTickets.isSelectionEmpty()) {
+				//if(!listaTickets.isSelectionEmpty()) {
 					new VentanaAnyadirDiaCalendario();
 					dispose();
-				}
+				//}
 			}
 		});
 		botonModificar.addActionListener(new ActionListener() {
@@ -68,10 +68,10 @@ public class VentanaDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(!listaTickets.isSelectionEmpty()) {
+				//if(!listaTickets.isSelectionEmpty()) {
 					new VentanaModificarDiaCalendario();
 					dispose();
-				}
+				//}
 			}
 		});
 		
@@ -80,9 +80,9 @@ public class VentanaDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(!listaTickets.isSelectionEmpty()) {
+				//if(!listaTickets.isSelectionEmpty()) {
 				defaultListaTickets.removeElement(listaTickets.getSelectedValue());
-				}
+				//}
 			}
 		});
 		botonVolver.addActionListener(new ActionListener() {
@@ -122,6 +122,7 @@ public class VentanaDiaCalendario extends JFrame {
 		panelListas.add(scrollTickets);
 		
 		
+		
 		add(panelBotones,BorderLayout.EAST);
 		add(panelListas);
 		
@@ -129,5 +130,13 @@ public class VentanaDiaCalendario extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
+	}
+
+	public JList<Factura> getListaTickets() {
+		return listaTickets;
+	}
+
+	public void setListaTickets(JList<Factura> listaTickets) {
+		this.listaTickets = listaTickets;
 	}
 }
