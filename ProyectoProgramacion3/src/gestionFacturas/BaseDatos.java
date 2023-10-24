@@ -7,16 +7,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class BaseDatos {
 	private static List<Usuario> usuarios = new ArrayList<>();
 	private static Set<Factura> facturas = new TreeSet<>();
-	private static Map<Usuario, List<Factura>> facturasUsuario = new TreeMap<>();
+	private static Set<Categoria> categorias = new TreeSet<>();
 	
 	/* BASE DE DATOS USUARIOS */
 	
@@ -102,6 +100,16 @@ public class BaseDatos {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/* BASE DE DATOS CATEGORIAS */
+	
+	public static Set<Categoria> getCategorias(){
+		return categorias;
+	}
+	
+	public static void aniadirCategorias(Categoria c) {
+		categorias.add(c);
 	}
 	
 }
