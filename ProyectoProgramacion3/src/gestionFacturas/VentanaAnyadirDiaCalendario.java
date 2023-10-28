@@ -23,33 +23,32 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 	
 	private JTextField textoConcepto;
 	private JSpinner floatCoste;
-	private JComboBox<String> seleccionadorTipo;
+	private JComboBox<String> seleccionadorCategoria;
 	private JDatePicker datePicker;
 	
 	private JPanel panelBotones, panelValores;
 	
-	public VentanaAnyadirDiaCalendario() {
+	public VentanaAnyadirDiaCalendario(Date fecha) {
+		/*Creamos los paneles*/
 		panelBotones=new JPanel(new GridLayout(1,2));
 		panelValores=new JPanel(new GridLayout(4,2));
-		datePicker=new JDatePicker(new Date());
-		textoConcepto=new JTextField(20);
-		seleccionadorTipo=new JComboBox<>();
 		
+		/*Añadimos los elementos de los paneles*/
+		datePicker=new JDatePicker(fecha);
+		textoConcepto=new JTextField(20);
+		seleccionadorCategoria=new JComboBox<>();
+		floatCoste=new JSpinner(new SpinnerNumberModel(0.00,0.00,null,1));
 		botonAnyadir=new JButton("Añadir");
 		botonCancelar=new JButton("Cancelar");
-		/**
-		 * Añadimos todos los tipos al JComboBox
-		 */
-		//for(Tipo tipo:BDTipos{seleccionadorTipo.addItem(tipo)}
 		
-		floatCoste=new JSpinner(new SpinnerNumberModel(0.00,0.00,null,1));
-		/**
-		 * Creamos un SpinnerModel para que muestre 2 decimales, use la respuesta de:
-		 * "https://stackoverflow.com/a/24915447"
-		 * para hacerlo
-		 */
+		/*Cargamos las categorias con la función*/
+		
+		/*Creamos un SpinnerModel para que muestre 2 decimales, use la respuesta de:
+		"https://stackoverflow.com/a/24915447" para hacerlo*/
 		JSpinner.NumberEditor numberEditor = new JSpinner.NumberEditor(floatCoste,"0.00");
 		floatCoste.setEditor(numberEditor);
+		
+		/*Añadimos eventos a los botones*/
 		botonAnyadir.addActionListener(new ActionListener() {
 			
 			@Override
@@ -70,15 +69,16 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 			}
 		});
 		
+		/*Creamos los elementos de los paneles y los añadimos*/
 		JLabel labelConcepto=new JLabel("Concepto:");
 		panelValores.add(labelConcepto);
 		panelValores.add(textoConcepto);
 		JLabel labelCoste=new JLabel("Coste:");
 		panelValores.add(labelCoste);
 		panelValores.add(floatCoste);
-		JLabel labelTipo=new JLabel("Tipo:");
+		JLabel labelTipo=new JLabel("Categoria:");
 		panelValores.add(labelTipo);
-		panelValores.add(seleccionadorTipo);
+		panelValores.add(seleccionadorCategoria);
 		JLabel labelFecha=new JLabel("Fecha:");
 		panelValores.add(labelFecha);
 		panelValores.add(datePicker);
@@ -86,11 +86,15 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		panelBotones.add(botonAnyadir);
 		panelBotones.add(botonCancelar);
 		
+		/*Añadimos los paneles al JFrame*/
 		add(panelValores,BorderLayout.NORTH);
 		add(panelBotones,BorderLayout.SOUTH);
 		
+		/*Características del Frame*/
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
 	}
+	/*Utilizo el metodo cargarCategorias que Borja creo para la clase Categorias
+	Lo modifico para que añada elementos a la JComboBox en vez de a una lista*/
 }

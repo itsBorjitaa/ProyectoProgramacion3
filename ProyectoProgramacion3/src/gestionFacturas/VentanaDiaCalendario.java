@@ -16,7 +16,6 @@ public class VentanaDiaCalendario extends JFrame {
 	private JButton botonBorrar;
 	private JButton botonAnyadir;
 	
-	
 	private DefaultListModel<Date> defaultListaFechas;
 	private JList<Date> listaFechas;
 	private JScrollPane scrollFechas;
@@ -28,14 +27,18 @@ public class VentanaDiaCalendario extends JFrame {
 	private JPanel panelBotones,panelListas;
 	
 	public VentanaDiaCalendario() {
+		
+		/*Creamos los paneles*/
 		panelBotones=new JPanel(new GridLayout(4,1));
 		panelListas=new JPanel(new GridLayout(4,1));
 		
+		/*Añadimos los elementos de los paneles*/
 		botonVolver=new JButton("Volver");
 		botonModificar=new JButton("Modificar factura");
 		botonBorrar=new JButton("Borrar factura");
 		botonAnyadir=new JButton("Añadir factura");
 		
+		/*Creamos las listas*/
 		defaultListaFechas=new DefaultListModel<>();	
 		listaFechas=new JList<>(defaultListaFechas);
 		scrollFechas=new JScrollPane(listaFechas);
@@ -44,23 +47,24 @@ public class VentanaDiaCalendario extends JFrame {
 		listaTickets=new JList<Factura>(defaultListaTickets);
 		scrollTickets=new JScrollPane(listaTickets);
 		
-		/**
-		 * Solo queremos mostrar las fechas que estan relacionadas con una factura
-		 */
-		//for(Factura factura: BaseDatos.getFacturas()){ListaFechas.addElement(factura.getFecha);}
+		/*Creo fechas genericas para comprobar el funcionamiento de la ventana
+		 Se eliminaran despues*/
+			defaultListaFechas.addElement(new Date(123,9,10));
+			defaultListaFechas.addElement(new Date(123,8,3));
 		
-		/**
-		 * Añadimos las  funciones a los botones
-		 */
+		/*Añadimos eventos a los botones*/
 		botonAnyadir.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				//if(!listaTickets.isSelectionEmpty()) {
-					new VentanaAnyadirDiaCalendario();
-					dispose();
-				//}
+				if(!listaFechas.isSelectionEmpty()) { //Si una fecha esta seleccionada entonces la factura se creara con esta
+					new VentanaAnyadirDiaCalendario(listaFechas.getSelectedValue());
+				}
+				else {//En caso contrario se utiliza la de hoy
+					new VentanaAnyadirDiaCalendario(new Date());
+				}
+				dispose();
 			}
 		});
 		botonModificar.addActionListener(new ActionListener() {
@@ -68,10 +72,10 @@ public class VentanaDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				//if(!listaTickets.isSelectionEmpty()) {
-					new VentanaModificarDiaCalendario();
+				if(!listaTickets.isSelectionEmpty()) {//Si no hay ningun valor seleccionado no se ejecuta
+					new VentanaModificarDiaCalendario(listaTickets.getSelectedValue());
 					dispose();
-				//}
+				}
 			}
 		});
 		
@@ -80,9 +84,9 @@ public class VentanaDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				//if(!listaTickets.isSelectionEmpty()) {
+				if(!listaTickets.isSelectionEmpty()) {
 				defaultListaTickets.removeElement(listaTickets.getSelectedValue());
-				//}
+				}
 			}
 		});
 		botonVolver.addActionListener(new ActionListener() {
@@ -96,18 +100,23 @@ public class VentanaDiaCalendario extends JFrame {
 		});
 		
 		
-		/**
-		 * Añadimos un Listener a la lista de fechas para que nos muestren las facturas de ese dia
-		 */
+		/*Añadimos un evento a la lista de fechas para que muestre las facturas del dia seleccionado*/
 		listaFechas.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
 				if(!e.getValueIsAdjusting()) {//Ponemos esto para que no se dupliquen los valores
+					defaultListaTickets.removeAllElements();
+					Date fecha=listaFechas.getSelectedValue();
+					/*Creo una factura generica para comprobar que se carguen los valores en la ventana de modificar
+					 Se eliminara despues*/
+					defaultListaTickets.addElement(new Factura(1, "prueba", 2, new Categoria("Ocio"), fecha));
 				}
 			}
 		});
+		
+		/*Creamos los elementos de los paneles y los añadimos*/
 		
 		panelBotones.add(botonAnyadir);
 		panelBotones.add(botonModificar);
@@ -121,22 +130,14 @@ public class VentanaDiaCalendario extends JFrame {
 		panelListas.add(textoTickets);
 		panelListas.add(scrollTickets);
 		
-		
-		
+		/*Añadimos los paneles al JFrame*/
 		add(panelBotones,BorderLayout.EAST);
 		add(panelListas);
 		
+		/*Características del Frame*/
 		setTitle("Ventana dias");
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
-	}
-
-	public JList<Factura> getListaTickets() {
-		return listaTickets;
-	}
-
-	public void setListaTickets(JList<Factura> listaTickets) {
-		this.listaTickets = listaTickets;
 	}
 }
