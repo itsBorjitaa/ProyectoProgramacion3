@@ -1,16 +1,21 @@
 package gestionFacturas;
 
+import java.util.Date;
+
 public class Factura {
 	private int codigo;
 	private String concepto;
 	private float coste;
 	private String tipo;
-	public Factura(int codigo, String concepto, float coste, String tipo) {
+	private Date fecha;
+	
+	public Factura(int codigo, String concepto, float coste, String tipo, Date fecha) {
 		super();
 		this.codigo = codigo;
 		this.concepto = concepto;
 		this.coste = coste;
 		this.tipo = tipo;
+		this.fecha = fecha;
 	}
 	public Factura() {
 	}
@@ -38,9 +43,16 @@ public class Factura {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
 	@Override
 	public String toString() {
-		return "Factura [codigo=" + codigo + ", concepto=" + concepto + ", coste=" + coste + ", tipo=" + tipo + "]";
+		return "Factura [codigo=" + codigo + ", concepto=" + concepto + ", coste=" + coste + ", tipo=" + tipo
+				+ ", fecha=" + fecha + "]";
 	}
 	
 }
