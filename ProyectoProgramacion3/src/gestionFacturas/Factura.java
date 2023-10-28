@@ -6,15 +6,15 @@ public class Factura {
 	private int codigo;
 	private String concepto;
 	private float coste;
-	private String tipo;
+	private Categoria categoria;
 	private Date fecha;
 	
-	public Factura(int codigo, String concepto, float coste, String tipo, Date fecha) {
+	public Factura(int codigo, String concepto, float coste, Categoria categoria, Date fecha) {
 		super();
 		this.codigo = codigo;
 		this.concepto = concepto;
 		this.coste = coste;
-		this.tipo = tipo;
+		this.categoria = categoria;
 		this.fecha = fecha;
 	}
 	public Factura() {
@@ -37,11 +37,11 @@ public class Factura {
 	public void setCoste(float coste) {
 		this.coste = coste;
 	}
-	public String getTipo() {
-		return tipo;
+	public Categoria getCategoria() {
+		return categoria;
 	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 	public Date getFecha() {
 		return fecha;
@@ -51,7 +51,7 @@ public class Factura {
 	}
 	@Override
 	public String toString() {
-		return "Factura [codigo=" + codigo + ", concepto=" + concepto + ", coste=" + coste + ", tipo=" + tipo
+		return "Factura [codigo=" + codigo + ", concepto=" + concepto + ", coste=" + coste + ", categoria=" + categoria
 				+ ", fecha=" + fecha + "]";
 	}
 	
