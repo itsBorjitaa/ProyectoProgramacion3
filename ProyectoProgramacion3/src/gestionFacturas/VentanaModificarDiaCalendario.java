@@ -34,10 +34,11 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		panelValores=new JPanel(new GridLayout(4,2));
 		
 		/*Añadimos los elementos de los paneles*/
-		textoConcepto=new JTextField(20);
+		textoConcepto=new JTextField(factura.getConcepto(),20);
 		botonAnyadir=new JButton("Añadir");
 		botonCancelar=new JButton("Cancelar");
 		seleccionadorCategoria=new JComboBox<>();
+		datePicker=new JDatePicker(factura.getFecha());
 		floatCoste=new JSpinner(new SpinnerNumberModel(0.00,0.00,null,1));
 		
 		/*Cargamos las categorias con la función*/
@@ -46,11 +47,9 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		/*Añadimos todos los tipos al JComboBox*/
 			//for(Tipo tipo:BDTipos{seleccionadorTipo.addItem(tipo)}
 		
-		/*Cargamos los valores*/
-		textoConcepto.setText(factura.getConcepto());
+		/*Cargamos los valores de coste y categoria*/
 		floatCoste.setValue(factura.getCoste());
 		seleccionadorCategoria.setSelectedItem(factura.getCategoria().getNombre());
-		datePicker=new JDatePicker(factura.getFecha());
 		
 		/*Creamos un SpinnerModel para que muestre 2 decimales, use la respuesta de:
 		"https://stackoverflow.com/a/24915447" para hacerlo*/

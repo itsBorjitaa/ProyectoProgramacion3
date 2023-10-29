@@ -42,6 +42,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		botonCancelar=new JButton("Cancelar");
 		
 		/*Cargamos las categorias con la función*/
+		cargarCategorias();
 		
 		/*Creamos un SpinnerModel para que muestre 2 decimales, use la respuesta de:
 		"https://stackoverflow.com/a/24915447" para hacerlo*/
@@ -97,4 +98,9 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 	}
 	/*Utilizo el metodo cargarCategorias que Borja creo para la clase Categorias
 	Lo modifico para que añada elementos a la JComboBox en vez de a una lista*/
+	private void cargarCategorias() {
+		for(Categoria c: BaseDatos.getCategorias()) { 
+			seleccionadorCategoria.addItem(c.getNombre());
+		}
+	}
 }
