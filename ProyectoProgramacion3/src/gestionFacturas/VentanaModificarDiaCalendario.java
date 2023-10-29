@@ -39,16 +39,12 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		botonCancelar=new JButton("Cancelar");
 		seleccionadorCategoria=new JComboBox<>();
 		datePicker=new JDatePicker(factura.getFecha());
-		floatCoste=new JSpinner(new SpinnerNumberModel(0.00,0.00,null,1));
+		floatCoste=new JSpinner(new SpinnerNumberModel((double) factura.getCoste(),0.00,null,1));
 		
 		/*Cargamos las categorias con la función*/
 		cargarCategorias();
 		
-		/*Añadimos todos los tipos al JComboBox*/
-			//for(Tipo tipo:BDTipos{seleccionadorTipo.addItem(tipo)}
-		
 		/*Cargamos los valores de coste y categoria*/
-		floatCoste.setValue(factura.getCoste());
 		seleccionadorCategoria.setSelectedItem(factura.getCategoria().getNombre());
 		
 		/*Creamos un SpinnerModel para que muestre 2 decimales, use la respuesta de:

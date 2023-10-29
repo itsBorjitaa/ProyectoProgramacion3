@@ -19,6 +19,11 @@ public class VentanaGastos extends JFrame{
 	private JButton botonVolver;
 	private List<String> listaCategorias;
 	public VentanaGastos() {
+		/*Cambiamos el color de la celdas(En Flatlaf se muestran en blanco por defecto)*/
+		
+		UIManager.put("Table.showHorizontalLines", true);//Con esto se veran las lineas entre celdas en las tablas
+		UIManager.put("Table.showVerticalLines", true);
+		UIManager.put("Table.gridColor", Color.GRAY);//El color de las lineas sera gris
 		
 		/*Paneles de la ventana gastos*/
 
@@ -51,7 +56,15 @@ public class VentanaGastos extends JFrame{
 			@Override
 			public int getRowCount() {
 				// TODO Auto-generated method stub
-				return listaCategorias.size()+1;
+				if(botonMes.isSelected()) {
+					return 12;
+				}
+				else if(botonTrimestre.isSelected()) {
+					return 4;
+				}
+				else {
+					return 5;
+				}
 			}
 			
 			@Override
@@ -63,9 +76,11 @@ public class VentanaGastos extends JFrame{
 				return (String) listaCategorias.toArray()[index];
 				
 			}
+			
 		};
 		/*Creamos la tabla y el scroll*/
 		tablaGastos=new JTable(modeloTabla);
+		tablaGastos.setCellSelectionEnabled(false);
 		scrollTabla=new JScrollPane(tablaGastos);
 		
 		/*Añadimos funcionalidades a los botones*/

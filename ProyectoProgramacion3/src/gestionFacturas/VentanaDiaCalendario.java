@@ -76,6 +76,9 @@ public class VentanaDiaCalendario extends JFrame {
 					new VentanaModificarDiaCalendario(listaTickets.getSelectedValue());
 					dispose();
 				}
+				else {//Saltara un error para notificar al usuario que elija un ticket
+					JOptionPane.showMessageDialog(rootPane, "Elige un ticket!", "Error", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		
@@ -86,6 +89,9 @@ public class VentanaDiaCalendario extends JFrame {
 				// TODO Auto-generated method stub
 				if(!listaTickets.isSelectionEmpty()) {
 				defaultListaTickets.removeElement(listaTickets.getSelectedValue());
+				}
+				else {
+					JOptionPane.showMessageDialog(rootPane, "Elige un ticket!", "Error", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -111,7 +117,8 @@ public class VentanaDiaCalendario extends JFrame {
 					Date fecha=listaFechas.getSelectedValue();
 					/*Creo una factura generica para comprobar que se carguen los valores en la ventana de modificar
 					 Se eliminara despues*/
-					defaultListaTickets.addElement(new Factura(1, "prueba", 2, new Categoria("Ocio"), fecha));
+					defaultListaTickets.addElement(new Factura((int)( Math.random()*25+1), "prueba", (int)( Math.random()*8+1), new Categoria("Ocio"), fecha));
+					defaultListaTickets.addElement(new Factura((int)( Math.random()*25+1), "prueba2", (int)( Math.random()*8+1), new Categoria("Agua"), fecha));
 				}
 			}
 		});
