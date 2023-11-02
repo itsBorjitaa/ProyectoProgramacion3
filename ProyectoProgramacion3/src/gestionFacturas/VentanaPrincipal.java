@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,12 +13,15 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.toedter.calendar.JCalendar;
+
 public class VentanaPrincipal extends JFrame{
 	private DefaultTableModel tablaModelo;
 	private JTable tabla;
 	private JPanel panelCalendario, panelBotones,panelDias;
 	private JButton botonCategorias, botonGastos, botonDias, botonCerrarSesion, botonAjustes;
 	private JFrame vActual, vAnterior;
+	private JCalendar calendario;
 	
 	private static final String RUTA_FICHEROS = "datos/";
 	
@@ -56,6 +60,8 @@ public class VentanaPrincipal extends JFrame{
 		 * Añadimos calendario
 		 */
 
+		calendario = new JCalendar(new Date());
+		panelCalendario.add(calendario);
 		getContentPane().add(panelCalendario, BorderLayout.WEST);
 		
 		/*EVENTOS*/
