@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class VentanaGastos extends JFrame{
 	
@@ -18,6 +19,8 @@ public class VentanaGastos extends JFrame{
 	private ButtonGroup grupoBotones;
 	private JButton botonVolver;
 	private List<String> listaCategorias;
+	private Logger logger = Logger.getLogger(VentanaGastos.class.getName());
+	
 	public VentanaGastos() {
 		/*Cambiamos el color de la celdas(En Flatlaf se muestran en blanco por defecto)*/
 		
@@ -29,6 +32,7 @@ public class VentanaGastos extends JFrame{
 
 		panelBotones=new JPanel(new GridLayout(5,1));
 		panelTabla=new JPanel(new BorderLayout());
+		logger.info("Panel de botones y panel de tabla creados");
 		
 		/*Elementos del panel de botones*/
 		botonVolver=new JButton("Volver");
@@ -36,12 +40,12 @@ public class VentanaGastos extends JFrame{
 		botonTrimestre=new JRadioButton("Trimestral"); 
 		botonAnyo=new JRadioButton("Anual");
 		grupoBotones=new ButtonGroup();
+		logger.info("Botones del panel de botones creados");
 		
 		/*Configuramos el funcionamiento de los botones*/
 		grupoBotones.add(botonMes); grupoBotones.add(botonTrimestre); grupoBotones.add(botonAnyo);
+		logger.info("Añadidos los botones al panel de botones");
 		botonMes.setSelected(true); //Hacemos que el boton del mes este seleccionado desde el principio
-		
-		
 		
 		 /*Creamos el modelo de la tabla y cargamos las categorias*/
 		listaCategorias=new ArrayList<String>();
@@ -82,6 +86,7 @@ public class VentanaGastos extends JFrame{
 		tablaGastos=new JTable(modeloTabla);
 		tablaGastos.setCellSelectionEnabled(false);
 		scrollTabla=new JScrollPane(tablaGastos);
+		logger.info("Creada la tabla con scroll");
 		
 		/*Añadimos funcionalidades a los botones*/
 		botonVolver.addActionListener(new ActionListener() {
@@ -91,6 +96,7 @@ public class VentanaGastos extends JFrame{
 				// TODO Auto-generated method stub
 				new VentanaPrincipal();
 				dispose();
+				logger.info("Cerrada la ventana de gastos y abierta la ventana principal");
 			}
 		});
 		
@@ -102,6 +108,7 @@ public class VentanaGastos extends JFrame{
 				tablaGastos.repaint();
 			}
 		});
+		
 		botonTrimestre.addActionListener(new ActionListener() {
 			
 			@Override
@@ -110,6 +117,7 @@ public class VentanaGastos extends JFrame{
 			tablaGastos.repaint();	
 			}
 		});
+		
 		botonAnyo.addActionListener(new ActionListener() {
 			
 			@Override
@@ -128,11 +136,13 @@ public class VentanaGastos extends JFrame{
 		panelBotones.add(botonAnyo); 
 		panelBotones.add(botonVolver);
 		panelTabla.add(scrollTabla);
+		logger.info("Añadidos los botones al panel de botones y el scroll al panel de tabla");
 		
 		/*Añadimos los paneles*/
 		
 		add(panelTabla,BorderLayout.NORTH);
 		add(panelBotones,BorderLayout.SOUTH);
+		logger.info("Añadidos los paneles a la ventana");
 		
 		setTitle("Ventana Gastos");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

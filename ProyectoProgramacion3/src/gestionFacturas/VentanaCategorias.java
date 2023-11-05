@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ public class VentanaCategorias extends JFrame {
 	private DefaultListModel<Categoria> modeloListaCategorias;
 	private JList<Categoria> listaCategorias;
 	private JFrame vActual;
+	private Logger logger = Logger.getLogger(VentanaCategorias.class.getName());
 	
 	public VentanaCategorias() {
 		vActual = this;
@@ -27,12 +30,14 @@ public class VentanaCategorias extends JFrame {
 		/*CREACIÓN DE PANELES*/
 		panelDerechaBotones = new JPanel(new GridLayout(4,1));
 		panelIzquierda = new JPanel(new BorderLayout());
+		logger.info("Panel de botones de la derecha y panel de la izquierda creados");
 		
 		/*CREACION COMPONENTES DE BOTONES*/
 		botonVolver = new JButton("Volver");
 		botonModificar = new JButton("Modificar");
 		botonBorrar = new JButton("Borrar");
 		botonAnyadir = new JButton("Añadir");
+		logger.info("Creados los botones del panel de botones");
 		
 		/*CREACIÓN DE LA JLIST DE CATEGORIAS*/
 		modeloListaCategorias = new DefaultListModel<>();
@@ -42,6 +47,7 @@ public class VentanaCategorias extends JFrame {
 		scrollListaCategorias.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		cargarCategorias();
 		panelIzquierda.add(scrollListaCategorias);
+		logger.info("Creada la JList de categorías y asociada al panel de la izquierda");
 		
 		/*RENDERER DE LA JLIST*/
 		
@@ -63,6 +69,7 @@ public class VentanaCategorias extends JFrame {
 		panelDerechaBotones.add(botonBorrar);
 		panelDerechaBotones.add(botonModificar);
 		panelDerechaBotones.add(botonVolver);
+		logger.info("Añadidos los botones al panel de botones");
 		
 		/*AÑADIR FUNCIONALIDADES BOTONES*/
 		botonAnyadir.addActionListener(new ActionListener() {
@@ -71,6 +78,7 @@ public class VentanaCategorias extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaAnyadirCategoria();
 				vActual.dispose();
+				logger.info("Cerrada la ventana de categorías y abierta la ventana de añadir categorías");
 				
 			}
 		});
@@ -79,7 +87,7 @@ public class VentanaCategorias extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				logger.info("Eliminada la categoría de la JList");
 				
 			}
 		});
@@ -90,6 +98,7 @@ public class VentanaCategorias extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaModificarCategoria();
 				vActual.dispose();
+				logger.info("Cerrada la ventana de categorías y abierta la ventana de modificar categorías");
 				
 			}
 		});
@@ -100,6 +109,7 @@ public class VentanaCategorias extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaPrincipal();
 				vActual.dispose();
+				logger.info("Cerrada la ventana de categorías y abierta la ventana principal");
 				
 			}
 		});
@@ -107,6 +117,7 @@ public class VentanaCategorias extends JFrame {
 		/*AÑADIMOS PANELES A VENTANA*/
 		getContentPane().add(panelIzquierda, BorderLayout.WEST);
 		getContentPane().add(panelDerechaBotones, BorderLayout.EAST);
+		logger.info("Añadidos los paneles a la ventana");
 		
 		/*ESPECIFICACION VENTANA*/
 		

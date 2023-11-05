@@ -10,33 +10,30 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.MonthDay;
 import java.util.Date;
+import java.util.logging.Logger;
 public class VentanaDiaCalendario extends JFrame {
-	private JButton botonVolver;
-	private JButton botonModificar;
-	private JButton botonBorrar;
-	private JButton botonAnyadir;
-	
+	private JButton botonVolver, botonModificar, botonBorrar, botonAnyadir;
 	private DefaultListModel<Date> defaultListaFechas;
 	private JList<Date> listaFechas;
-	private JScrollPane scrollFechas;
-
-	private DefaultListModel<Factura> defaultListaTickets;
 	private JList<Factura> listaTickets;
-	private JScrollPane scrollTickets;
-	
+	private JScrollPane scrollFechas, scrollTickets;
+	private DefaultListModel<Factura> defaultListaTickets;
 	private JPanel panelBotones,panelListas;
+	private Logger logger = Logger.getLogger(VentanaDiaCalendario.class.getName());
 	
 	public VentanaDiaCalendario() {
 		
 		/*Creamos los paneles*/
 		panelBotones=new JPanel(new GridLayout(4,1));
 		panelListas=new JPanel(new GridLayout(4,1));
+		logger.info("Creados los paneles");
 		
-		/*Añadimos los elementos de los paneles*/
+		/*Creamos los botones*/
 		botonVolver=new JButton("Volver");
 		botonModificar=new JButton("Modificar factura");
 		botonBorrar=new JButton("Borrar factura");
 		botonAnyadir=new JButton("Añadir factura");
+		logger.info("Creados los botones");
 		
 		/*Creamos las listas*/
 		defaultListaFechas=new DefaultListModel<>();	
@@ -46,6 +43,7 @@ public class VentanaDiaCalendario extends JFrame {
 		defaultListaTickets=new DefaultListModel<>();
 		listaTickets=new JList<Factura>(defaultListaTickets);
 		scrollTickets=new JScrollPane(listaTickets);
+		logger.info("Creadas las listas");
 		
 		/*Creo fechas genericas para comprobar el funcionamiento de la ventana
 		 Se eliminaran despues*/
@@ -123,12 +121,13 @@ public class VentanaDiaCalendario extends JFrame {
 			}
 		});
 		
-		/*Creamos los elementos de los paneles y los añadimos*/
+		/*Añadimos los botones al panel de botones*/
 		
 		panelBotones.add(botonAnyadir);
 		panelBotones.add(botonModificar);
 		panelBotones.add(botonBorrar);
 		panelBotones.add(botonVolver);
+		logger.info("Añadidos los botones al panel de botones");
 		
 		JLabel textoFecha=new JLabel("Selecciona una fecha:");
 		panelListas.add(textoFecha);
@@ -140,6 +139,7 @@ public class VentanaDiaCalendario extends JFrame {
 		/*Añadimos los paneles al JFrame*/
 		add(panelBotones,BorderLayout.EAST);
 		add(panelListas);
+		logger.info("Añadidos los paneles a la ventana");
 		
 		/*Características del Frame*/
 		setTitle("Ventana dias");

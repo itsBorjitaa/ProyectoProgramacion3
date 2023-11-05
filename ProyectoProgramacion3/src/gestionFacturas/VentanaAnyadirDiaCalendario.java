@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,13 +21,12 @@ import org.jdatepicker.JDatePicker;
 
 public class VentanaAnyadirDiaCalendario extends JFrame {
 	private JButton botonAnyadir,botonCancelar;
-	
 	private JTextField textoConcepto;
 	private JSpinner floatCoste;
 	private JComboBox<String> seleccionadorCategoria;
 	private JDatePicker datePicker;
-	
 	private JPanel panelBotones, panelValores;
+	private Logger logger = Logger.getLogger(VentanaAnyadirDiaCalendario.class.getName());
 	
 	public VentanaAnyadirDiaCalendario(Date fecha) {
 		/*Creamos los paneles*/

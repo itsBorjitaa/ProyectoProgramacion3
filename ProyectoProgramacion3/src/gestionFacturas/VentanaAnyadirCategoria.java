@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +19,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 	private JTextField txtTitulo, txtDescripcion;
 	private JPanel panelArriba, panelAbajo;
 	private JFrame vActual;
+	private Logger logger = Logger.getLogger(VentanaAnyadirCategoria.class.getName());
 	
 	public VentanaAnyadirCategoria() {
 		vActual = this;
@@ -25,6 +27,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 		/*CREACION DE PANELES*/
 		panelArriba = new JPanel(new GridLayout(2,2));
 		panelAbajo = new JPanel(new GridLayout(1,2));
+		logger.info("Creados los paneles");
 		
 		/*CREACION DE COMPONENTES*/
 		botonAnyadir = new JButton("Añadir");
@@ -33,6 +36,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 		lblDescripcion = new JLabel("Descripción");
 		txtTitulo = new JTextField();
 		txtDescripcion = new JTextField();
+		logger.info("Creados los componentes");
 		
 		/*AÑADIR COMPONENTES A PANELES*/
 		panelArriba.add(lblTitulo);
@@ -41,6 +45,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 		panelArriba.add(txtDescripcion);
 		panelAbajo.add(botonAnyadir);
 		panelAbajo.add(botonCancelar);
+		logger.info("Añadidos los componentes a los paneles");
 		
 		/*AÑADIR FUNCIONALIDADES A BOTONES*/
 		botonAnyadir.addActionListener(new ActionListener() {
@@ -58,6 +63,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				new VentanaCategorias();
 				vActual.dispose();
+				logger.info("Cerrada la ventana de añadir categorías y abierta la ventana categorías");
 				
 			}
 		});
@@ -65,6 +71,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 		/*AÑADIR PANELES A VENTANA*/
 		getContentPane().add(panelArriba, BorderLayout.NORTH);
 		getContentPane().add(panelAbajo, BorderLayout.SOUTH);
+		logger.info("Añadidos los paneles a la ventana");
 		
 		/*ESPECIFICACIÓN VENTANA*/
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
