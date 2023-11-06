@@ -146,7 +146,7 @@ public class VentanaGastos extends JFrame{
 		
 		setTitle("Ventana Gastos");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setBounds(450, 300, 800, 600);
+		setBounds(350, 100, 800, 600);
 		setVisible(true);
 	}
 	private void cargarCategoriasTabla() { //Usaremos este metodo para crear un array con las columas de la tabla
