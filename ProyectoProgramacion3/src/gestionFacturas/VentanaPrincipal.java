@@ -19,9 +19,9 @@ import com.toedter.calendar.JCalendar;
 public class VentanaPrincipal extends JFrame{
 	private DefaultTableModel tablaModelo;
 	private JTable tabla;
-	private JPanel panelCalendario, panelBotones,panelDias;
+	private JPanel panelCalendario, panelBotones;
 	private JButton botonCategorias, botonGastos, botonDias, botonCerrarSesion, botonAjustes;
-	private JFrame vActual, vAnterior;
+	private JFrame vActual;
 	private JCalendar calendario;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
 	
@@ -31,8 +31,6 @@ public class VentanaPrincipal extends JFrame{
 		vActual = this;
 		
 		tablaModelo = new DefaultTableModel(); //creamos el modelo
-		Object[] titulos = {"CALENDARIO", "ACCIONES"}; //creamos los identificadores de columna
-		tablaModelo.setColumnIdentifiers(titulos); //asignamos al modelo los identificadores de columna
 		tabla = new JTable(tablaModelo); //creamos la tabla y le asociamos el modelo creado
 		logger.info("Creada la tabla con el modelo creado asociado");
 		
@@ -67,7 +65,7 @@ public class VentanaPrincipal extends JFrame{
 		 */
 		calendario = new JCalendar(new Date());
 		panelCalendario.add(calendario);
-		getContentPane().add(panelCalendario, BorderLayout.WEST);
+		getContentPane().add(panelCalendario, BorderLayout.CENTER);
 		logger.info("Añadido el calendario al panel de calendario");
 		
 		/*EVENTOS*/
