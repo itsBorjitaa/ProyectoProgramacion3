@@ -18,7 +18,7 @@ public class BaseDatos {
 	private static List<Usuario> usuarios = new ArrayList<>();
 	private static Set<Factura> facturas = new TreeSet<>();
 	private static List<Categoria> categorias = new ArrayList<>();
-	private static Map<Usuario,List<Categoria>> categoriasConUsuario = new HashMap<>();
+	private static Map<String,List<Categoria>> categoriasConUsuario = new HashMap<>();
 	
 	/* BASE DE DATOS USUARIOS */
 	
@@ -119,8 +119,8 @@ public class BaseDatos {
 	public static void guardarListaCategoriasEnFichero(String nomfich) {
 		try {
 			PrintWriter pw = new PrintWriter(nomfich);
-			for (Entry<Usuario, List<Categoria>> entry : categoriasConUsuario.entrySet()) {
-				Usuario nomUsuario = entry.getKey();
+			for (Entry<String, List<Categoria>> entry : categoriasConUsuario.entrySet()) {
+				String nomUsuario = entry.getKey();
 				List<Categoria> listaCategorias = entry.getValue();
 				String listaEscrituraCategorias = ";";
 				
@@ -135,6 +135,28 @@ public class BaseDatos {
 			pw.close();
 		} catch(FileNotFoundException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static void cargarFicheroCategoriasEnLista(String nomfich) {
+		try {
+			Scanner sc = new Scanner(new FileReader(nomfich));
+			
+			//fila = usuario;categoria:categoria:categoria...
+			String linea;
+			while (sc.hasNext()) {
+				linea = sc.nextLine();
+				String [] partes = linea.split(";");
+				String usuario = partes[1];
+				String [] categorias = partes[2].split(":");
+				for (int categoria = 0; categoria < categorias.length; categoria++) {
+					Categoria c = new Categoria(categorias[categoria]);
+				}
+				
+			}
+			
+		} catch (FileNotFoundException e) {
+			
 		}
 	}
 	
