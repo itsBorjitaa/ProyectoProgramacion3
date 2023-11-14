@@ -7,14 +7,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.HashMap;
 
 public class BaseDatos {
 	private static List<Usuario> usuarios = new ArrayList<>();
 	private static Set<Factura> facturas = new TreeSet<>();
-	private static Set<Categoria> categorias = new TreeSet<>();
+	private static List<Categoria> categorias = new ArrayList<>();
+	private static Map<Usuario,List<Categoria>> categoriasConUsuario = new HashMap<>();
 	
 	/* BASE DE DATOS USUARIOS */
 	
@@ -104,12 +108,34 @@ public class BaseDatos {
 	
 	/* BASE DE DATOS CATEGORIAS */
 	
-	public static Set<Categoria> getCategorias(){
+	public static List<Categoria> getCategorias(){
 		return categorias;
 	}
 	
-	public static void aniadirCategorias(Categoria c) {
-		categorias.add(c);
+	public static void aniadirCategorias() {
+		
+	}
+	
+	public static void guardarListaCategoriasEnFichero(String nomfich) {
+		try {
+			PrintWriter pw = new PrintWriter(nomfich);
+			for (Entry<Usuario, List<Categoria>> entry : categoriasConUsuario.entrySet()) {
+				Usuario nomUsuario = entry.getKey();
+				List<Categoria> listaCategorias = entry.getValue();
+				String listaEscrituraCategorias = ";";
+				
+				for (int categoria = 0; categoria < listaCategorias.size(); categoria++) {
+					listaEscrituraCategorias = listaEscrituraCategorias + categoria + ":";
+				}
+				
+				listaEscrituraCategorias = listaEscrituraCategorias.replace(listaEscrituraCategorias.substring(listaEscrituraCategorias.length()-1), "");
+				pw.println(nomUsuario + listaEscrituraCategorias);
+			}
+			pw.flush();
+			pw.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
