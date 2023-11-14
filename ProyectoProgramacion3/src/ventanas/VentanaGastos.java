@@ -1,7 +1,11 @@
-package gestionFacturas;
+package ventanas;
 
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
+
+import gestionFacturas.BaseDatos;
+import gestionFacturas.Categoria;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +16,10 @@ import java.util.logging.Logger;
 
 public class VentanaGastos extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel panelTabla,panelBotones;
 	private JTable tablaGastos;
 	private JScrollPane scrollTabla;

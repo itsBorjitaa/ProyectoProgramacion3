@@ -1,4 +1,4 @@
-package gestionFacturas;
+package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -12,7 +12,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import gestionFacturas.BaseDatos;
+import gestionFacturas.Usuario;
+
 public class VentanaInicioSesion extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton botonInicioSesion, botonRegistro, botonCerrar;
 	private JTextField txtUsuario;
 	private JPasswordField txtContrasenya;

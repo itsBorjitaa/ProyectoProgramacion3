@@ -1,4 +1,4 @@
-package gestionFacturas;
+package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -18,7 +18,15 @@ import javax.swing.SpinnerNumberModel;
 
 import org.jdatepicker.JDatePicker;
 
+import gestionFacturas.BaseDatos;
+import gestionFacturas.Categoria;
+import gestionFacturas.Factura;
+
 public class VentanaModificarDiaCalendario extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton botonAnyadir,botonCancelar;
 	private JTextField textoConcepto;
 	private JSpinner floatCoste;

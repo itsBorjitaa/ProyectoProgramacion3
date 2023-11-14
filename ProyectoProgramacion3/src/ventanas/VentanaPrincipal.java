@@ -1,4 +1,4 @@
-package gestionFacturas;
+package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -16,7 +16,13 @@ import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JCalendar;
 
+import gestionFacturas.BaseDatos;
+
 public class VentanaPrincipal extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DefaultTableModel tablaModelo;
 	private JTable tabla;
 	private JPanel panelCalendario, panelBotones;

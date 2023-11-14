@@ -1,8 +1,12 @@
-package gestionFacturas;
+package ventanas;
 
 import javax.swing.JFrame;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import gestionFacturas.Factura;
+import gestionFacturas.Categoria;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +15,14 @@ import java.time.LocalDate;
 import java.time.MonthDay;
 import java.util.Date;
 import java.util.logging.Logger;
+
+
+
 public class VentanaDiaCalendario extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton botonVolver, botonModificar, botonBorrar, botonAnyadir;
 	private DefaultListModel<Date> defaultListaFechas;
 	private JList<Date> listaFechas;

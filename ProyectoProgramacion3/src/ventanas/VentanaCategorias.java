@@ -1,4 +1,4 @@
-package gestionFacturas;
+package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -15,7 +15,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import gestionFacturas.BaseDatos;
+import gestionFacturas.Categoria;
+
 public class VentanaCategorias extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton botonVolver, botonModificar, botonBorrar, botonAnyadir;
 	private JScrollPane scrollListaCategorias;
 	private JPanel panelDerechaBotones, panelIzquierda;

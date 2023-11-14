@@ -1,4 +1,4 @@
-package gestionFacturas;
+package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -12,16 +12,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VentanaAnyadirCategoria extends JFrame{
-
-	private JButton botonAnyadir, botonCancelar;
+public class VentanaModificarCategoria extends JFrame{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JButton botonModificar, botonCancelar;
 	private JLabel lblTitulo, lblDescripcion;
 	private JTextField txtTitulo, txtDescripcion;
 	private JPanel panelArriba, panelAbajo;
 	private JFrame vActual;
-	private Logger logger = Logger.getLogger(VentanaAnyadirCategoria.class.getName());
+	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
 	
-	public VentanaAnyadirCategoria() {
+	public VentanaModificarCategoria() {
 		vActual = this;
 		
 		/*CREACION DE PANELES*/
@@ -30,7 +34,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 		logger.info("Creados los paneles");
 		
 		/*CREACION DE COMPONENTES*/
-		botonAnyadir = new JButton("Añadir");
+		botonModificar = new JButton("Modificar");
 		botonCancelar = new JButton("Cancelar");
 		lblTitulo = new JLabel("Titulo");
 		lblDescripcion = new JLabel("Descripción");
@@ -43,12 +47,12 @@ public class VentanaAnyadirCategoria extends JFrame{
 		panelArriba.add(txtTitulo);
 		panelArriba.add(lblDescripcion);
 		panelArriba.add(txtDescripcion);
-		panelAbajo.add(botonAnyadir);
+		panelAbajo.add(botonModificar);
 		panelAbajo.add(botonCancelar);
-		logger.info("Añadidos los componentes a los paneles");
+		logger.info("Componentes añadidos a paneles");
 		
 		/*AÑADIR FUNCIONALIDADES A BOTONES*/
-		botonAnyadir.addActionListener(new ActionListener() {
+		botonModificar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -63,7 +67,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				new VentanaCategorias();
 				vActual.dispose();
-				logger.info("Cerrada la ventana de añadir categorías y abierta la ventana categorías");
+				logger.info("Cerrada la ventana de modificar categorías y abierta la ventana de categorías");
 				
 			}
 		});
@@ -76,8 +80,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 		/*ESPECIFICACIÓN VENTANA*/
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
-		setTitle("Ventana añadir categorias");
+		setTitle("Ventana modificar categorias");
 		setVisible(true);
 	}
-	
 }
