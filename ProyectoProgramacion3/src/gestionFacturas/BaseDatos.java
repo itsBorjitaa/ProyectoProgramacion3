@@ -13,6 +13,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class BaseDatos {
 	private static List<Usuario> usuarios = new ArrayList<>();
@@ -139,18 +140,28 @@ public class BaseDatos {
 	}
 	
 	public static void cargarFicheroCategoriasEnLista(String nomfich) {
+		ArrayList<Categoria> categoriasTemporal = new ArrayList<Categoria>();
 		try {
 			Scanner sc = new Scanner(new FileReader(nomfich));
 			
 			//fila = usuario;categoria:categoria:categoria...
 			String linea;
 			while (sc.hasNext()) {
+				categoriasTemporal.clear();
 				linea = sc.nextLine();
 				String [] partes = linea.split(";");
 				String usuario = partes[1];
 				String [] categorias = partes[2].split(":");
 				for (int categoria = 0; categoria < categorias.length; categoria++) {
 					Categoria c = new Categoria(categorias[categoria]);
+					categoriasTemporal.add(c);
+				}
+				if (!categoriasConUsuario.containsKey(usuario)) {
+					categoriasConUsuario.put(usuario,categoriasTemporal);
+				}
+				
+				if(!categoriasConUsuario.get(usuario).containsAll(categoriasTemporal)) {
+					categoriasConUsuario.replace(usuario, categoriasTemporal);
 				}
 				
 			}
@@ -159,5 +170,11 @@ public class BaseDatos {
 			
 		}
 	}
+	
+	public static List<Categoria> buscarCategoriasPorUsuario(String UsuarioNom) {
+		return categoriasConUsuario.get(UsuarioNom);
+	}
+	
+	
 	
 }
