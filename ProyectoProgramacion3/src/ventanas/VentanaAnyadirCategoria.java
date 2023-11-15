@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import gestionFacturas.BaseDatos;
+
 public class VentanaAnyadirCategoria extends JFrame{
 
 	/**
@@ -56,7 +58,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				BaseDatos.aniadirCategorias(VentanaInicioSesion.usuario, lblTitulo.getText());
 				
 			}
 		});

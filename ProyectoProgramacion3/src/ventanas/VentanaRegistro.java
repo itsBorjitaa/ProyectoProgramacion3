@@ -77,6 +77,7 @@ public class VentanaRegistro extends JFrame{
 				BaseDatos.insertarUsuarioBD(VentanaInicioSesion.con, u);
 				JOptionPane.showMessageDialog(null, "Usuario registrado correctamente","REGISTRO",JOptionPane.INFORMATION_MESSAGE);
 				logger.info("Usuario registrado");
+				BaseDatos.anyadirCategoriasUsuarioNuevo(usuario);
 			}else if((usuario.length()<1)&(contrasenya.length()<1)){ //mediante esta condición detectamos si se ha dejado algún hueco del registro sin rellenar
 				JOptionPane.showMessageDialog(null, "No dejes ningún hueco en blanco para el registro","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
 				logger.info("Error en el registro");

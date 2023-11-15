@@ -95,7 +95,7 @@ public class VentanaCategorias extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				logger.info("Eliminada la categoría de la JList");
-				
+				//BaseDatos.eliminarCategorias(VentanaInicioSesion.usuario, scrollListaCategorias.get
 			}
 		});
 		
@@ -136,7 +136,7 @@ public class VentanaCategorias extends JFrame {
 	
 	private void cargarCategorias() {
 		//Recorremos el conjunto de categorias de la clase Base Datos para cargarlos en la JList de esta ventana
-		for(Categoria c: BaseDatos.getCategorias()) { //Por cada Categoria que haya en la lista de categorias
+		for(Categoria c: BaseDatos.buscarCategoriasPorUsuario(VentanaInicioSesion.usuario)) { //Por cada Categoria que haya en la lista de categorias
 			modeloListaCategorias.addElement(c); //Lo añadimos al modelo de la JList
 		}
 	}
