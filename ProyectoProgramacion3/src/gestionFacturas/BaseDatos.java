@@ -12,9 +12,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.HashMap;
 
 public class BaseDatos {
 	/* BASE DE DATOS FINAL */
@@ -91,7 +94,8 @@ public class BaseDatos {
 	/* BASE DE DATOS USUARIOS CON FICHERO */
 	private static List<Usuario> usuarios = new ArrayList<>();
 	private static Set<Factura> facturas = new TreeSet<>();
-	private static Set<Categoria> categorias = new TreeSet<>();
+	private static List<Categoria> categorias = new ArrayList<>();
+	private static Map<String,List<Categoria>> categoriasConUsuario = new HashMap<>();
 	
 	public static void anyadirUsuario(Usuario u) {
 		usuarios.add(u);
@@ -180,12 +184,56 @@ public class BaseDatos {
 	
 	/* BASE DE DATOS CATEGORIAS */
 	
-	public static Set<Categoria> getCategorias(){
+	public static List<Categoria> getCategorias(){
 		return categorias;
 	}
 	
-	public static void aniadirCategorias(Categoria c) {
-		categorias.add(c);
+	public static void aniadirCategorias() {
+		
+	}
+	
+	public static void guardarListaCategoriasEnFichero(String nomfich) {
+		try {
+			PrintWriter pw = new PrintWriter(nomfich);
+			for (Entry<String, List<Categoria>> entry : categoriasConUsuario.entrySet()) {
+				String nomUsuario = entry.getKey();
+				List<Categoria> listaCategorias = entry.getValue();
+				String listaEscrituraCategorias = ";";
+				
+				for (int categoria = 0; categoria < listaCategorias.size(); categoria++) {
+					listaEscrituraCategorias = listaEscrituraCategorias + categoria + ":";
+				}
+				
+				listaEscrituraCategorias = listaEscrituraCategorias.replace(listaEscrituraCategorias.substring(listaEscrituraCategorias.length()-1), "");
+				pw.println(nomUsuario + listaEscrituraCategorias);
+			}
+			pw.flush();
+			pw.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void cargarFicheroCategoriasEnLista(String nomfich) {
+		try {
+			Scanner sc = new Scanner(new FileReader(nomfich));
+			
+			//fila = usuario;categoria:categoria:categoria...
+			String linea;
+			while (sc.hasNext()) {
+				linea = sc.nextLine();
+				String [] partes = linea.split(";");
+				String usuario = partes[1];
+				String [] categorias = partes[2].split(":");
+				for (int categoria = 0; categoria < categorias.length; categoria++) {
+					Categoria c = new Categoria(categorias[categoria]);
+				}
+				
+			}
+			
+		} catch (FileNotFoundException e) {
+			
+		}
 	}
 	
 }
