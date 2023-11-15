@@ -3,6 +3,11 @@ package gestionFacturas;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,12 +21,82 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class BaseDatos {
+	/* BASE DE DATOS FINAL */
+	
+	public static Connection initBD(String nombreBD) {
+		Connection con = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			con = DriverManager.getConnection("jdbc:sqlite:"+nombreBD);
+					
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return con;
+	}
+	
+	public static void closeBD(Connection con) {
+		if(con!=null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void crearTablaUsuariosBD(Connection con) {
+		String sql = "CREATE TABLE IF NOT EXISTS Usuario (usuario String ,contrasenya String)";
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql);
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static Usuario buscarUsuarioBD(Connection con, String nombre) {
+		String sql = String.format("SELECT * FROM Usuario WHERE usuario = '%s'", nombre);
+		Usuario p = null;
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql); //Se ejecuta la consulta
+			if(rs.next()) { //Select devuelve una o más tuplas
+				String usuario = rs.getString("usuario");
+				String contrasenya = rs.getString("contrasenya");
+				p = new Usuario(usuario, contrasenya);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return p;
+	}
+	
+	public static void insertarUsuarioBD(Connection con, Usuario u) {
+		if(buscarUsuarioBD(con, u.getNombre()) == null) {
+			String sql = String.format("INSERT INTO Usuario VALUES('%s','%s')", u.getNombre(),u.getContrasenya());
+			try {
+				Statement st = con.createStatement();
+				st.executeUpdate(sql);
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	/* BASE DE DATOS USUARIOS CON FICHERO */
 	private static List<Usuario> usuarios = new ArrayList<>();
 	private static Set<Factura> facturas = new TreeSet<>();
 	private static List<Categoria> categorias = new ArrayList<>();
 	private static Map<String,List<Categoria>> categoriasConUsuario = new HashMap<>();
-	
-	/* BASE DE DATOS USUARIOS */
 	
 	public static void anyadirUsuario(Usuario u) {
 		usuarios.add(u);
@@ -32,6 +107,7 @@ public class BaseDatos {
 			System.out.println(u);
 		}
 	}
+	
 	
 	public static void anyadirFactura(Factura f) {
 		facturas.add(f);
@@ -47,7 +123,7 @@ public class BaseDatos {
 		Comparator<Usuario> u = new Comparator<Usuario>() {
 			@Override
 			public int compare(Usuario o1, Usuario o2) {
-				return o1.getUsuario().compareTo(o2.getUsuario());
+				return o1.getNombre().compareTo(o2.getNombre());
 			}
 		};
 		Collections.sort(usuarios, u);
@@ -61,7 +137,7 @@ public class BaseDatos {
 		Usuario u = null;
 		while(!enc && pos<usuarios.size()) {
 			u = usuarios.get(pos);
-			if(u.getUsuario().equals(usuario)) {
+			if(u.getNombre().equals(usuario)) {
 				enc = true;
 			}else {
 				pos++;
@@ -98,7 +174,7 @@ public class BaseDatos {
 		try {
 			PrintWriter pw = new PrintWriter(nomfich);
 			for(Usuario u: usuarios) {
-				pw.println(u.getUsuario()+";"+u.getContrasenya());
+				pw.println(u.getNombre()+";"+u.getContrasenya());
 			}
 			pw.flush();
 			pw.close();

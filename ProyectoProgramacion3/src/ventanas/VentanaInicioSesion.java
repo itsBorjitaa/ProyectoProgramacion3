@@ -2,6 +2,7 @@ package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.sql.Connection;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -28,9 +29,14 @@ public class VentanaInicioSesion extends JFrame{
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaInicioSesion.class.getName());
 	
-	private static final String RUTA_FICHEROS = "datos/";
+	private static final String RUTA_DATOS = "datos/";
 	
+	public static String usuario;
+	
+	public static Connection con;
 	public VentanaInicioSesion() {
+		con = BaseDatos.initBD(RUTA_DATOS + "BaseDatos.db");
+		BaseDatos.crearTablaUsuariosBD(con);
 		vActual = this;
 		/*CREACIÓN DE PANELES Y COMPONENTES*/
 		pDatos = new JPanel(new GridLayout(2,2));
@@ -58,26 +64,30 @@ public class VentanaInicioSesion extends JFrame{
 		logger.info("Añadidos los botones iniciar sesión, registrarse y salir al panel de botones");
 		
 		/*CARGAMOS LAS COLECCIONES CON LOS DATOS INICIALES*/
-		BaseDatos.cargarFicheroUsuariosEnLista(RUTA_FICHEROS+"BDUsuario.csv");
+		BaseDatos.cargarFicheroUsuariosEnLista(RUTA_DATOS+"BDUsuario.csv");
 		logger.info("Cargados los usuarios de la base de datos");
 		
 		/*EVENTOS*/
 		botonCerrar.addActionListener((e)->{
-			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BDUsuario.csv");
+			BaseDatos.guardarListaUsuariosEnFichero(RUTA_DATOS+"BDUsuario.csv");
 			logger.info("Aplicación cerrada correctamente");
+			BaseDatos.closeBD(con);
 			System.exit(0);
 		});
 		
 		botonInicioSesion.addActionListener((e)->{
-			String usuario = txtUsuario.getText();
+			String nombre = txtUsuario.getText();
 			String contrasenya = txtContrasenya.getText();
-			Usuario u = BaseDatos.buscarUsuario(usuario);
+			Usuario u = BaseDatos.buscarUsuarioBD(con, nombre);
+			//Usuario u = BaseDatos.buscarUsuario(nombre); //Método usando ficheros
 			if(u == null) {
 				JOptionPane.showMessageDialog(null, "El usuario no está registrado","ERROR EN EL INICIO DE SESIÓN",JOptionPane.ERROR_MESSAGE);
 				logger.info("No se ha podido iniciar sesión");
 			}else if(u.getContrasenya().equals(contrasenya)) {
 				JOptionPane.showMessageDialog(null, "Bienvenido!","INICIO DE SESIÓN",JOptionPane.INFORMATION_MESSAGE);
 				logger.info("Se ha iniciado sesión");
+				usuario = txtUsuario.getText();
+				//System.out.println(usuario); //Para comprobar que se guarda el usuario con el que se inicia sesión
 				new VentanaPrincipal();
 				vActual.dispose();
 			}else {
