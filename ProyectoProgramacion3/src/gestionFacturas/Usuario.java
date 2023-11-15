@@ -1,23 +1,23 @@
 package gestionFacturas;
 
 public class Usuario {
-	private String usuario, contrasenya;
+	private String nombre, contrasenya;
 
-	public Usuario(String usuario, String contrasenya) {
+	public Usuario(String nombre, String contrasenya) {
 		super();
-		this.usuario = usuario;
+		this.nombre = nombre;
 		this.contrasenya = contrasenya;
 	}
 	
 	public Usuario() {
 	}
 	
-	public String getUsuario() {
-		return usuario;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getContrasenya() {
@@ -30,7 +30,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [usuario=" + usuario + ", contrasenya=" + contrasenya + "]";
+		return "Usuario [nombre=" + nombre + ", contrasenya=" + contrasenya + "]";
 	}
 	
 	
