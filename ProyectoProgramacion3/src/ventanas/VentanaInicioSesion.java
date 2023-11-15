@@ -74,9 +74,10 @@ public class VentanaInicioSesion extends JFrame{
 		});
 		
 		botonInicioSesion.addActionListener((e)->{
-			String usuario = txtUsuario.getText();
+			String nombre = txtUsuario.getText();
 			String contrasenya = txtContrasenya.getText();
-			Usuario u = BaseDatos.buscarUsuario(usuario);
+			Usuario u = BaseDatos.buscarUsuarioBD(con, nombre);
+			//Usuario u = BaseDatos.buscarUsuario(nombre); //Método usando ficheros
 			if(u == null) {
 				JOptionPane.showMessageDialog(null, "El usuario no está registrado","ERROR EN EL INICIO DE SESIÓN",JOptionPane.ERROR_MESSAGE);
 				logger.info("No se ha podido iniciar sesión");

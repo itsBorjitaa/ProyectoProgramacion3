@@ -72,8 +72,8 @@ public class VentanaRegistro extends JFrame{
 			String contrasenya = txtContrasenya.getText();
 			Usuario u = new Usuario(usuario, contrasenya);
 			
-			if((usuario.length()>1)&(contrasenya.length()>1)&(BaseDatos.buscarUsuario(usuario) == null)) { //mediante esta condición compruebo que el usuario no esté en el fichero para añadirlo
-				BaseDatos.anyadirUsuario(u);
+			if((usuario.length()>1)&(contrasenya.length()>1)&(BaseDatos.buscarUsuarioBD(VentanaInicioSesion.con, usuario) == null)) { //mediante esta condición compruebo que el usuario no esté en el fichero para añadirlo
+				//BaseDatos.anyadirUsuario(u); //Método usando ficheros
 				BaseDatos.insertarUsuarioBD(VentanaInicioSesion.con, u);
 				JOptionPane.showMessageDialog(null, "Usuario registrado correctamente","REGISTRO",JOptionPane.INFORMATION_MESSAGE);
 				logger.info("Usuario registrado");
