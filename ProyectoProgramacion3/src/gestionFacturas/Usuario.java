@@ -37,7 +37,7 @@ public class Usuario {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(contrasenya, usuario);
+		return Objects.hash(contrasenya, nombre);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return Objects.equals(usuario, other.usuario);
+		return Objects.equals(nombre, other.nombre);
 	}
 	
 	
