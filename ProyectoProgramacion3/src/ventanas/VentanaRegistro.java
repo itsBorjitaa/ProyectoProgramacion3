@@ -28,7 +28,7 @@ public class VentanaRegistro extends JFrame{
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaRegistro.class.getName());
 	
-	private static final String RUTA_FICHEROS = "datos/";
+	private static final String RUTA_DATOS = "datos/";
 	
 	public VentanaRegistro() {
 		vActual = this;
@@ -56,12 +56,12 @@ public class VentanaRegistro extends JFrame{
 		logger.info("Añadidos los botones registrarse y volver al panel de botones");
 		
 		/*CARGAMOS LAS COLECCIONES CON LOS DATOS INICIALES*/
-		BaseDatos.cargarFicheroUsuariosEnLista(RUTA_FICHEROS+"BDUsuario.csv");
+		BaseDatos.cargarFicheroUsuariosEnLista(RUTA_DATOS+"BDUsuario.csv");
 		logger.info("Cargados los usuarios de la base de datos");
 		
 		/*EVENTOS*/
 		botonVolver.addActionListener((e)->{
-			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BDUsuario.csv");
+			BaseDatos.guardarListaUsuariosEnFichero(RUTA_DATOS+"BDUsuario.csv");
 			logger.info("Cerrada la ventana de registro y abierta la ventana de inicio de sesión");
 			new VentanaInicioSesion();
 			vActual.dispose();
@@ -74,6 +74,7 @@ public class VentanaRegistro extends JFrame{
 			
 			if((usuario.length()>1)&(contrasenya.length()>1)&(BaseDatos.buscarUsuario(usuario) == null)) { //mediante esta condición compruebo que el usuario no esté en el fichero para añadirlo
 				BaseDatos.anyadirUsuario(u);
+				BaseDatos.insertarUsuarioBD(VentanaInicioSesion.con, u);
 				JOptionPane.showMessageDialog(null, "Usuario registrado correctamente","REGISTRO",JOptionPane.INFORMATION_MESSAGE);
 				logger.info("Usuario registrado");
 			}else if((usuario.length()<1)&(contrasenya.length()<1)){ //mediante esta condición detectamos si se ha dejado algún hueco del registro sin rellenar
