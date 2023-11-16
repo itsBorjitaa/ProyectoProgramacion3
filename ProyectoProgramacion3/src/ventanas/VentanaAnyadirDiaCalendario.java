@@ -106,7 +106,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 	/*Utilizo el metodo cargarCategorias que Borja creo para la clase Categorias
 	Lo modifico para que añada elementos a la JComboBox en vez de a una lista*/
 	private void cargarCategorias() {
-		for(Categoria c: BaseDatos.buscarCategoriasPorUsuario(VentanaInicioSesion.usuario)) { 
+		for(Categoria c: BaseDatos.getCategorias()) { 
 			seleccionadorCategoria.addItem(c.getNombre());
 		}
 	}

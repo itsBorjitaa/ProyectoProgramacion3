@@ -85,9 +85,8 @@ public class VentanaInicioSesion extends JFrame{
 				logger.info("No se ha podido iniciar sesión");
 			}else if(u.getContrasenya().equals(contrasenya)) {
 				JOptionPane.showMessageDialog(null, "Bienvenido!","INICIO DE SESIÓN",JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Se ha iniciado sesión");
 				usuario = txtUsuario.getText();
-				//System.out.println(usuario); //Para comprobar que se guarda el usuario con el que se inicia sesión
+				logger.info("Se ha iniciado sesión con el usuario: "+usuario);
 				new VentanaPrincipal();
 				vActual.dispose();
 			}else {

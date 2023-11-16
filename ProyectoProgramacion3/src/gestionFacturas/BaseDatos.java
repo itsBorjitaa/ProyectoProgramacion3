@@ -18,7 +18,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class BaseDatos {
 	/* BASE DE DATOS FINAL */
@@ -185,22 +184,12 @@ public class BaseDatos {
 	
 	/* BASE DE DATOS CATEGORIAS */
 	
-	public static void eliminarCategorias(String UsuarioNom, String categoria) {
-		List<Categoria> categoriasParaEliminar = categoriasConUsuario.get(UsuarioNom);
-		for (int i = 0; i < categoriasParaEliminar.size(); i++) {
-			if (new Categoria(categoria) == categoriasParaEliminar.get(i)) {
-				categoriasParaEliminar.remove(i);
-			}
-		}
-		
-		categoriasConUsuario.replace(UsuarioNom, categoriasParaEliminar);
+	public static List<Categoria> getCategorias(){
+		return categorias;
 	}
 	
-	public static void aniadirCategorias(String UsuarioNom, String categoria) {
-		List<Categoria> categoriasParaAniadir = categoriasConUsuario.get(UsuarioNom);
-		categoriasParaAniadir.add(new Categoria(categoria));
+	public static void aniadirCategorias() {
 		
-		categoriasConUsuario.replace(UsuarioNom, categoriasParaAniadir);
 	}
 	
 	public static void guardarListaCategoriasEnFichero(String nomfich) {
@@ -226,28 +215,18 @@ public class BaseDatos {
 	}
 	
 	public static void cargarFicheroCategoriasEnLista(String nomfich) {
-		List<Categoria> categoriasTemporal = new ArrayList<Categoria>();
 		try {
 			Scanner sc = new Scanner(new FileReader(nomfich));
 			
 			//fila = usuario;categoria:categoria:categoria...
 			String linea;
 			while (sc.hasNext()) {
-				categoriasTemporal.clear();
 				linea = sc.nextLine();
 				String [] partes = linea.split(";");
 				String usuario = partes[1];
 				String [] categorias = partes[2].split(":");
 				for (int categoria = 0; categoria < categorias.length; categoria++) {
 					Categoria c = new Categoria(categorias[categoria]);
-					categoriasTemporal.add(c);
-				}
-				if (!categoriasConUsuario.containsKey(usuario)) {
-					categoriasConUsuario.put(usuario,categoriasTemporal);
-				}
-				
-				if(!categoriasConUsuario.get(usuario).containsAll(categoriasTemporal)) {
-					categoriasConUsuario.replace(usuario, categoriasTemporal);
 				}
 				
 			}
@@ -255,21 +234,6 @@ public class BaseDatos {
 		} catch (FileNotFoundException e) {
 			
 		}
-	}
-	
-	public static List<Categoria> buscarCategoriasPorUsuario(String UsuarioNom) {
-		return categoriasConUsuario.get(UsuarioNom);
-	}
-	
-	public static void anyadirCategoriasUsuarioNuevo(String UsuarioNom) {
-		List<Categoria> categoriasIniciales = new ArrayList<Categoria>();
-		categoriasIniciales.add(new Categoria("Agua"));
-		categoriasIniciales.add(new Categoria("Alimentacion"));
-		categoriasIniciales.add(new Categoria("Gas"));
-		categoriasIniciales.add(new Categoria("Luz"));
-		categoriasIniciales.add(new Categoria("Ocio"));
-		
-		categoriasConUsuario.put(UsuarioNom, categoriasIniciales);
 	}
 	
 }

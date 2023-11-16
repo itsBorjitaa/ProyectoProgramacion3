@@ -159,7 +159,7 @@ public class VentanaGastos extends JFrame{
 	}
 	private void cargarCategoriasTabla() { //Usaremos este metodo para crear un array con las columas de la tabla
 		listaCategorias.add("Mes/Intervalo");//Esta sera la primera columna
-		for(Categoria c: BaseDatos.buscarCategoriasPorUsuario(VentanaInicioSesion.usuario)) {//Recorreremos el set de columnas de la base de datos
+		for(Categoria c: BaseDatos.getCategorias()) {//Recorreremos el set de columnas de la base de datos
 			listaCategorias.add(c.getNombre());//añadiremos a la lista sus nombres
 		}
 	}
