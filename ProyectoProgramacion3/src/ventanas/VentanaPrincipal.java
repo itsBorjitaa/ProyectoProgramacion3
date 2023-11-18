@@ -33,7 +33,9 @@ public class VentanaPrincipal extends JFrame{
 	
 	private static final String RUTA_FICHEROS = "datos/";
 	
-	public VentanaPrincipal() {
+	public VentanaPrincipal(String usuario) {
+		/*Cargamos el usuario actual*/
+		String usuarioActual=usuario;
 		vActual = this;
 		
 		tablaModelo = new DefaultTableModel(); //creamos el modelo
@@ -86,7 +88,7 @@ public class VentanaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new VentanaGastos();
+				new VentanaGastos(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana principal y abierta la ventana de gastos");
 			}
@@ -96,7 +98,7 @@ public class VentanaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new VentanaCategorias();
+				new VentanaCategorias(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana principal y abierta la ventana de categorías");
 			}
@@ -105,12 +107,11 @@ public class VentanaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new VentanaDiaCalendario();
+				new VentanaDiaCalendario(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");
 			}
 		});
-		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
 		setTitle("VentanaPrincipal");

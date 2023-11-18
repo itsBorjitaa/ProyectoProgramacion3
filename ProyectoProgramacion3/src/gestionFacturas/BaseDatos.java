@@ -8,9 +8,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,7 +23,6 @@ import java.util.HashMap;
 
 public class BaseDatos {
 	/* BASE DE DATOS FINAL */
-	
 	public static Connection initBD(String nombreBD) {
 		Connection con = null;
 		try {
@@ -48,7 +49,7 @@ public class BaseDatos {
 	}
 	
 	public static void crearTablaUsuariosBD(Connection con) {
-		String sql = "CREATE TABLE IF NOT EXISTS Usuario (usuario String ,contrasenya String)";
+		String sql = "CREATE TABLE IF NOT EXISTS Usuario (usuario String NOT NULL ,contrasenya String NOT NULL)";
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql);
@@ -90,6 +91,100 @@ public class BaseDatos {
 		}
 	}
 	
+	/* BASE DE DATOS TICKETS POR FECHA */
+	
+	/* FUNCIÓN PARA CREAR LA TABLA SI NO ESTA CREADA */
+	public static void crearTablaFacturasBD(Connection con) {
+		String sql = "CREATE TABLE IF NOT EXISTS Facturas (codigo INTEGER NOT NULL DEFAULT 0, usuarioF TEXT NOT NULL, fecha TEXT NOT NULL, concepto TEXT NOT NULL, "
+				+ "coste REAL NOT NULL, categoria TEXT NOT NULL,"
+				+ "PRIMARY KEY(codigo), FOREIGN KEY(usuarioF) REFERENCES Usuario(usuario) ON DELETE CASCADE)";
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql);
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	/* FUNCIÓN PARA INSERTAR DATOS A LA TABLA */
+	public static void insertarFacturaBD(Connection con, Factura f, String usuario, Date fecha) {
+			Integer codigo=0;
+			String generadorCodigo=String.format("SELECT codigo FROM Facturas");
+			try {
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(generadorCodigo);
+				while(rs.next()){
+					codigo=rs.getInt("codigo");
+				}
+				rs.close();
+				st.close();
+				}			 
+			catch (SQLException e) {
+				e.printStackTrace();
+				}
+			String sql = String.format("INSERT INTO Facturas VALUES('%s', '%s','%s','%s','%s','%s')",
+					codigo+1,
+					usuario,
+					fecha,f.getConcepto(), 
+					f.getCoste(), f.getCategoria());
+			try {
+				Statement st = con.createStatement();
+				st.executeUpdate(sql);
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	/* FUNCIÓN PARA MODIFICAR DATOS */
+	public static void modificarFacturaBD(Connection con, Factura nuevaF, Date nuevaFecha, Integer codigo) {
+		String sql = String.format("UPDATE Facturas SET fecha='"+nuevaFecha+"', concepto='"+nuevaF.getConcepto()+
+		"', coste='"+nuevaF.getCoste()+"', categoria='"+nuevaF.getCategoria()+"' WHERE codigo="+codigo+";");
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql);
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* FUNCIÓN PARA ELIMINAR DATOS */
+	public static void eliminarFacturaBD(Connection con,Integer codigo) {
+		String sql = String.format("DELETE FROM Facturas WHERE codigo="+codigo+";");
+		try {
+			Statement st=con.createStatement();
+			st.executeUpdate(sql);
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* FUNCIÓN PARA CARGAR LOS DATOS */
+	public static HashMap<Date, ArrayList<Factura>> cargarFacturaBD(Connection con, String usuario) {
+		HashMap<Date, ArrayList<Factura>> ticketsPorFecha= new HashMap<>();
+		String sql = String.format("SELECT codigo, fecha, concepto ,coste ,categoria FROM Facturas WHERE usuarioF='%s'", 
+				usuario);
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs= st.executeQuery(sql);
+			while(rs.next()) {
+				String stringFecha=rs.getString("fecha");
+				String [] arrayFecha=stringFecha.split("-");
+				@SuppressWarnings("deprecation")
+				Date fechaDate=new Date(Integer.parseInt(arrayFecha[0])-1900, Integer.parseInt(arrayFecha[1]), Integer.parseInt(arrayFecha[2]));
+				ticketsPorFecha.putIfAbsent(fechaDate, new ArrayList<Factura>());
+				Factura f=new Factura(rs.getString("concepto"),rs.getDouble("coste"), new Categoria(rs.getString("categoria")));
+				f.setCodigo(rs.getInt("codigo"));
+				ticketsPorFecha.get(fechaDate).add(f);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ticketsPorFecha;
+	}
 	
 	/* BASE DE DATOS USUARIOS CON FICHERO */
 	private static List<Usuario> usuarios = new ArrayList<>();
@@ -188,8 +283,7 @@ public class BaseDatos {
 		return categorias;
 	}
 	
-	public static void aniadirCategorias() {
-		
+	public static void aniadirCategorias(Categoria categoria) {
 	}
 	
 	public static void guardarListaCategoriasEnFichero(String nomfich) {

@@ -25,7 +25,9 @@ public class VentanaModificarCategoria extends JFrame{
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
 	
-	public VentanaModificarCategoria() {
+	public VentanaModificarCategoria(String usuario) {
+		/*Cargamos el usuario actual*/
+		String usuarioActual=usuario;
 		vActual = this;
 		
 		/*CREACION DE PANELES*/
@@ -65,7 +67,7 @@ public class VentanaModificarCategoria extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new VentanaCategorias();
+				new VentanaCategorias(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana de modificar categorías y abierta la ventana de categorías");
 				

@@ -31,7 +31,9 @@ public class VentanaCategorias extends JFrame {
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaCategorias.class.getName());
 	
-	public VentanaCategorias() {
+	public VentanaCategorias(String usuario) {
+		/*Cargamos el usuario actual*/
+		String usuarioActual=usuario;
 		vActual = this;
 		
 		/*CREACIÓN DE PANELES*/
@@ -83,7 +85,7 @@ public class VentanaCategorias extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new VentanaAnyadirCategoria();
+				new VentanaAnyadirCategoria(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana de categorías y abierta la ventana de añadir categorías");
 				
@@ -103,7 +105,7 @@ public class VentanaCategorias extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new VentanaModificarCategoria();
+				new VentanaModificarCategoria(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana de categorías y abierta la ventana de modificar categorías");
 				
@@ -114,7 +116,7 @@ public class VentanaCategorias extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new VentanaPrincipal();
+				new VentanaPrincipal(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana de categorías y abierta la ventana principal");
 				

@@ -29,7 +29,9 @@ public class VentanaGastos extends JFrame{
 	private List<String> listaCategorias;
 	private Logger logger = Logger.getLogger(VentanaGastos.class.getName());
 	
-	public VentanaGastos() {
+	public VentanaGastos(String usuario) {
+		/*Cargamos el usuario actual*/
+		String usuarioActual=usuario;
 		/*Cambiamos el color de la celdas(En Flatlaf se muestran en blanco por defecto)*/
 		
 		UIManager.put("Table.showHorizontalLines", true);//Con esto se veran las lineas entre celdas en las tablas
@@ -102,7 +104,7 @@ public class VentanaGastos extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				new VentanaPrincipal();
+				new VentanaPrincipal(usuarioActual);
 				dispose();
 				logger.info("Cerrada la ventana de gastos y abierta la ventana principal");
 			}

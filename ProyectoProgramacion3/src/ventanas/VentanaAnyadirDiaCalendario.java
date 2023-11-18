@@ -5,7 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.Date;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -17,10 +18,12 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
-import org.jdatepicker.JDatePicker;
+
+import com.toedter.calendar.JDateChooser;
 
 import gestionFacturas.BaseDatos;
 import gestionFacturas.Categoria;
+import gestionFacturas.Factura;
 
 public class VentanaAnyadirDiaCalendario extends JFrame {
 	/**
@@ -30,18 +33,23 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 	private JButton botonAnyadir,botonCancelar;
 	private JTextField textoConcepto;
 	private JSpinner floatCoste;
-	private JComboBox<String> seleccionadorCategoria;
-	private JDatePicker datePicker;
+	private JComboBox<Categoria> seleccionadorCategoria;
+	private JDateChooser dateChooser;
 	private JPanel panelBotones, panelValores;
 	private Logger logger = Logger.getLogger(VentanaAnyadirDiaCalendario.class.getName());
+	private Connection con;
 	
-	public VentanaAnyadirDiaCalendario(Date fecha) {
+	public VentanaAnyadirDiaCalendario(Date fecha,String usuario) {
+		/*Cargamos el usuario actual*/
+		String usuarioActual=usuario;
+		/*Inicializamos la BD*/
+		con=BaseDatos.initBD("datos/BaseDatos.db");
 		/*Creamos los paneles*/
 		panelBotones=new JPanel(new GridLayout(1,2));
 		panelValores=new JPanel(new GridLayout(4,2));
 		
 		/*Añadimos los elementos de los paneles*/
-		datePicker=new JDatePicker(fecha);
+		dateChooser = new JDateChooser(fecha);
 		textoConcepto=new JTextField(20);
 		seleccionadorCategoria=new JComboBox<>();
 		floatCoste=new JSpinner(new SpinnerNumberModel(0.00,0.00,null,1));
@@ -57,22 +65,25 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		floatCoste.setEditor(numberEditor);
 		
 		/*Añadimos eventos a los botones*/
-		botonAnyadir.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				//Añadimos la factura a la BD
-				new VentanaDiaCalendario();
-				dispose();
-			}
-		});
+			botonAnyadir.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					//Añadimos la factura a la BD
+;
+					BaseDatos.insertarFacturaBD(con, new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem()), usuarioActual, new Date(dateChooser.getDate().getTime()));
+					BaseDatos.closeBD(con);
+					new VentanaDiaCalendario(usuarioActual);
+					dispose();
+				}
+			});
 		botonCancelar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				new VentanaDiaCalendario();
+				BaseDatos.closeBD(con);
+				new VentanaDiaCalendario(usuarioActual);
 				dispose();
 			}
 		});
@@ -89,7 +100,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		panelValores.add(seleccionadorCategoria);
 		JLabel labelFecha=new JLabel("Fecha:");
 		panelValores.add(labelFecha);
-		panelValores.add(datePicker);
+		panelValores.add(dateChooser);
 		
 		panelBotones.add(botonAnyadir);
 		panelBotones.add(botonCancelar);
@@ -107,7 +118,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 	Lo modifico para que añada elementos a la JComboBox en vez de a una lista*/
 	private void cargarCategorias() {
 		for(Categoria c: BaseDatos.getCategorias()) { 
-			seleccionadorCategoria.addItem(c.getNombre());
+			seleccionadorCategoria.addItem(c);
 		}
 	}
 }
