@@ -4,21 +4,15 @@ import javax.swing.JFrame;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.jdatepicker.UtilDateModel;
-
-import com.toedter.calendar.JCalendar;
 
 import gestionFacturas.Factura;
 import gestionFacturas.BaseDatos;
-import gestionFacturas.Categoria;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.MonthDay;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashMap;
