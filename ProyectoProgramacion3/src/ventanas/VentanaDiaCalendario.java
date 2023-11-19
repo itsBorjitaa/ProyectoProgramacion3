@@ -25,13 +25,13 @@ public class VentanaDiaCalendario extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private HashMap<Date, ArrayList<Factura>> ticketsPorFecha;
+	private HashMap<Date, ArrayList<Factura>> facturasPorFecha;
 	private JButton botonVolver, botonModificar, botonBorrar, botonAnyadir;
 	private DefaultListModel<Date> defaultListaFechas;
 	private JList<Date> listaFechas;
-	private JList<Factura> listaTickets;
-	private JScrollPane scrollFechas, scrollTickets;
-	private DefaultListModel<Factura> defaultListaTickets;
+	private JList<Factura> listaFacturas;
+	private JScrollPane scrollFechas, scrollFacturas;
+	private DefaultListModel<Factura> defaultListaFacturas;
 	private JPanel panelBotones,panelListas;
 	private Logger logger = Logger.getLogger(VentanaDiaCalendario.class.getName());
 	private Connection con;
@@ -43,7 +43,7 @@ public class VentanaDiaCalendario extends JFrame {
 		con=BaseDatos.initBD("datos/BaseDatos.db");
 		
 		/*Creamos el HashMap*/
-		ticketsPorFecha= new HashMap<>();
+		facturasPorFecha= new HashMap<>();
 		/*Creamos los paneles*/
 		panelBotones=new JPanel(new GridLayout(4,1));
 		panelListas=new JPanel(new GridLayout(4,1));
@@ -61,9 +61,9 @@ public class VentanaDiaCalendario extends JFrame {
 		listaFechas=new JList<>(defaultListaFechas);
 		scrollFechas=new JScrollPane(listaFechas);
 		
-		defaultListaTickets=new DefaultListModel<>();
-		listaTickets=new JList<Factura>(defaultListaTickets);
-		scrollTickets=new JScrollPane(listaTickets);
+		defaultListaFacturas=new DefaultListModel<>();
+		listaFacturas=new JList<Factura>(defaultListaFacturas);
+		scrollFacturas=new JScrollPane(listaFacturas);
 		logger.info("Creadas las listas");
 		
 		/*Creo fechas genericas para comprobar el funcionamiento de la ventana
@@ -91,14 +91,14 @@ public class VentanaDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(!listaTickets.isSelectionEmpty()) {//Si no hay ningun valor seleccionado no se ejecuta
-					new VentanaModificarDiaCalendario(listaTickets.getSelectedValue(),usuarioActual, listaFechas.getSelectedValue(),
-						listaTickets.getSelectedValue().getCodigo());
+				if(!listaFacturas.isSelectionEmpty()) {//Si no hay ningun valor seleccionado no se ejecuta
+					new VentanaModificarDiaCalendario(listaFacturas.getSelectedValue(),usuarioActual, listaFechas.getSelectedValue(),
+						listaFacturas.getSelectedValue().getCodigo());
 					BaseDatos.closeBD(con);
 					dispose();
 				}
-				else {//Saltara un error para notificar al usuario que elija un ticket
-					JOptionPane.showMessageDialog(rootPane, "Elige un ticket!", "Error", JOptionPane.WARNING_MESSAGE);
+				else {//Saltara un error para notificar al usuario que elija una factura
+					JOptionPane.showMessageDialog(rootPane, "Elige una factura!", "Error", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -108,12 +108,12 @@ public class VentanaDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(!listaTickets.isSelectionEmpty()) {
-				BaseDatos.eliminarFacturaBD(con, listaTickets.getSelectedValue().getCodigo());
-				defaultListaTickets.removeElement(listaTickets.getSelectedValue());
+				if(!listaFacturas.isSelectionEmpty()) {
+				BaseDatos.eliminarFacturaBD(con, listaFacturas.getSelectedValue().getCodigo());
+				defaultListaFacturas.removeElement(listaFacturas.getSelectedValue());
 				}
 				else {
-					JOptionPane.showMessageDialog(rootPane, "Elige un ticket!", "Error", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(rootPane, "Elige una factura!", "Error", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -135,12 +135,12 @@ public class VentanaDiaCalendario extends JFrame {
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
 				if(!e.getValueIsAdjusting()) {//Ponemos esto para que no se dupliquen los valores
-					defaultListaTickets.removeAllElements();
+					defaultListaFacturas.removeAllElements();
 					Date fecha=listaFechas.getSelectedValue();
-					for(Entry<Date, ArrayList<Factura>> entryFacturas: ticketsPorFecha.entrySet()) {
+					for(Entry<Date, ArrayList<Factura>> entryFacturas: facturasPorFecha.entrySet()) {
 						if(fecha==entryFacturas.getKey()) {
 							for(Factura factura: entryFacturas.getValue()) {
-								defaultListaTickets.addElement(factura);
+								defaultListaFacturas.addElement(factura);
 							}
 						}
 					}
@@ -160,9 +160,9 @@ public class VentanaDiaCalendario extends JFrame {
 		JLabel textoFecha=new JLabel("Selecciona una fecha:");
 		panelListas.add(textoFecha);
 		panelListas.add(scrollFechas);
-		JLabel textoTickets=new JLabel("Selecciona una factura de este dia:");
-		panelListas.add(textoTickets);
-		panelListas.add(scrollTickets);
+		JLabel textoFacturas=new JLabel("Selecciona una factura de este dia:");
+		panelListas.add(textoFacturas);
+		panelListas.add(scrollFacturas);
 		
 		/*Añadimos los paneles al JFrame*/
 		add(panelBotones,BorderLayout.EAST);
@@ -176,8 +176,8 @@ public class VentanaDiaCalendario extends JFrame {
 		setBounds(450, 300, 600, 400);
 		
 		/*Cargamos los valores*/
-		ticketsPorFecha=BaseDatos.cargarFacturaBD(con, usuarioActual);
-		for(Date fecha: ticketsPorFecha.keySet()) {
+		facturasPorFecha=BaseDatos.cargarFacturaBD(con, usuarioActual);
+		for(Date fecha: facturasPorFecha.keySet()) {
 			defaultListaFechas.addElement(fecha);
 	}
   }

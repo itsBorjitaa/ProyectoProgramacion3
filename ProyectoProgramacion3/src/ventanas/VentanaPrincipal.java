@@ -52,7 +52,7 @@ public class VentanaPrincipal extends JFrame{
 		/**
 		 * Botones del panel de botones
 		 */
-		botonDias=new JButton("TICKETS POR FECHA");
+		botonDias=new JButton("FACTURAS POR FECHA");
 		botonCategorias = new JButton("CATEGORÍAS");
 		botonGastos = new JButton("GASTOS");
 		botonCerrarSesion = new JButton("CERRAR SESIÓN");
