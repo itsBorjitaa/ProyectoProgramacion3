@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -12,6 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import gestionFacturas.BaseDatos;
+import gestionFacturas.Categoria;
+
 public class VentanaAnyadirCategoria extends JFrame{
 
 	/**
@@ -19,13 +23,15 @@ public class VentanaAnyadirCategoria extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton botonAnyadir, botonCancelar;
-	private JLabel lblTitulo, lblDescripcion;
-	private JTextField txtTitulo, txtDescripcion;
+	private JLabel lblTitulo;
+	private JTextField txtTitulo;
 	private JPanel panelArriba, panelAbajo;
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaAnyadirCategoria.class.getName());
 	
 	public VentanaAnyadirCategoria(String usuario) {
+		Connection con = BaseDatos.initBD("datos/BaseDatos.db");
+		
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		vActual = this;
@@ -38,16 +44,13 @@ public class VentanaAnyadirCategoria extends JFrame{
 		botonAnyadir = new JButton("Añadir");
 		botonCancelar = new JButton("Cancelar");
 		lblTitulo = new JLabel("Titulo");
-		lblDescripcion = new JLabel("Descripción");
+		
 		txtTitulo = new JTextField();
-		txtDescripcion = new JTextField();
 		logger.info("Creados los componentes");
 		
 		/*AÑADIR COMPONENTES A PANELES*/
 		panelArriba.add(lblTitulo);
 		panelArriba.add(txtTitulo);
-		panelArriba.add(lblDescripcion);
-		panelArriba.add(txtDescripcion);
 		panelAbajo.add(botonAnyadir);
 		panelAbajo.add(botonCancelar);
 		logger.info("Añadidos los componentes a los paneles");
@@ -57,7 +60,8 @@ public class VentanaAnyadirCategoria extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				BaseDatos.insertarCategoriasBD(con, new Categoria(txtTitulo.getText()));
+				BaseDatos.insertarCategoriasPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()));
 				
 			}
 		});
@@ -69,7 +73,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 				new VentanaCategorias(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana de añadir categorías y abierta la ventana categorías");
-				
+				BaseDatos.closeBD(con);
 			}
 		});
 		

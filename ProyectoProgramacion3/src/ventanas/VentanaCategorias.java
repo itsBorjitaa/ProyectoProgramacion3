@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultListCellRenderer;
@@ -32,6 +33,8 @@ public class VentanaCategorias extends JFrame {
 	private Logger logger = Logger.getLogger(VentanaCategorias.class.getName());
 	
 	public VentanaCategorias(String usuario) {
+		Connection con = BaseDatos.initBD("datos/BaseDatos.db");
+		
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		vActual = this;
@@ -54,7 +57,9 @@ public class VentanaCategorias extends JFrame {
 		scrollListaCategorias = new JScrollPane(listaCategorias);
 		scrollListaCategorias.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollListaCategorias.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		cargarCategorias();
+		//Recorremos el conjunto de categorias de la clase Base Datos para cargarlos en la JList de esta ventana
+		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { //Por cada Categoria que haya en la lista de categorias
+			modeloListaCategorias.addElement(c);} //Lo añadimos al modelo de la JList
 		panelIzquierda.add(scrollListaCategorias);
 		logger.info("Creada la JList de categorías y asociada al panel de la izquierda");
 		
@@ -119,7 +124,7 @@ public class VentanaCategorias extends JFrame {
 				new VentanaPrincipal(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana de categorías y abierta la ventana principal");
-				
+				BaseDatos.closeBD(con);
 			}
 		});
 		
@@ -136,10 +141,4 @@ public class VentanaCategorias extends JFrame {
 		setVisible(true);
 	}
 	
-	private void cargarCategorias() {
-		//Recorremos el conjunto de categorias de la clase Base Datos para cargarlos en la JList de esta ventana
-		for(Categoria c: BaseDatos.getCategorias()) { //Por cada Categoria que haya en la lista de categorias
-			modeloListaCategorias.addElement(c); //Lo añadimos al modelo de la JList
-		}
-	}
 }

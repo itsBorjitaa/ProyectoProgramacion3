@@ -40,10 +40,13 @@ public class Main {
             e.printStackTrace();
         }
 		
+		
+	
 		//Creamos la base de datos
 		BaseDatos.crearTablaUsuariosBD(con);
 		BaseDatos.crearTablaFacturasBD(con);
 		BaseDatos.crearTablaCategoriasBD(con);
+		BaseDatos.crearTablaCategoriasUsuarioBD(con);
 
 		FlatLightLaf.setup();
 		VentanaInicioSesion vis = new VentanaInicioSesion();

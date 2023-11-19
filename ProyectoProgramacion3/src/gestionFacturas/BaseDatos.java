@@ -20,6 +20,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class BaseDatos {
 	/* BASE DE DATOS FINAL */
@@ -211,7 +212,7 @@ public class BaseDatos {
 			st.executeUpdate(sql5);
 			st.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 	}
 	
@@ -262,6 +263,110 @@ public class BaseDatos {
 			}
 		}
 	}
+	
+	/* FUNCION AÑADIR CATEGORIA A TABLA USURIO*/
+	public static void insertarCategoriasPorUsuario(Connection con, String usuario, Categoria categoria) {
+		String sql = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoria.getNombre());
+		Integer id = 0;
+		String sql1 = String.format("INSERT INTO categoriasUsuario VALUES(''%s'', '%s')", usuario, id);
+		
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()) {
+				id = rs.getInt("id_c");
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			System.out.println("Necesita Correcion");
+		}
+		
+		try {
+			System.out.println(id);
+			Statement st = con.createStatement();
+			st.executeUpdate(sql1);
+			st.close();
+		} catch (SQLException e) {
+			System.out.println("Necesita Correcion");
+		}
+	}
+	
+	/* CREAR TABLA DE USUARIOS Y CATEGORIAS*/
+	public static void crearTablaCategoriasUsuarioBD(Connection con) {
+		String sql = "CREATE TABLE IF NOT EXISTS categoriasUsuario (usuario_cu String NOT NULL, id_c_cu INTEGER NOT NULL,PRIMARY KEY(usuario_cu, id_c_cu), FOREIGN KEY(usuario_cu) REFERENCES Usuario(usuario) ON DELETE CASCADE, FOREIGN KEY(id_c_cu) REFERENCES  Categorias(id_c) ON DELETE CASCADE)";
+		
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql);
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* AÑADIR USUARIO NUEVOS A TABLA */
+	public static void anyadirCatgeoriasUsuarioNuevo(Connection con, String usuario) {
+		
+		String sql1 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 1)", usuario);
+		String sql2 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 2)", usuario);
+		String sql3 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 3)", usuario);
+		String sql4 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 4)", usuario);
+		String sql5 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 5)", usuario);
+		
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql1);
+			st.executeUpdate(sql2);
+			st.executeUpdate(sql3);
+			st.executeUpdate(sql4);
+			st.executeUpdate(sql5);
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* FUNCION CARGAR CATEGORIAS POR USURIO */
+	public static ArrayList<Categoria> cargarCategoriasPorUsuario(Connection con, String usuario) {
+		ArrayList<Integer> idCategorias = new ArrayList<Integer>();
+		ArrayList<Categoria> listaCategorias = new ArrayList<Categoria>();
+		
+		String sql1 = String.format("SELECT id_c_cu FROM categoriasUsuario WHERE usuario_cu = '%s'", usuario);
+		
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql1);
+			while (rs.next()) {
+				idCategorias.add(rs.getInt("id_c_cu"));
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		for (Integer id: idCategorias) {
+			String sql2 = String.format("SELECT categoria FROM Categorias WHERE id_c = '%s'", id);
+			
+			try {
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql2);
+				while (rs.next()) {
+					listaCategorias.add(new Categoria(rs.getString("categoria")));
+				}
+				rs.close();
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return listaCategorias;
+	}
+	
+	
+	
 
 	/* BASE DE DATOS USUARIOS CON FICHERO */
 	private static List<Usuario> usuarios = new ArrayList<>();
