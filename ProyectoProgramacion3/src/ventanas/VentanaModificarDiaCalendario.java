@@ -50,7 +50,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		
 		/*Añadimos los elementos de los paneles*/
 		textoConcepto=new JTextField(factura.getConcepto(),20);
-		botonAnyadir=new JButton("Añadir");
+		botonAnyadir=new JButton("Modificar");
 		botonCancelar=new JButton("Cancelar");
 		seleccionadorCategoria=new JComboBox<>();
 		dateChooser = new JDateChooser(fecha);
