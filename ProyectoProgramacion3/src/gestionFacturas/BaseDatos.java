@@ -106,6 +106,7 @@ public class BaseDatos {
 			e.printStackTrace();
 		}
 	}
+	
 	/* FUNCIÓN PARA INSERTAR DATOS A LA TABLA */
 	public static void insertarFacturaBD(Connection con, Factura f, String usuario, Date fecha) {
 			Integer codigo=0;
@@ -135,6 +136,7 @@ public class BaseDatos {
 				e.printStackTrace();
 			}
 		}
+	
 	/* FUNCIÓN PARA MODIFICAR DATOS */
 	public static void modificarFacturaBD(Connection con, Factura nuevaF, Date nuevaFecha, Integer codigo) {
 		String sql = String.format("UPDATE Facturas SET fecha='"+nuevaFecha+"', concepto='"+nuevaF.getConcepto()+
@@ -184,6 +186,78 @@ public class BaseDatos {
 			e.printStackTrace();
 		}
 		return ticketsPorFecha;
+	}
+	
+	/* BASE DE DATOS CATEGORIAS*/
+	
+	/* FUNCION CREAR TABLA DE CATEGORIAS*/
+	public static void crearTablaCategoriasBD(Connection con) {
+		String sql = "CREATE TABLE IF NOT EXISTS Categorias (id_c INTEGER NOT NULL, categoria STRING NOT NULL, PRIMARY KEY(id_c))";
+		String sql1 = "INSERT INTO Categorias VALUES('1','AGUA')";
+		String sql2 = "INSERT INTO Categorias VALUES('2','ALIMENTACION')";
+		String sql3 = "INSERT INTO Categorias VALUES('3','GAS')";
+		String sql4 = "INSERT INTO Categorias VALUES('4','LUZ')";
+		String sql5 = "INSERT INTO Categorias VALUES('5','OCIO')";
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql);
+			st.executeUpdate(sql1);
+			st.executeUpdate(sql2);
+			st.executeUpdate(sql3);
+			st.executeUpdate(sql4);
+			st.executeUpdate(sql5);
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* FUNCION BUSCAR CATEGORIAS EN TABLA*/
+	public static Categoria buscarCategoriaBD(Connection con, String nombre) {
+		String sql = String.format("SELECT * FROM Categorias WHERE categoria = '%s'", nombre);
+		Categoria categoria = null;
+		
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			if(rs.next()) {
+				String c = rs.getString("categoria");
+				categoria = new Categoria(c);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return categoria;
+	}
+	
+	/* FUNCION AÑADIR CATEGORIAS A LA TABLA */
+	public static void insertarCategoriasBD(Connection con, Categoria categoria) {
+		Integer id_c = 0;
+		String consegirID=String.format("SELECT id_c FROM Categorias");
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(consegirID);
+			while(rs.next()){
+				id_c=rs.getInt("id_c");
+			}
+			rs.close();
+			st.close();
+			}			 
+		catch (SQLException e) {
+			e.printStackTrace();
+			}
+		if (buscarCategoriaBD(con, categoria.getNombre()) == null) {
+			String sql = String.format("INSERT INTO Categorias VALUES('%s','%s')", id_c+1, categoria.getNombre());
+			try {
+				Statement st = con.createStatement();
+				st.executeUpdate(sql);
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/* BASE DE DATOS USUARIOS CON FICHERO */

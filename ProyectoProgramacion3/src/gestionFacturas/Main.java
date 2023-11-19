@@ -38,9 +38,11 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+		
 		//Creamos la base de datos
 		BaseDatos.crearTablaUsuariosBD(BaseDatos.initBD("datos/BaseDatos.db"));
 		BaseDatos.crearTablaFacturasBD(BaseDatos.initBD("datos/BaseDatos.db"));
+		BaseDatos.crearTablaCategoriasBD(BaseDatos.initBD("datos/BaseDatos.db"));
 		FlatLightLaf.setup();
 		VentanaInicioSesion vis = new VentanaInicioSesion();
 	}

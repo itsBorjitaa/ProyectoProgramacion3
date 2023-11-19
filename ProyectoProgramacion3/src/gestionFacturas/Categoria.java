@@ -5,7 +5,7 @@ public class Categoria implements Comparable<Categoria>{
 	
 	public Categoria(String nombre) {
 		super();
-		this.nombre = nombre;
+		this.nombre = nombre.toUpperCase();
 	}
 	
 	public Categoria() {
