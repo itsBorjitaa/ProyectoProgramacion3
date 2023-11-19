@@ -306,7 +306,7 @@ public class BaseDatos {
 	}
 	
 	/* AÑADIR USUARIO NUEVOS A TABLA */
-	public static void anyadirCatgeoriasUsuarioNuevo(Connection con, String usuario) {
+	public static void anyadirCategoriasUsuarioNuevo(Connection con, String usuario) {
 		
 		String sql1 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 1)", usuario);
 		String sql2 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 2)", usuario);

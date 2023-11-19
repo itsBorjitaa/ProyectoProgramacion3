@@ -75,6 +75,7 @@ public class VentanaDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				logger.info("Abierta ventana de añadir categoria");
 				if(!listaFechas.isSelectionEmpty()) { //Si una fecha esta seleccionada entonces la factura se creara con esta
 					BaseDatos.closeBD(con);
 					new VentanaAnyadirDiaCalendario(listaFechas.getSelectedValue(),usuarioActual);
@@ -92,6 +93,7 @@ public class VentanaDiaCalendario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(!listaFacturas.isSelectionEmpty()) {//Si no hay ningun valor seleccionado no se ejecuta
+					logger.info("Abierta ventana de modificar categoria");
 					new VentanaModificarDiaCalendario(listaFacturas.getSelectedValue(),usuarioActual, listaFechas.getSelectedValue(),
 						listaFacturas.getSelectedValue().getCodigo());
 					BaseDatos.closeBD(con);
@@ -109,6 +111,7 @@ public class VentanaDiaCalendario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if(!listaFacturas.isSelectionEmpty()) {
+					logger.info("Eliminada factura");
 				BaseDatos.eliminarFacturaBD(con, listaFacturas.getSelectedValue().getCodigo());
 				defaultListaFacturas.removeElement(listaFacturas.getSelectedValue());
 				}
@@ -122,6 +125,7 @@ public class VentanaDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				logger.info("Volver a la ventana Principal");
 				new VentanaPrincipal(usuarioActual);
 				dispose();
 			}

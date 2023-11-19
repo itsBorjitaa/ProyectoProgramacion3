@@ -44,6 +44,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		String usuarioActual=usuario;
 		/*Inicializamos la BD*/
 		con=BaseDatos.initBD("datos/BaseDatos.db");
+
 		/*Creamos los paneles*/
 		panelBotones=new JPanel(new GridLayout(1,2));
 		panelValores=new JPanel(new GridLayout(4,2));
@@ -57,7 +58,9 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		botonCancelar=new JButton("Cancelar");
 		
 		/*Cargamos las categorias con la función*/
-		cargarCategorias();
+		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { 
+			seleccionadorCategoria.addItem(c);
+		}
 		
 		/*Creamos un SpinnerModel para que muestre 2 decimales, use la respuesta de:
 		"https://stackoverflow.com/a/24915447" para hacerlo*/
@@ -70,7 +73,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					//Añadimos la factura a la BD
-;
+					logger.info("Añadida factura");
 					BaseDatos.insertarFacturaBD(con, new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem()), usuarioActual, new Date(dateChooser.getDate().getTime()));
 					BaseDatos.closeBD(con);
 					new VentanaDiaCalendario(usuarioActual);
@@ -82,6 +85,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				logger.info("Volver a ventana dia calendario");
 				BaseDatos.closeBD(con);
 				new VentanaDiaCalendario(usuarioActual);
 				dispose();
@@ -117,9 +121,4 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 	}
 	/*Utilizo el metodo cargarCategorias que Borja creo para la clase Categorias
 	Lo modifico para que añada elementos a la JComboBox en vez de a una lista*/
-	private void cargarCategorias() {
-		for(Categoria c: BaseDatos.getCategorias()) { 
-			seleccionadorCategoria.addItem(c);
-		}
-	}
 }

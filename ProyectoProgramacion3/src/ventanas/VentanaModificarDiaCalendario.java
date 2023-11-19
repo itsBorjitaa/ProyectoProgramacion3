@@ -29,7 +29,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton botonAnyadir,botonCancelar;
+	private JButton botonModificar,botonCancelar;
 	private JTextField textoConcepto;
 	private JSpinner floatCoste;
 	private JComboBox<Categoria> seleccionadorCategoria;
@@ -50,14 +50,16 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		
 		/*Añadimos los elementos de los paneles*/
 		textoConcepto=new JTextField(factura.getConcepto(),20);
-		botonAnyadir=new JButton("Modificar");
+		botonModificar=new JButton("Modificar");
 		botonCancelar=new JButton("Cancelar");
 		seleccionadorCategoria=new JComboBox<>();
 		dateChooser = new JDateChooser(fecha);
 		floatCoste=new JSpinner(new SpinnerNumberModel((double) factura.getCoste(),0.00,null,1));
 		
 		/*Cargamos las categorias con la función*/
-		cargarCategorias();
+		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { 
+			seleccionadorCategoria.addItem(c);
+		}
 		
 		/*Cargamos los valores de coste y categoria*/
 		seleccionadorCategoria.setSelectedItem(factura.getCategoria().getNombre());
@@ -69,12 +71,13 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		
 		/*Añadimos eventos a los botones*/
 		
-		botonAnyadir.addActionListener(new ActionListener() {
+		botonModificar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				//Modificamos la factura de la BD
+				logger.info("Factura modificada");
 				Factura nuevaFactura=new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem());
 				BaseDatos.modificarFacturaBD(con, nuevaFactura, new Date(dateChooser.getDate().getTime()),codigo);
 				BaseDatos.closeBD(con);
@@ -87,6 +90,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				logger.info("Volver a ventana dia calendario");
 				BaseDatos.closeBD(con);
 				new VentanaDiaCalendario(usuarioActual);
 				dispose();
@@ -107,7 +111,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		panelValores.add(labelFecha);
 		panelValores.add(dateChooser);
 		
-		panelBotones.add(botonAnyadir);
+		panelBotones.add(botonModificar);
 		panelBotones.add(botonCancelar);
 		
 		/*Añadimos los paneles al JFrame*/
@@ -123,9 +127,4 @@ public class VentanaModificarDiaCalendario extends JFrame {
 	
 	/*Utilizo el metodo cargarCategorias que Borja creo para la clase Categorias
 	Lo modifico para que añada elementos a la JComboBox en vez de a una lista*/
-	private void cargarCategorias() {
-		for(Categoria c: BaseDatos.getCategorias()) { 
-			seleccionadorCategoria.addItem(c);
-		}
-	}
 }

@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -27,11 +28,14 @@ public class VentanaGastos extends JFrame{
 	private ButtonGroup grupoBotones;
 	private JButton botonVolver;
 	private List<String> listaCategorias;
+	private Connection con;
 	private Logger logger = Logger.getLogger(VentanaGastos.class.getName());
 	
 	public VentanaGastos(String usuario) {
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
+		/*Inicializamos la BD*/
+		con=BaseDatos.initBD("datos/BaseDatos.db");
 		/*Cambiamos el color de la celdas(En Flatlaf se muestran en blanco por defecto)*/
 		
 		UIManager.put("Table.showHorizontalLines", true);//Con esto se veran las lineas entre celdas en las tablas
@@ -59,7 +63,10 @@ public class VentanaGastos extends JFrame{
 		
 		 /*Creamos el modelo de la tabla y cargamos las categorias*/
 		listaCategorias=new ArrayList<String>();
-		cargarCategoriasTabla();
+		listaCategorias.add("Mes/Intervalo");//Esta sera la primera columna
+		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) {//Recorreremos el set de columnas de la base de datos
+			listaCategorias.add(c.getNombre());//añadiremos a la lista sus nombres
+		}
 		TableModel modeloTabla= new AbstractTableModel() {
 			@Override
 			public Object getValueAt(int rowIndex, int columnIndex) {
@@ -115,6 +122,7 @@ public class VentanaGastos extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				logger.info("Seleccionado intervalo mensual");
 				tablaGastos.repaint();
 			}
 		});
@@ -124,6 +132,7 @@ public class VentanaGastos extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				logger.info("Seleccionado intervalo trimestral");
 			tablaGastos.repaint();	
 			}
 		});
@@ -133,6 +142,7 @@ public class VentanaGastos extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				logger.info("Seleccionado intervalo anual");
 				tablaGastos.repaint();
 			}
 		});
@@ -158,11 +168,5 @@ public class VentanaGastos extends JFrame{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(350, 100, 800, 600);
 		setVisible(true);
-	}
-	private void cargarCategoriasTabla() { //Usaremos este metodo para crear un array con las columas de la tabla
-		listaCategorias.add("Mes/Intervalo");//Esta sera la primera columna
-		for(Categoria c: BaseDatos.getCategorias()) {//Recorreremos el set de columnas de la base de datos
-			listaCategorias.add(c.getNombre());//añadiremos a la lista sus nombres
-		}
 	}
 }
