@@ -111,6 +111,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		
 		/*Características del Frame*/
 		setVisible(true);
+		setTitle("DeustoFinanzas");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
 	}

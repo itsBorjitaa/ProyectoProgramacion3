@@ -130,7 +130,7 @@ public class VentanaInicioSesion extends JFrame{
 		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 230);
-		setTitle("VentanaInicioSesion");
+		setTitle("DeustoFinanzas");
 		setVisible(true);
 		setResizable(false);
 	}

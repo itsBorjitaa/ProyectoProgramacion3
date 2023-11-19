@@ -170,7 +170,7 @@ public class VentanaDiaCalendario extends JFrame {
 		logger.info("Añadidos los paneles a la ventana");
 		
 		/*Características del Frame*/
-		setTitle("Ventana dias");
+		setTitle("DeustoFinanzas");
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);

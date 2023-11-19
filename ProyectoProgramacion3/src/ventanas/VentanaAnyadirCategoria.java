@@ -81,7 +81,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 		/*ESPECIFICACIÓN VENTANA*/
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
-		setTitle("Ventana añadir categorias");
+		setTitle("DeustoFinanzas");
 		setVisible(true);
 	}
 	

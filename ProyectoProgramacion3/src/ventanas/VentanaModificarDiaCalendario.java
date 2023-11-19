@@ -115,6 +115,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		add(panelBotones,BorderLayout.SOUTH);
 		
 		/*Características del Frame*/
+		setTitle("DeustoFinanzas");
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);

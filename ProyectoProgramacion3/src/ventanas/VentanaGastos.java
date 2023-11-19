@@ -154,7 +154,7 @@ public class VentanaGastos extends JFrame{
 		add(panelBotones,BorderLayout.SOUTH);
 		logger.info("Añadidos los paneles a la ventana");
 		
-		setTitle("Ventana Gastos");
+		setTitle("DeustoFinanzas");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(350, 100, 800, 600);
 		setVisible(true);
