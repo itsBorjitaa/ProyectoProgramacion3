@@ -27,7 +27,7 @@ public class BaseDatos {
 		Connection con = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-			con = DriverManager.getConnection("jdbc:sqlite:"+nombreBD);
+			con = DriverManager.getConnection("jdbc:sqlite:"+nombreBD+"?foreign_keys=on");
 					
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -49,7 +49,8 @@ public class BaseDatos {
 	}
 	
 	public static void crearTablaUsuariosBD(Connection con) {
-		String sql = "CREATE TABLE IF NOT EXISTS Usuario (usuario String NOT NULL ,contrasenya String NOT NULL)";
+		String sql = "CREATE TABLE IF NOT EXISTS Usuario (usuario String NOT NULL ,contrasenya String NOT NULL,"
+				+ "PRIMARY KEY(usuario))";
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql);
@@ -91,11 +92,12 @@ public class BaseDatos {
 		}
 	}
 	
-	/* BASE DE DATOS TICKETS POR FECHA */
+	/* BASE DE DATOS FACTURA POR FECHA */
 	
 	/* FUNCIÓN PARA CREAR LA TABLA SI NO ESTA CREADA */
 	public static void crearTablaFacturasBD(Connection con) {
-		String sql = "CREATE TABLE IF NOT EXISTS Facturas (codigo INTEGER NOT NULL DEFAULT 0, usuarioF TEXT NOT NULL, fecha TEXT NOT NULL, concepto TEXT NOT NULL, "
+		String sql = "PRAGMA foreign_keys = ON; "
+				+ "CREATE TABLE IF NOT EXISTS Facturas (codigo INTEGER NOT NULL DEFAULT 0, usuarioF TEXT NOT NULL, fecha TEXT NOT NULL, concepto TEXT NOT NULL, "
 				+ "coste REAL NOT NULL, categoria TEXT NOT NULL,"
 				+ "PRIMARY KEY(codigo), FOREIGN KEY(usuarioF) REFERENCES Usuario(usuario) ON DELETE CASCADE)";
 		try {
@@ -132,7 +134,7 @@ public class BaseDatos {
 				st.executeUpdate(sql);
 				st.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				System.out.println("Usuario no encontrado");
 			}
 		}
 	/* FUNCIÓN PARA MODIFICAR DATOS */
@@ -162,7 +164,7 @@ public class BaseDatos {
 	
 	/* FUNCIÓN PARA CARGAR LOS DATOS */
 	public static HashMap<Date, ArrayList<Factura>> cargarFacturaBD(Connection con, String usuario) {
-		HashMap<Date, ArrayList<Factura>> ticketsPorFecha= new HashMap<>();
+		HashMap<Date, ArrayList<Factura>> facturasPorFecha= new HashMap<>();
 		String sql = String.format("SELECT codigo, fecha, concepto ,coste ,categoria FROM Facturas WHERE usuarioF='%s'", 
 				usuario);
 		try {
@@ -173,19 +175,18 @@ public class BaseDatos {
 				String [] arrayFecha=stringFecha.split("-");
 				@SuppressWarnings("deprecation")
 				Date fechaDate=new Date(Integer.parseInt(arrayFecha[0])-1900, Integer.parseInt(arrayFecha[1]), Integer.parseInt(arrayFecha[2]));
-				ticketsPorFecha.putIfAbsent(fechaDate, new ArrayList<Factura>());
+				facturasPorFecha.putIfAbsent(fechaDate, new ArrayList<Factura>());
 				Factura f=new Factura(rs.getString("concepto"),rs.getDouble("coste"), new Categoria(rs.getString("categoria")));
 				f.setCodigo(rs.getInt("codigo"));
-				ticketsPorFecha.get(fechaDate).add(f);
+				facturasPorFecha.get(fechaDate).add(f);
 			}
 			rs.close();
 			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return ticketsPorFecha;
+		return facturasPorFecha;
 	}
-	
 	/* BASE DE DATOS USUARIOS CON FICHERO */
 	private static List<Usuario> usuarios = new ArrayList<>();
 	private static Set<Factura> facturas = new TreeSet<>();
