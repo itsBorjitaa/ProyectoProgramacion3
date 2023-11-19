@@ -2,8 +2,10 @@ package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.net.URL;
 import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,12 +32,34 @@ public class VentanaRegistro extends JFrame{
 	
 	private static final String RUTA_DATOS = "datos/";
 	
+	protected ImageIcon crearImageIconRegistro(String path) {
+        URL imgUrl = getClass().getResource(path);
+        if (imgUrl != null) {
+            return new ImageIcon(imgUrl);
+        } else {
+            System.err.println("No se pudo encontrar el archivo: " + path);
+            return null;
+        }
+    }
+	
 	public VentanaRegistro() {
 		vActual = this;
+		
+		/*CREACIÓN DEL LOGO*/
+		ImageIcon icono = crearImageIconRegistro("DeustoFinanzasLogo.png");
+		if (icono != null) {
+            // Crear un JLabel con la imagen del logo
+            JLabel label = new JLabel(icono);
+            // Añadir el JLabel a la ventana
+            add(label, BorderLayout.NORTH);
+        } else {
+            System.err.println("No se pudo cargar la imagen del logo.");
+        }
+		
 		/*CREACIÓN DE PANELES Y COMPONENTES*/
 		pDatos = new JPanel(new GridLayout(2,2));
 		pBotones = new JPanel(new GridLayout(1,3));
-		getContentPane().add(pDatos, BorderLayout.NORTH);
+		getContentPane().add(pDatos, BorderLayout.CENTER);
 		getContentPane().add(pBotones, BorderLayout.SOUTH);
 		logger.info("Panel de datos y panel de botones creados");
 		
@@ -95,9 +119,10 @@ public class VentanaRegistro extends JFrame{
 		});
 		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setBounds(450, 300, 600, 100);
+		setBounds(450, 300, 600, 230);
 		setTitle("VentanaRegistro");
 		setVisible(true);
+		setResizable(false);
 	}
 	
 	private void limpiarCampos() {

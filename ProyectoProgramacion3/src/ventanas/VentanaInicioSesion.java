@@ -2,9 +2,11 @@ package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.net.URL;
 import java.sql.Connection;
 import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ public class VentanaInicioSesion extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private JButton botonInicioSesion, botonRegistro, botonCerrar;
 	private JTextField txtUsuario;
 	private JPasswordField txtContrasenya;
@@ -34,14 +37,37 @@ public class VentanaInicioSesion extends JFrame{
 	public static String usuario;
 	
 	public static Connection con;
+	
+	protected ImageIcon crearImageIcon(String path) {
+        URL imgUrl = getClass().getResource(path);
+        if (imgUrl != null) {
+            return new ImageIcon(imgUrl);
+        } else {
+            System.err.println("No se pudo encontrar el archivo: " + path);
+            return null;
+        }
+    }
+	
 	public VentanaInicioSesion() {
 		con = BaseDatos.initBD(RUTA_DATOS + "BaseDatos.db");
 		BaseDatos.crearTablaUsuariosBD(con);
 		vActual = this;
+		
+		/*CREACIÓN DEL LOGO*/
+		ImageIcon icono = crearImageIcon("DeustoFinanzasLogo.png");
+		if (icono != null) {
+            // Crear un JLabel con la imagen del logo
+            JLabel label = new JLabel(icono);
+            // Añadir el JLabel a la ventana
+            add(label, BorderLayout.NORTH);
+        } else {
+            System.err.println("No se pudo cargar la imagen del logo.");
+        }
+		
 		/*CREACIÓN DE PANELES Y COMPONENTES*/
 		pDatos = new JPanel(new GridLayout(2,2));
 		pBotones = new JPanel(new GridLayout(1,3));
-		getContentPane().add(pDatos, BorderLayout.NORTH);
+		getContentPane().add(pDatos, BorderLayout.CENTER);
 		getContentPane().add(pBotones, BorderLayout.SOUTH);
 		logger.info("Panel de datos y panel de botones creados");
 		
@@ -103,9 +129,10 @@ public class VentanaInicioSesion extends JFrame{
 		});
 		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setBounds(450, 300, 600, 100);
+		setBounds(450, 300, 600, 230);
 		setTitle("VentanaInicioSesion");
 		setVisible(true);
+		setResizable(false);
 	}
 	
 	private void limpiarCampos() {
