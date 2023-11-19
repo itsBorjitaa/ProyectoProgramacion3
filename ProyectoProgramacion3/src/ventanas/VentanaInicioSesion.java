@@ -113,7 +113,7 @@ public class VentanaInicioSesion extends JFrame{
 				JOptionPane.showMessageDialog(null, "Bienvenido!","INICIO DE SESIÓN",JOptionPane.INFORMATION_MESSAGE);
 				usuario = txtUsuario.getText();
 				logger.info("Se ha iniciado sesión con el usuario: "+usuario);
-				new VentanaPrincipal(txtUsuario.getText());
+				new VentanaCargar();
 				vActual.dispose();
 			}else {
 				JOptionPane.showMessageDialog(null, "La contraseña no es correcta","ERROR EN EL INICIO DE SESIÓN",JOptionPane.WARNING_MESSAGE);
