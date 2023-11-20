@@ -13,6 +13,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -103,11 +104,15 @@ public class VentanaCategorias extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				logger.info("Eliminada la categoría de la JList");
-				BaseDatos.borrarCategoriasPorUsuario(con, usuarioActual, listaCategorias.getSelectedValue());
-				modeloListaCategorias.clear();
-				for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { 
-					modeloListaCategorias.addElement(c);}
+				if (listaCategorias.getSelectedValue() != null) {
+						logger.info("Eliminada la categoría de la JList");
+						BaseDatos.borrarCategoriasPorUsuario(con, usuarioActual, listaCategorias.getSelectedValue());
+						modeloListaCategorias.clear();
+						for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { 
+							modeloListaCategorias.addElement(c);}
+				} else {
+					JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna categoria","ERROR AL ELIMINAR CATEGORIA",JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -115,10 +120,13 @@ public class VentanaCategorias extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (listaCategorias.getSelectedValue() != null) {
 				new VentanaModificarCategoria(usuarioActual);
 				vActual.dispose();
 				logger.info("Cerrada la ventana de categorías y abierta la ventana de modificar categorías");
-				
+				} else {
+					JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna categoria","ERROR AL MODIFICAR CATEGORIA",JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		

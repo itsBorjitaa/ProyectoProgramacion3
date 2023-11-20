@@ -41,8 +41,7 @@ public class Factura {
 	}
 	@Override
 	public String toString() {
-		return "Factura [concepto=" + concepto + ", coste=" + coste + ", categoria=" + categoria+
-				"]";
+		return "Concepto: " + concepto + ", coste: " + coste + ", categoria: " + categoria;
 	}
 	
 }

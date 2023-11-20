@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -73,13 +74,14 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 			botonAnyadir.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
+					if (!textoConcepto.getText().isBlank()) {
 					//Añadimos la factura a la BD
 					logger.info("Añadida factura");
 					BaseDatos.insertarFacturaBD(con, new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem()), usuarioActual, new Date(dateChooser.getDate().getTime()));
-					BaseDatos.closeBD(con);
-					new VentanaDiaCalendario(usuarioActual);
-					dispose();
+					JOptionPane.showMessageDialog(null, "Factura añadida exitosamente","FACTURA AÑADIDA",JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "El nombre del concepto no puede estar en blanco","ERROR AL AÑADIR UNA NUEVA FACTURA",JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			});
 		botonCancelar.addActionListener(new ActionListener() {

@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -62,9 +63,14 @@ public class VentanaAnyadirCategoria extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (!txtTitulo.getText().isBlank()) {
 				BaseDatos.insertarCategoriasBD(con, new Categoria(txtTitulo.getText()));
 				BaseDatos.insertarCategoriasPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()));
 				txtTitulo.setText("");
+				JOptionPane.showMessageDialog(null, "Categoria añadida exitosamente","CATEGORIA AÑADIDA",JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "El nombre de la categoria no puede estar en blanco","ERROR AL AÑADIR UNA NUEVA CATEGORIA",JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		

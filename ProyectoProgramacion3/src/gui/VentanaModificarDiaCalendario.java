@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -77,7 +78,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				if (!textoConcepto.getText().isBlank()) {
 				//Modificamos la factura de la BD
 				logger.info("Factura modificada");
 				Factura nuevaFactura=new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem());
@@ -85,6 +86,9 @@ public class VentanaModificarDiaCalendario extends JFrame {
 				BaseDatos.closeBD(con);
 				new VentanaDiaCalendario(usuarioActual);
 				dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "El nombre del concepto no puede estar en blanco","ERROR AL MODIFICAR LA FACTURA",JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		botonCancelar.addActionListener(new ActionListener() {
