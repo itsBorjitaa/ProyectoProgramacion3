@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import gestionFacturas.*;
+import main.*;
 
 public class testBaseDatos {
 	//Primero inicializaremos la BD
