@@ -268,7 +268,6 @@ public class BaseDatos {
 	public static void insertarCategoriasPorUsuario(Connection con, String usuario, Categoria categoria) {
 		String sql = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoria.getNombre());
 		Integer id = 0;
-		String sql1 = String.format("INSERT INTO categoriasUsuario VALUES(''%s'', '%s')", usuario, id);
 		
 		try {
 			Statement st = con.createStatement();
@@ -279,8 +278,10 @@ public class BaseDatos {
 			rs.close();
 			st.close();
 		} catch (SQLException e) {
-			System.out.println("Necesita Correcion");
+			e.printStackTrace();
 		}
+		
+		String sql1 = String.format("INSERT INTO categoriasUsuario VALUES('%s', '%s')", usuario, id);
 		
 		try {
 			System.out.println(id);
@@ -288,7 +289,7 @@ public class BaseDatos {
 			st.executeUpdate(sql1);
 			st.close();
 		} catch (SQLException e) {
-			System.out.println("Necesita Correcion");
+			e.printStackTrace();
 		}
 	}
 	
