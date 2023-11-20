@@ -121,7 +121,7 @@ public class VentanaCategorias extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (listaCategorias.getSelectedValue() != null) {
-				new VentanaModificarCategoria(usuarioActual);
+				new VentanaModificarCategoria(usuarioActual, listaCategorias.getSelectedValue());
 				vActual.dispose();
 				logger.info("Cerrada la ventana de categorías y abierta la ventana de modificar categorías");
 				} else {

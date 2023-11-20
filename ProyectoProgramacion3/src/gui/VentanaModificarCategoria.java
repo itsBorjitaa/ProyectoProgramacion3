@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -12,6 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import main.BaseDatos;
+import main.Categoria;
+
 public class VentanaModificarCategoria extends JFrame{
 	
 	/**
@@ -19,15 +23,16 @@ public class VentanaModificarCategoria extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton botonModificar, botonCancelar;
-	private JLabel lblTitulo, lblDescripcion;
-	private JTextField txtTitulo, txtDescripcion;
+	private JLabel lblTitulo;
+	private JTextField txtTitulo;
 	private JPanel panelArriba, panelAbajo;
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
 	
 	private static final String RUTA_DB = "resources/db/BaseDatos.db";
 	
-	public VentanaModificarCategoria(String usuario) {
+	public VentanaModificarCategoria(String usuario, Categoria categoriaVieja) {
+		Connection con = BaseDatos.initBD(RUTA_DB);
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		vActual = this;
@@ -41,16 +46,12 @@ public class VentanaModificarCategoria extends JFrame{
 		botonModificar = new JButton("Modificar");
 		botonCancelar = new JButton("Cancelar");
 		lblTitulo = new JLabel("Titulo");
-		lblDescripcion = new JLabel("Descripción");
-		txtTitulo = new JTextField();
-		txtDescripcion = new JTextField();
+		txtTitulo = new JTextField(categoriaVieja.toString());
 		logger.info("Creados los componentes");
 		
 		/*AÑADIR COMPONENTES A PANELES*/
 		panelArriba.add(lblTitulo);
 		panelArriba.add(txtTitulo);
-		panelArriba.add(lblDescripcion);
-		panelArriba.add(txtDescripcion);
 		panelAbajo.add(botonModificar);
 		panelAbajo.add(botonCancelar);
 		logger.info("Componentes añadidos a paneles");
@@ -60,8 +61,8 @@ public class VentanaModificarCategoria extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				BaseDatos.modificarCategoriaPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()), categoriaVieja);
+				txtTitulo.setText("");
 			}
 		});
 		

@@ -419,6 +419,76 @@ public class BaseDatos {
 		}
 	
 	}
+	/* METODO MODIFICAR CATEGORIAS POR USUARIO */
+	public static void modificarCategoriaPorUsuario(Connection con, String usuario, Categoria categoriaNueva, Categoria categoriaVieja) {
+		int id = 0;
+		String sql1 = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoriaVieja.getNombre());
+		
+		try {										//BUSCA LA ID DE LA CATEGORIA TENIENDO EN CUENTA EL NOMBRE
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql1);
+			if (rs.next()) {
+				id = rs.getInt("id_c");
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		Integer cantidad = 0;
+		String sql2 = String.format("SELECT COUNT(id_c_cu) AS cantidad FROM categoriasusuario WHERE id_c_cu = '%s'", id);
+		
+		try {										//CUENTA CUANTAS VECES APARECE UNA CATEGORIA EN LA TABLA categoriasusuario
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql2);
+			cantidad = rs.getInt("cantidad");
+			rs.close();
+			st.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (cantidad == 1 && id >= 6) {
+			String sql3 = String.format("UPDATE categorias SET categoria = '%s' WHERE categoria = '%s'", categoriaNueva.getNombre(), categoriaVieja.getNombre());
+			try {
+				Statement st = con.createStatement();
+				st.executeUpdate(sql3);
+				st.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			BaseDatos.insertarCategoriasBD(con, categoriaNueva);
+			
+			int id_nuevo = 0;
+			String sql4 = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoriaNueva.getNombre());
+			
+			try {										//BUSCA LA ID DE LA CATEGORIA TENIENDO EN CUENTA EL NOMBRE
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql4);
+				if (rs.next()) {
+					id_nuevo = rs.getInt("id_c");
+		
+				}
+				rs.close();
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			String sql5 = String.format("UPDATE categoriasUsuario SET id_c_cu = '%s' WHERE id_c_cu = '%s' AND usuario_cu = '%s'", id_nuevo, id, usuario);
+			
+			try {
+				Statement st = con.createStatement();
+				st.executeUpdate(sql5);
+				st.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
 	
 	
 
