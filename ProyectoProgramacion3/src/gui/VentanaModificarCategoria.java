@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -61,8 +62,13 @@ public class VentanaModificarCategoria extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (!txtTitulo.getText().isBlank()) {
 				BaseDatos.modificarCategoriaPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()), categoriaVieja);
 				txtTitulo.setText("");
+				JOptionPane.showMessageDialog(null, "Categoria modificada exitosamente","CATEGORIA MODIFICADA",JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "El nombre de la categoria no puede estar en blanco","ERROR AL MODIFICAR CATEGORIAS",JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		
