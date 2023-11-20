@@ -366,6 +366,33 @@ public class BaseDatos {
 		return listaCategorias;
 	}
 	
+	/* FUNCION BORRAR CATEGORIAS POR USUARIO */
+	public static void borrarCategoriasPorUsuario(Connection con, String usuario, Categoria categoria) {
+		int id = 0;
+		String sql1 = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoria.getNombre());
+		
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql1);
+			if (rs.next()) {
+				id = rs.getInt("id_c");
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String sql2 = String.format("DELETE FROM categoriasUsuario where id_c_cu = '%s' AND usuario_cu = '%s'", id, usuario);
+		
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+	}
 	
 	
 

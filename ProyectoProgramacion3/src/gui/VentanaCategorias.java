@@ -104,7 +104,10 @@ public class VentanaCategorias extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				logger.info("Eliminada la categoría de la JList");
-				
+				BaseDatos.borrarCategoriasPorUsuario(con, usuarioActual, listaCategorias.getSelectedValue());
+				modeloListaCategorias.clear();
+				for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { 
+					modeloListaCategorias.addElement(c);}
 			}
 		});
 		
