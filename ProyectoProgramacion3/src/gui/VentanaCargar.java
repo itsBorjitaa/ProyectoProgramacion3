@@ -62,20 +62,20 @@ class ThreadProgreso extends Thread {
 	@Override
     public void run() {
         Random random = new Random();
-        int progress = 0;
+        int progreso = 0;
 
-        while (progress < 100) {
+        while (progreso < 100) {
             try {
-                Thread.sleep(50); // Simulate some work being done
+                Thread.sleep(50); 
 
-                progress += random.nextInt(10);
-                progress = Math.min(progress, 100);
+                progreso += random.nextInt(10);
+                progreso = Math.min(progreso, 100);
 
-                final int finalProgress = progress;
+                final int progresoFinal = progreso;
 
                 SwingUtilities.invokeLater(() -> {
-                    barraProgreso.setValue(finalProgress);
-                    label.setText("Progress: " + finalProgress + "%");
+                    barraProgreso.setValue(progresoFinal);
+                    label.setText("Progreso: " + progresoFinal + "%");
                 });
             } catch (InterruptedException e) {
                 e.printStackTrace();

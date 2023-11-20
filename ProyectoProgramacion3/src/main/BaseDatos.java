@@ -284,7 +284,6 @@ public class BaseDatos {
 		String sql1 = String.format("INSERT INTO categoriasUsuario VALUES('%s', '%s')", usuario, id);
 		
 		try {
-			System.out.println(id);
 			Statement st = con.createStatement();
 			st.executeUpdate(sql1);
 			st.close();
@@ -371,7 +370,7 @@ public class BaseDatos {
 		int id = 0;
 		String sql1 = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoria.getNombre());
 		
-		try {
+		try {										//BUSCA LA ID DE LA CATEGORIA TENIENDO EN CUENTA EL NOMBRE
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(sql1);
 			if (rs.next()) {
@@ -383,13 +382,40 @@ public class BaseDatos {
 			e.printStackTrace();
 		}
 		
+		
 		String sql2 = String.format("DELETE FROM categoriasUsuario where id_c_cu = '%s' AND usuario_cu = '%s'", id, usuario);
 		
-		try {
+		try {										//BORRA LA LINEA DE CATEGORIA DE LA TABLA categoriausuario
 			Statement st = con.createStatement();
 			st.executeUpdate(sql2);
+			st.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		
+		Integer cantidad = 0;
+		String sql3 = String.format("SELECT COUNT(id_c_cu) AS cantidad FROM categoriasusuario WHERE id_c_cu = '%s'", id);
+		
+		try {										//CUENTA CUANTAS VECES APARECE UNA CATEGORIA EN LA TABLA categoriasusuario
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql3);
+			cantidad = rs.getInt("cantidad");
+			rs.close();
+			st.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		String sql4 = String.format("DELETE FROM categorias WHERE id_c = '%s'", id);
+		
+		if (id >= 6 && cantidad == 0) {
+			try {									//SI NO ES UNA CATEGORIA POR DEFECTO Y NO LA USA NINGUN OTRO USUARIO, BORRA ESA CATEGORIA DE LA TABLA categorias
+				Statement st = con.createStatement();
+				st.executeUpdate(sql4);
+				st.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	
 	}
