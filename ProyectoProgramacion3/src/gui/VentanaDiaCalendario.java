@@ -114,7 +114,14 @@ public class VentanaDiaCalendario extends JFrame {
 				if(!listaFacturas.isSelectionEmpty()) {
 					logger.info("Eliminada factura");
 				BaseDatos.eliminarFacturaBD(con, listaFacturas.getSelectedValue().getCodigo());
-				defaultListaFacturas.removeElement(listaFacturas.getSelectedValue());
+				defaultListaFacturas.clear();
+				defaultListaFechas.clear();
+				
+				facturasPorFecha=BaseDatos.cargarFacturaBD(con, usuarioActual);
+				for(Date fecha: facturasPorFecha.keySet()) {
+					defaultListaFechas.addElement(fecha);
+				}
+				
 				}
 				else {
 					JOptionPane.showMessageDialog(rootPane, "Elige una factura!", "Error", JOptionPane.WARNING_MESSAGE);

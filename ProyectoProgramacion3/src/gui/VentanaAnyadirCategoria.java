@@ -64,7 +64,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				BaseDatos.insertarCategoriasBD(con, new Categoria(txtTitulo.getText()));
 				BaseDatos.insertarCategoriasPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()));
-				
+				txtTitulo.setText("");
 			}
 		});
 		
