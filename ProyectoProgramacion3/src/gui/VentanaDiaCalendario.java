@@ -1,12 +1,11 @@
-package ventanas;
+package gui;
 
 import javax.swing.JFrame;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-
-import gestionFacturas.Factura;
-import gestionFacturas.BaseDatos;
+import main.BaseDatos;
+import main.Factura;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,11 +35,13 @@ public class VentanaDiaCalendario extends JFrame {
 	private Logger logger = Logger.getLogger(VentanaDiaCalendario.class.getName());
 	private Connection con;
 	
+	private static final String RUTA_DB = "resources/db/BaseDatos.db";
+	
 	public VentanaDiaCalendario(String usuario) {
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		/*Inicializamos la BD*/
-		con=BaseDatos.initBD("datos/BaseDatos.db");
+		con=BaseDatos.initBD(RUTA_DB);
 		
 		/*Creamos el HashMap*/
 		facturasPorFecha= new HashMap<>();

@@ -1,4 +1,4 @@
-package ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -16,8 +16,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import gestionFacturas.BaseDatos;
-import gestionFacturas.Categoria;
+import main.BaseDatos;
+import main.Categoria;
 
 public class VentanaCategorias extends JFrame {
 	/**
@@ -32,8 +32,10 @@ public class VentanaCategorias extends JFrame {
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaCategorias.class.getName());
 	
+	private static final String RUTA_DB = "resources/db/BaseDatos.db";
+	
 	public VentanaCategorias(String usuario) {
-		Connection con = BaseDatos.initBD("datos/BaseDatos.db");
+		Connection con = BaseDatos.initBD(RUTA_DB);
 		
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;

@@ -1,4 +1,4 @@
-package ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import gestionFacturas.BaseDatos;
-import gestionFacturas.Usuario;
+import main.BaseDatos;
+import main.Usuario;
 
 public class VentanaRegistro extends JFrame{
 	/**
@@ -31,7 +31,7 @@ public class VentanaRegistro extends JFrame{
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaRegistro.class.getName());
 	
-	private static final String RUTA_DATOS = "datos/";
+	private static final String RUTA_DB = "resources/db/BaseDatos.db";
 	
 	protected ImageIcon crearImageIconRegistro(String path) {
         URL imgUrl = getClass().getResource(path);
@@ -44,7 +44,7 @@ public class VentanaRegistro extends JFrame{
     }
 	
 	public VentanaRegistro() {
-		Connection con = BaseDatos.initBD(RUTA_DATOS + "BaseDatos.db");
+		Connection con = BaseDatos.initBD(RUTA_DB);
 		vActual = this;
 		
 		/*CREACIÓN DEL LOGO*/
@@ -82,12 +82,12 @@ public class VentanaRegistro extends JFrame{
 		logger.info("Añadidos los botones registrarse y volver al panel de botones");
 		
 		/*CARGAMOS LAS COLECCIONES CON LOS DATOS INICIALES*/
-		BaseDatos.cargarFicheroUsuariosEnLista(RUTA_DATOS+"BDUsuario.csv");
-		logger.info("Cargados los usuarios de la base de datos");
+		//BaseDatos.cargarFicheroUsuariosEnLista(RUTA_DATOS+"BDUsuario.csv");
+		//logger.info("Cargados los usuarios de la base de datos");
 		
 		/*EVENTOS*/
 		botonVolver.addActionListener((e)->{
-			BaseDatos.guardarListaUsuariosEnFichero(RUTA_DATOS+"BDUsuario.csv");
+			//BaseDatos.guardarListaUsuariosEnFichero(RUTA_DATOS+"BDUsuario.csv");
 			logger.info("Cerrada la ventana de registro y abierta la ventana de inicio de sesión");
 			new VentanaInicioSesion();
 			vActual.dispose();

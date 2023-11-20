@@ -1,4 +1,4 @@
-package ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -24,6 +24,8 @@ public class VentanaModificarCategoria extends JFrame{
 	private JPanel panelArriba, panelAbajo;
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
+	
+	private static final String RUTA_DB = "resources/db/BaseDatos.db";
 	
 	public VentanaModificarCategoria(String usuario) {
 		/*Cargamos el usuario actual*/

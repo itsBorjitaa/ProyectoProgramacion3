@@ -1,6 +1,4 @@
-package gestionFacturas;
-
-import java.util.Date;
+package main;
 
 public class Factura {
 	private Integer codigo;

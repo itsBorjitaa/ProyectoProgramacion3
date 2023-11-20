@@ -1,4 +1,4 @@
-package gestionFacturas;
+package main;
 
 public class Categoria implements Comparable<Categoria>{
 	private String nombre;

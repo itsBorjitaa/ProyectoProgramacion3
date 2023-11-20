@@ -1,4 +1,4 @@
-package gestionFacturas;
+package main;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,12 +7,12 @@ import java.util.Properties;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import ventanas.VentanaInicioSesion;
+import gui.VentanaInicioSesion;
 
 public class Main {
 	
 	private static final String PROPIEDADES = "config.properties";
-	private static final String RUTA="datos/BaseDatos.db";
+	private static final String RUTA="resources/db/BaseDatos.db";
 	public static void main(String[] args) {
 		Properties propiedades = new Properties();
 		Connection con=BaseDatos.initBD(RUTA);

@@ -1,4 +1,4 @@
-package ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import gestionFacturas.BaseDatos;
-import gestionFacturas.Usuario;
+import main.BaseDatos;
+import main.Usuario;
 
 public class VentanaInicioSesion extends JFrame{
 	/**
@@ -32,7 +32,8 @@ public class VentanaInicioSesion extends JFrame{
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaInicioSesion.class.getName());
 	
-	private static final String RUTA_DATOS = "datos/";
+	private static final String RUTA_DB = "resources/db/BaseDatos.db";
+	private static final String RUTA_LOGO = "DeustoFinanzasLogo.png";
 	
 	public static String usuario;
 	
@@ -49,12 +50,12 @@ public class VentanaInicioSesion extends JFrame{
     }
 	
 	public VentanaInicioSesion() {
-		con = BaseDatos.initBD(RUTA_DATOS + "BaseDatos.db");
+		con = BaseDatos.initBD(RUTA_DB);
 		BaseDatos.crearTablaUsuariosBD(con);
 		vActual = this;
 		
 		/*CREACIÓN DEL LOGO*/
-		ImageIcon icono = crearImageIcon("DeustoFinanzasLogo.png");
+		ImageIcon icono = crearImageIcon(RUTA_LOGO);
 		if (icono != null) {
             // Crear un JLabel con la imagen del logo
             JLabel label = new JLabel(icono);
@@ -90,12 +91,12 @@ public class VentanaInicioSesion extends JFrame{
 		logger.info("Añadidos los botones iniciar sesión, registrarse y salir al panel de botones");
 		
 		/*CARGAMOS LAS COLECCIONES CON LOS DATOS INICIALES*/
-		BaseDatos.cargarFicheroUsuariosEnLista(RUTA_DATOS+"BDUsuario.csv");
-		logger.info("Cargados los usuarios de la base de datos");
+		//BaseDatos.cargarFicheroUsuariosEnLista(RUTA_DATOS+"BDUsuario.csv");
+		//logger.info("Cargados los usuarios de la base de datos");
 		
 		/*EVENTOS*/
 		botonCerrar.addActionListener((e)->{
-			BaseDatos.guardarListaUsuariosEnFichero(RUTA_DATOS+"BDUsuario.csv");
+			//BaseDatos.guardarListaUsuariosEnFichero(RUTA_DATOS+"BDUsuario.csv");
 			logger.info("Aplicación cerrada correctamente");
 			BaseDatos.closeBD(con);
 			System.exit(0);

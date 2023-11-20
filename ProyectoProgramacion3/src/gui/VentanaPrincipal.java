@@ -1,4 +1,4 @@
-package ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JCalendar;
 
-import gestionFacturas.BaseDatos;
+import main.BaseDatos;
 
 public class VentanaPrincipal extends JFrame{
 	/**
@@ -30,9 +30,7 @@ public class VentanaPrincipal extends JFrame{
 	private JFrame vActual;
 	private JCalendar calendario;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
-	
-	private static final String RUTA_FICHEROS = "datos/";
-	
+
 	public VentanaPrincipal(String usuario) {
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
@@ -78,7 +76,7 @@ public class VentanaPrincipal extends JFrame{
 		
 		/*EVENTOS*/
 		botonCerrarSesion.addActionListener((e)->{
-			BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BDUsuario.csv");
+			//BaseDatos.guardarListaUsuariosEnFichero(RUTA_FICHEROS+"BDUsuario.csv");
 			new VentanaInicioSesion();
 			vActual.dispose();
 			logger.info("Se ha cerrado sesión");

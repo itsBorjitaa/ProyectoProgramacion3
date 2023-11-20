@@ -1,6 +1,7 @@
-package ventanas;
+package gui;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,49 +21,48 @@ import javax.swing.SpinnerNumberModel;
 
 import com.toedter.calendar.JDateChooser;
 
-import gestionFacturas.BaseDatos;
-import gestionFacturas.Categoria;
-import gestionFacturas.Factura;
+import main.BaseDatos;
+import main.Categoria;
+import main.Factura;
 
-public class VentanaModificarDiaCalendario extends JFrame {
+public class VentanaAnyadirDiaCalendario extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton botonModificar,botonCancelar;
+	private JButton botonAnyadir,botonCancelar;
 	private JTextField textoConcepto;
 	private JSpinner floatCoste;
 	private JComboBox<Categoria> seleccionadorCategoria;
 	private JDateChooser dateChooser;
 	private JPanel panelBotones, panelValores;
-	private Logger logger = Logger.getLogger(VentanaModificarDiaCalendario.class.getName());
+	private Logger logger = Logger.getLogger(VentanaAnyadirDiaCalendario.class.getName());
 	private Connection con;
 	
-	public VentanaModificarDiaCalendario(Factura factura,String usuario, Date fecha, Integer codigo) {
+	private static final String RUTA_DB = "resources/db/BaseDatos.db";
+	
+	public VentanaAnyadirDiaCalendario(Date fecha,String usuario) {
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		/*Inicializamos la BD*/
-		con=BaseDatos.initBD("datos/BaseDatos.db");
-		
+		con=BaseDatos.initBD(RUTA_DB);
+
 		/*Creamos los paneles*/
 		panelBotones=new JPanel(new GridLayout(1,2));
 		panelValores=new JPanel(new GridLayout(4,2));
 		
 		/*Añadimos los elementos de los paneles*/
-		textoConcepto=new JTextField(factura.getConcepto(),20);
-		botonModificar=new JButton("Modificar");
-		botonCancelar=new JButton("Cancelar");
-		seleccionadorCategoria=new JComboBox<>();
 		dateChooser = new JDateChooser(fecha);
-		floatCoste=new JSpinner(new SpinnerNumberModel((double) factura.getCoste(),0.00,null,1));
+		textoConcepto=new JTextField(20);
+		seleccionadorCategoria=new JComboBox<>();
+		floatCoste=new JSpinner(new SpinnerNumberModel(0.00,0.00,null,1));
+		botonAnyadir=new JButton("Añadir");
+		botonCancelar=new JButton("Cancelar");
 		
 		/*Cargamos las categorias con la función*/
 		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { 
 			seleccionadorCategoria.addItem(c);
 		}
-		
-		/*Cargamos los valores de coste y categoria*/
-		seleccionadorCategoria.setSelectedItem(factura.getCategoria().getNombre());
 		
 		/*Creamos un SpinnerModel para que muestre 2 decimales, use la respuesta de:
 		"https://stackoverflow.com/a/24915447" para hacerlo*/
@@ -70,21 +70,18 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		floatCoste.setEditor(numberEditor);
 		
 		/*Añadimos eventos a los botones*/
-		
-		botonModificar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				//Modificamos la factura de la BD
-				logger.info("Factura modificada");
-				Factura nuevaFactura=new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem());
-				BaseDatos.modificarFacturaBD(con, nuevaFactura, new Date(dateChooser.getDate().getTime()),codigo);
-				BaseDatos.closeBD(con);
-				new VentanaDiaCalendario(usuarioActual);
-				dispose();
-			}
-		});
+			botonAnyadir.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					//Añadimos la factura a la BD
+					logger.info("Añadida factura");
+					BaseDatos.insertarFacturaBD(con, new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem()), usuarioActual, new Date(dateChooser.getDate().getTime()));
+					BaseDatos.closeBD(con);
+					new VentanaDiaCalendario(usuarioActual);
+					dispose();
+				}
+			});
 		botonCancelar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -111,7 +108,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		panelValores.add(labelFecha);
 		panelValores.add(dateChooser);
 		
-		panelBotones.add(botonModificar);
+		panelBotones.add(botonAnyadir);
 		panelBotones.add(botonCancelar);
 		
 		/*Añadimos los paneles al JFrame*/
@@ -119,12 +116,11 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		add(panelBotones,BorderLayout.SOUTH);
 		
 		/*Características del Frame*/
-		setTitle("DeustoFinanzas");
 		setVisible(true);
+		setTitle("DeustoFinanzas");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
 	}
-	
 	/*Utilizo el metodo cargarCategorias que Borja creo para la clase Categorias
 	Lo modifico para que añada elementos a la JComboBox en vez de a una lista*/
 }

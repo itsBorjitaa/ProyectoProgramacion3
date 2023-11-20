@@ -1,10 +1,10 @@
-package ventanas;
+package gui;
 
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import gestionFacturas.BaseDatos;
-import gestionFacturas.Categoria;
+import main.BaseDatos;
+import main.Categoria;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,11 +31,13 @@ public class VentanaGastos extends JFrame{
 	private Connection con;
 	private Logger logger = Logger.getLogger(VentanaGastos.class.getName());
 	
+	private static final String RUTA_DB = "resources/db/BaseDatos.db";
+	
 	public VentanaGastos(String usuario) {
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		/*Inicializamos la BD*/
-		con=BaseDatos.initBD("datos/BaseDatos.db");
+		con=BaseDatos.initBD(RUTA_DB);
 		/*Cambiamos el color de la celdas(En Flatlaf se muestran en blanco por defecto)*/
 		
 		UIManager.put("Table.showHorizontalLines", true);//Con esto se veran las lineas entre celdas en las tablas

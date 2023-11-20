@@ -1,4 +1,4 @@
-package gestionFacturas;
+package main;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -13,8 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import gestionFacturas.BaseDatos;
-import gestionFacturas.Categoria;
+import main.BaseDatos;
+import main.Categoria;
 
 public class VentanaAnyadirCategoria extends JFrame{
 
@@ -29,8 +29,10 @@ public class VentanaAnyadirCategoria extends JFrame{
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaAnyadirCategoria.class.getName());
 	
+	private static final String RUTA_DB = "resources/db/BaseDatos.db";
+	
 	public VentanaAnyadirCategoria(String usuario) {
-		Connection con = BaseDatos.initBD("datos/BaseDatos.db");
+		Connection con = BaseDatos.initBD(RUTA_DB);
 		
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
