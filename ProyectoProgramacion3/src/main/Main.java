@@ -5,10 +5,12 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.util.Properties;
 
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 
 import gui.VentanaInicioSesion;
 
+@SuppressWarnings("unused")
 public class Main {
 	
 	private static final String PROPIEDADES = "config.properties";
@@ -48,7 +50,7 @@ public class Main {
 		BaseDatos.crearTablaCategoriasBD(con);
 		BaseDatos.crearTablaCategoriasUsuarioBD(con);
 
-		FlatLightLaf.setup();
+		FlatArcIJTheme.setup(); //inicializa un tema personalizado
 		VentanaInicioSesion vis = new VentanaInicioSesion();
 	}
 }
