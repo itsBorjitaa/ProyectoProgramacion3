@@ -4,41 +4,36 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JCalendar;
-
-import main.BaseDatos;
 
 public class VentanaPrincipal extends JFrame{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private DefaultTableModel tablaModelo;
-	private JTable tabla;
+
 	private JPanel panelCalendario, panelBotones;
-	private JButton botonCategorias, botonGastos, botonDias, botonCerrarSesion, botonAjustes;
+	private JButton botonCategorias, botonGastos, botonDias, botonCerrarSesion;
 	private JFrame vActual;
 	private JCalendar calendario;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
+	public String fechaSeleccionada;
 
 	public VentanaPrincipal(String usuario) {
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		vActual = this;
-		
-		tablaModelo = new DefaultTableModel(); //creamos el modelo
-		tabla = new JTable(tablaModelo); //creamos la tabla y le asociamos el modelo creado
-		logger.info("Creada la tabla con el modelo creado asociado");
 		
 		/**
 		 * Paneles de la ventana principal
@@ -69,7 +64,7 @@ public class VentanaPrincipal extends JFrame{
 		/**
 		 * Añadimos calendario
 		 */
-		calendario = new JCalendar(new Date());
+		calendario = new JCalendar();
 		panelCalendario.add(calendario);
 		getContentPane().add(panelCalendario, BorderLayout.CENTER);
 		logger.info("Añadido el calendario al panel de calendario");
@@ -101,18 +96,43 @@ public class VentanaPrincipal extends JFrame{
 				logger.info("Cerrada la ventana principal y abierta la ventana de categorías");
 			}
 		});
+		
 		botonDias.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new VentanaDiaCalendario(usuarioActual);
-				vActual.dispose();
-				logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");
+				if(fechaSeleccionada!=null) {
+					new VentanaDiaCalendario(usuarioActual);
+					vActual.dispose();
+					logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");
+				}else {
+					JOptionPane.showMessageDialog(null, "No hay ninguna fecha seleccionada","ERROR",JOptionPane.WARNING_MESSAGE);
+				}		
 			}
 		});
+		
+		//Agregar el listener para detectar cambios en la fecha
+        calendario.addPropertyChangeListener("calendar", new PropertyChangeListener() {
+           @Override
+           public void propertyChange(PropertyChangeEvent e) {
+        	   Date fecha = calendario.getDate();
+        	   SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        	   String fechaSeleccionada = sdf.format(fecha);
+        	   //System.out.println(fechaFormateada);
+        	   setFechaSeleccionada(fechaSeleccionada);
+           }
+        });
+		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
 		setTitle("DeustoFinanzas");
 		setVisible(true);
 	}
+	
+	// Método para establecer la fecha seleccionada
+    private void setFechaSeleccionada(String fechaSeleccionada) {
+        this.fechaSeleccionada = fechaSeleccionada;
+        System.out.println(fechaSeleccionada);
+    }
+	
 }
