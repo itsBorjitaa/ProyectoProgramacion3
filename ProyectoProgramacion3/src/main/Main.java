@@ -1,9 +1,13 @@
 package main;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.Properties;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
@@ -16,6 +20,23 @@ public class Main {
 	private static final String PROPIEDADES = "config.properties";
 	private static final String RUTA="resources/db/BaseDatos.db";
 	public static void main(String[] args) {
+		
+		Logger logger = java.util.logging.Logger.getLogger("Logger");
+		
+		try {
+			FileInputStream fis = new FileInputStream("conf/logger.properties");
+			LogManager.getLogManager().readConfiguration(fis);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Properties propiedades = new Properties();
 		Connection con=BaseDatos.initBD(RUTA);
 		try (InputStream entrada = Main.class.getClassLoader().getResourceAsStream(PROPIEDADES)) {
