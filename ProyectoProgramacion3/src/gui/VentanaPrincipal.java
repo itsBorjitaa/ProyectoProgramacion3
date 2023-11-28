@@ -67,6 +67,12 @@ public class VentanaPrincipal extends JFrame{
 		calendario = new JCalendar();
 		panelCalendario.add(calendario);
 		getContentPane().add(panelCalendario, BorderLayout.CENTER);
+		calendario.setDate(new Date());
+		Date fecha = calendario.getDate();
+ 	   	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+ 	   	String fechaSeleccionada = sdf.format(fecha);
+ 	   	//System.out.println(fechaFormateada);
+ 	   	setFechaSeleccionada(fechaSeleccionada);
 		logger.info("Añadido el calendario al panel de calendario");
 		
 		/*EVENTOS*/
@@ -105,8 +111,9 @@ public class VentanaPrincipal extends JFrame{
 					new VentanaDiaCalendario(usuarioActual);
 					vActual.dispose();
 					logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");
+					System.out.println("Fecha seleccionada: " + fechaSeleccionada);
 				}else {
-					JOptionPane.showMessageDialog(null, "No hay ninguna fecha seleccionada","ERROR",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No hay ninguna fecha seleccionada","ERROR",JOptionPane.ERROR_MESSAGE);
 				}		
 			}
 		});
