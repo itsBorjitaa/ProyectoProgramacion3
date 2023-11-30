@@ -28,7 +28,7 @@ public class VentanaPrincipal extends JFrame{
 	private JFrame vActual;
 	private JCalendar calendario;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
-	public String fechaSeleccionada;
+	public String fechaSeleccionada, fechaPorDefecto;
 
 	public VentanaPrincipal(String usuario) {
 		/*Cargamos el usuario actual*/
@@ -68,11 +68,11 @@ public class VentanaPrincipal extends JFrame{
 		panelCalendario.add(calendario);
 		getContentPane().add(panelCalendario, BorderLayout.CENTER);
 		calendario.setDate(new Date());
+		
+		//Dia por defecto
 		Date fecha = calendario.getDate();
  	   	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
- 	   	String fechaSeleccionada = sdf.format(fecha);
- 	   	//System.out.println(fechaFormateada);
- 	   	setFechaSeleccionada(fechaSeleccionada);
+ 	   	String fechaPorDefecto = sdf.format(fecha);
 		logger.info("Añadido el calendario al panel de calendario");
 		
 		/*EVENTOS*/
@@ -107,11 +107,18 @@ public class VentanaPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				if(fechaSeleccionada!=null) {
+					System.out.println("Fecha seleccionada: " + fechaSeleccionada);
 					new VentanaDiaCalendario(usuarioActual);
 					vActual.dispose();
 					logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");
-					System.out.println("Fecha seleccionada: " + fechaSeleccionada);
+
+				}else if(fechaPorDefecto!=null){
+					System.out.println("Fecha seleccionada: " + fechaPorDefecto);
+					new VentanaDiaCalendario(usuarioActual);
+					vActual.dispose();
+					logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");
 				}else {
 					JOptionPane.showMessageDialog(null, "No hay ninguna fecha seleccionada","ERROR",JOptionPane.ERROR_MESSAGE);
 				}		
@@ -125,7 +132,6 @@ public class VentanaPrincipal extends JFrame{
         	   Date fecha = calendario.getDate();
         	   SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         	   String fechaSeleccionada = sdf.format(fecha);
-        	   //System.out.println(fechaFormateada);
         	   setFechaSeleccionada(fechaSeleccionada);
            }
         });
@@ -139,7 +145,6 @@ public class VentanaPrincipal extends JFrame{
 	// Método para establecer la fecha seleccionada
     private void setFechaSeleccionada(String fechaSeleccionada) {
         this.fechaSeleccionada = fechaSeleccionada;
-        System.out.println(fechaSeleccionada);
     }
 	
 }
