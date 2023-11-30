@@ -17,8 +17,8 @@ import gui.VentanaInicioSesion;
 @SuppressWarnings("unused")
 public class Main {
 	
-	private static final String PROPIEDADES = "config.properties";
-	private static final String RUTA="resources/db/BaseDatos.db";
+	private static final String PROPIEDADES = "conf.properties";
+	private static final String RUTA= "resources/db/BaseDatos.db";
 	public static void main(String[] args) {
 		
 		Logger logger = java.util.logging.Logger.getLogger("Logger");
