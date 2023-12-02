@@ -41,7 +41,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 	
 	private static final String RUTA_DB = "resources/db/BaseDatos.db";
 	
-	public VentanaModificarDiaCalendario(Factura factura,String usuario, Date fecha, Integer codigo) {
+	public VentanaModificarDiaCalendario(Factura factura,String usuario, Date fecha, Integer codigo,String fechaSeleccionada) {
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		/*Inicializamos la BD*/
@@ -84,7 +84,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 				Factura nuevaFactura=new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem());
 				BaseDatos.modificarFacturaBD(con, nuevaFactura, new Date(dateChooser.getDate().getTime()),codigo);
 				BaseDatos.closeBD(con);
-				new VentanaDiaCalendario(usuarioActual);
+				new VentanaDiaCalendario(usuarioActual,fechaSeleccionada);
 				dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "El nombre del concepto no puede estar en blanco","ERROR AL MODIFICAR LA FACTURA",JOptionPane.ERROR_MESSAGE);
@@ -98,7 +98,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 				// TODO Auto-generated method stub
 				logger.info("Volver a ventana dia calendario");
 				BaseDatos.closeBD(con);
-				new VentanaDiaCalendario(usuarioActual);
+				new VentanaDiaCalendario(usuarioActual,fechaSeleccionada);
 				dispose();
 			}
 		});
