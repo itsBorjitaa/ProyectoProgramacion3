@@ -25,6 +25,7 @@ public class VentanaDiaCalendario extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private HashMap<Date, ArrayList<Factura>> facturasPorFecha;
+	private Date fechaCalendario;
 	private JButton botonVolver, botonModificar, botonBorrar, botonAnyadir;
 	private DefaultListModel<Date> defaultListaFechas;
 	private JList<Date> listaFechas;
@@ -37,7 +38,8 @@ public class VentanaDiaCalendario extends JFrame {
 	
 	private static final String RUTA_DB = "resources/db/BaseDatos.db";
 	
-	public VentanaDiaCalendario(String usuario) {
+	@SuppressWarnings("deprecation")
+	public VentanaDiaCalendario(String usuario,String fechaSeleccionada) {
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		/*Inicializamos la BD*/
@@ -79,11 +81,11 @@ public class VentanaDiaCalendario extends JFrame {
 				logger.info("Abierta ventana de añadir categoria");
 				if(!listaFechas.isSelectionEmpty()) { //Si una fecha esta seleccionada entonces la factura se creara con esta
 					BaseDatos.closeBD(con);
-					new VentanaAnyadirDiaCalendario(listaFechas.getSelectedValue(),usuarioActual);
+					new VentanaAnyadirDiaCalendario(listaFechas.getSelectedValue(),usuarioActual,fechaSeleccionada);
 				}
 				else {//En caso contrario se utiliza la de hoy
 					BaseDatos.closeBD(con);
-					new VentanaAnyadirDiaCalendario(new Date(System.currentTimeMillis()),usuarioActual);
+					new VentanaAnyadirDiaCalendario(new Date(System.currentTimeMillis()),usuarioActual,fechaSeleccionada);
 				}
 				dispose();
 			}
@@ -96,7 +98,7 @@ public class VentanaDiaCalendario extends JFrame {
 				if(!listaFacturas.isSelectionEmpty()) {//Si no hay ningun valor seleccionado no se ejecuta
 					logger.info("Abierta ventana de modificar categoria");
 					new VentanaModificarDiaCalendario(listaFacturas.getSelectedValue(),usuarioActual, listaFechas.getSelectedValue(),
-						listaFacturas.getSelectedValue().getCodigo());
+						listaFacturas.getSelectedValue().getCodigo(),fechaSeleccionada);
 					BaseDatos.closeBD(con);
 					dispose();
 				}
@@ -120,6 +122,9 @@ public class VentanaDiaCalendario extends JFrame {
 				facturasPorFecha=BaseDatos.cargarFacturaBD(con, usuarioActual);
 				for(Date fecha: facturasPorFecha.keySet()) {
 					defaultListaFechas.addElement(fecha);
+				}
+				if(!defaultListaFechas.contains(fechaCalendario)) {
+					defaultListaFechas.addElement(fechaCalendario);
 				}
 				
 				}
@@ -191,6 +196,15 @@ public class VentanaDiaCalendario extends JFrame {
 		facturasPorFecha=BaseDatos.cargarFacturaBD(con, usuarioActual);
 		for(Date fecha: facturasPorFecha.keySet()) {
 			defaultListaFechas.addElement(fecha);
-	}
+		}
+		//Aqui cargaremos el valor de la fecha que seleccionamos en el calendario
+		String[] fechaSeleccionadaValores=fechaSeleccionada.split("-");
+		//Las restas son por el formato de Date
+		fechaCalendario=new Date(Integer.parseInt(fechaSeleccionadaValores[0])
+		-1900,Integer.parseInt(fechaSeleccionadaValores[1])-1 , Integer.parseInt(fechaSeleccionadaValores[2]));
+		//Si no esta en defaultListaFechas lo añadimos
+		if(!defaultListaFechas.contains(fechaCalendario)) {
+			defaultListaFechas.addElement(fechaCalendario);
+		}
   }
 }

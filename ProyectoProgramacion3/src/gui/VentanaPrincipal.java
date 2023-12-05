@@ -71,7 +71,7 @@ public class VentanaPrincipal extends JFrame{
 		
 		//Dia por defecto
 		Date fecha = calendario.getDate();
- 	   	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+ 	   	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
  	   	String fechaPorDefecto = sdf.format(fecha);
 		logger.info("Añadido el calendario al panel de calendario");
 		
@@ -110,13 +110,13 @@ public class VentanaPrincipal extends JFrame{
 
 				if(fechaSeleccionada!=null) {
 					System.out.println("Fecha seleccionada: " + fechaSeleccionada);
-					new VentanaDiaCalendario(usuarioActual);
+					new VentanaDiaCalendario(usuarioActual, fechaSeleccionada);
 					vActual.dispose();
 					logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");
 
 				}else if(fechaPorDefecto!=null){
 					System.out.println("Fecha seleccionada: " + fechaPorDefecto);
-					new VentanaDiaCalendario(usuarioActual);
+					new VentanaDiaCalendario(usuarioActual, fechaPorDefecto);
 					vActual.dispose();
 					logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");
 				}else {
@@ -130,7 +130,7 @@ public class VentanaPrincipal extends JFrame{
            @Override
            public void propertyChange(PropertyChangeEvent e) {
         	   Date fecha = calendario.getDate();
-        	   SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        	   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         	   String fechaSeleccionada = sdf.format(fecha);
         	   setFechaSeleccionada(fechaSeleccionada);
            }

@@ -42,7 +42,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 	
 	private static final String RUTA_DB = "resources/db/BaseDatos.db";
 	
-	public VentanaAnyadirDiaCalendario(Date fecha,String usuario) {
+	public VentanaAnyadirDiaCalendario(Date fecha,String usuario,String fechaSeleccionada) {
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
 		/*Inicializamos la BD*/
@@ -91,7 +91,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 				// TODO Auto-generated method stub
 				logger.info("Volver a ventana dia calendario");
 				BaseDatos.closeBD(con);
-				new VentanaDiaCalendario(usuarioActual);
+				new VentanaDiaCalendario(usuarioActual,fechaSeleccionada);
 				dispose();
 			}
 		});

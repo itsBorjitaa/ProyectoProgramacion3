@@ -177,7 +177,7 @@ public class BaseDatos {
 				String stringFecha=rs.getString("fecha");
 				String [] arrayFecha=stringFecha.split("-");
 				@SuppressWarnings("deprecation")
-				Date fechaDate=new Date(Integer.parseInt(arrayFecha[0])-1900, Integer.parseInt(arrayFecha[1]), Integer.parseInt(arrayFecha[2]));
+				Date fechaDate=new Date(Integer.parseInt(arrayFecha[0])-1900, Integer.parseInt(arrayFecha[1])-1, Integer.parseInt(arrayFecha[2]));
 				facturasPorFecha.putIfAbsent(fechaDate, new ArrayList<Factura>());
 				Factura f=new Factura(rs.getString("concepto"),rs.getDouble("coste"), new Categoria(rs.getString("categoria")));
 				f.setCodigo(rs.getInt("codigo"));
