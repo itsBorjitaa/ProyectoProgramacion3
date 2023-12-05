@@ -1,6 +1,8 @@
 package gui;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import main.BaseDatos;
@@ -65,7 +67,7 @@ public class VentanaGastos extends JFrame{
 		
 		 /*Creamos el modelo de la tabla y cargamos las categorias*/
 		listaCategorias=new ArrayList<String>();
-		listaCategorias.add("Mes/Intervalo");//Esta sera la primera columna
+		listaCategorias.add("INTERVALO");//Esta sera la primera columna
 		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) {//Recorreremos el set de columnas de la base de datos
 			listaCategorias.add(c.getNombre());//añadiremos a la lista sus nombres
 		}
@@ -104,6 +106,21 @@ public class VentanaGastos extends JFrame{
 		/*Creamos la tabla y el scroll*/
 		tablaGastos=new JTable(modeloTabla);
 		tablaGastos.setCellSelectionEnabled(false);
+		tablaGastos.setDefaultRenderer(Object.class, new RendererGastos());
+		tablaGastos.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
+			
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				JLabel l = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				l.setOpaque(true);
+				l.setFont(new Font(Font.DIALOG, Font.BOLD, 12));
+				l.setBackground(Color.LIGHT_GRAY);
+				l.setHorizontalAlignment(JLabel.CENTER);
+				return l;
+			}
+		});
+		
 		scrollTabla=new JScrollPane(tablaGastos);
 		logger.info("Creada la tabla con scroll");
 		
