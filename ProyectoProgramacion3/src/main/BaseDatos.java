@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -50,43 +51,41 @@ public class BaseDatos {
 	}
 	
 	public static void crearTablaUsuariosBD(Connection con) {
-		String sql = "CREATE TABLE IF NOT EXISTS Usuario (usuario String NOT NULL ,contrasenya String NOT NULL,"
-				+ "PRIMARY KEY(usuario))";
 		try {
-			Statement st = con.createStatement();
-			st.executeUpdate(sql);
-			st.close();
+			PreparedStatement crearTabalaUsuario = con.prepareStatement("CREATE TABLE IF NOT EXISTS Usuario (usuario VARCHAR(255) NOT NULL,"
+					+ "contrasenya VARCHAR(255) NOT NULL," + "PRIMARY KEY(usuario))");
+			crearTabalaUsuario.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public static Usuario buscarUsuarioBD(Connection con, String nombre) {
-		String sql = String.format("SELECT * FROM Usuario WHERE usuario = '%s'", nombre);
-		Usuario p = null;
-		try {
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql); //Se ejecuta la consulta
-			if(rs.next()) { //Select devuelve una o más tuplas
-				String usuario = rs.getString("usuario");
-				String contrasenya = rs.getString("contrasenya");
-				p = new Usuario(usuario, contrasenya);
-			}
-			rs.close();
-			st.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return p;
+	    Usuario p = null;
+	    try {
+	        PreparedStatement buscarUsuario = con.prepareStatement("SELECT * FROM Usuario WHERE usuario = ?");
+	        buscarUsuario.setString(1, nombre);
+	        ResultSet rs = buscarUsuario.executeQuery();
+	        if(rs.next()) {
+	            String usuario = rs.getString("usuario");
+	            String contrasenya = rs.getString("contrasenya");
+	            p = new Usuario(usuario, contrasenya);
+	        }
+	        rs.close();
+	        buscarUsuario.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return p;
 	}
 	
 	public static void insertarUsuarioBD(Connection con, Usuario u) {
 		if(buscarUsuarioBD(con, u.getNombre()) == null) {
-			String sql = String.format("INSERT INTO Usuario VALUES('%s','%s')", u.getNombre(),u.getContrasenya());
 			try {
-				Statement st = con.createStatement();
-				st.executeUpdate(sql);
-				st.close();
+				PreparedStatement insertarUsuario = con.prepareStatement("INSERT INTO Usuario (usuario, contrasenya) VALUES (?, ?)");
+				insertarUsuario.setString(1, u.getNombre());
+				insertarUsuario.setString(2, u.getContrasenya());
+				insertarUsuario.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -97,14 +96,15 @@ public class BaseDatos {
 	
 	/* FUNCIÓN PARA CREAR LA TABLA SI NO ESTA CREADA */
 	public static void crearTablaFacturasBD(Connection con) {
-		String sql = "PRAGMA foreign_keys = ON; "
-				+ "CREATE TABLE IF NOT EXISTS Facturas (codigo INTEGER NOT NULL DEFAULT 0, usuarioF TEXT NOT NULL, fecha TEXT NOT NULL, concepto TEXT NOT NULL, "
+		String sql = "CREATE TABLE IF NOT EXISTS Facturas (codigo INTEGER NOT NULL DEFAULT 0, usuarioF TEXT NOT NULL, fecha TEXT NOT NULL, concepto TEXT NOT NULL, "
 				+ "coste REAL NOT NULL, categoria TEXT NOT NULL,"
 				+ "PRIMARY KEY(codigo), FOREIGN KEY(usuarioF) REFERENCES Usuario(usuario) ON DELETE CASCADE)";
 		try {
-			Statement st = con.createStatement();
-			st.executeUpdate(sql);
-			st.close();
+			Statement pragma = con.createStatement();
+			pragma.execute("PRAGMA foreign_keys = ON;");
+			
+			PreparedStatement crearTablaFacturas = con.prepareStatement(sql);
+			crearTablaFacturas.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -113,28 +113,28 @@ public class BaseDatos {
 	/* FUNCIÓN PARA INSERTAR DATOS A LA TABLA */
 	public static void insertarFacturaBD(Connection con, Factura f, String usuario, Date fecha) {
 			Integer codigo=0;
-			String generadorCodigo=String.format("SELECT codigo FROM Facturas");
 			try {
-				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(generadorCodigo);
+				PreparedStatement generadorCodigo = con.prepareStatement("SELECT codigo FROM Facturas");
+				ResultSet rs = generadorCodigo.executeQuery();
 				while(rs.next()){
 					codigo=rs.getInt("codigo");
 				}
 				rs.close();
-				st.close();
+				generadorCodigo.close();
 				}			 
 			catch (SQLException e) {
 				e.printStackTrace();
 				}
-			String sql = String.format("INSERT INTO Facturas VALUES('%s', '%s','%s','%s','%s','%s')",
-					codigo+1,
-					usuario,
-					fecha,f.getConcepto(), 
-					f.getCoste(), f.getCategoria());
 			try {
-				Statement st = con.createStatement();
-				st.executeUpdate(sql);
-				st.close();
+				PreparedStatement insertarFactura = con.prepareStatement("INSERT INTO Facturas (codigo, usuarioF, fecha, concepto, coste, categoria)"
+						+ " VALUES (?, ?, ?, ?, ?, ?)");
+				insertarFactura.setInt(1, codigo+1);
+				insertarFactura.setString(2, usuario);
+				insertarFactura.setDate(3, fecha);
+				insertarFactura.setString(4, f.getConcepto());
+				insertarFactura.setDouble(5, f.getCoste());
+				insertarFactura.setString(6, f.getCategoria().getNombre());
+				insertarFactura.executeUpdate();
 			} catch (SQLException e) {
 				System.out.println("Usuario no encontrado");
 			}
@@ -142,12 +142,14 @@ public class BaseDatos {
 	
 	/* FUNCIÓN PARA MODIFICAR DATOS */
 	public static void modificarFacturaBD(Connection con, Factura nuevaF, Date nuevaFecha, Integer codigo) {
-		String sql = String.format("UPDATE Facturas SET fecha='"+nuevaFecha+"', concepto='"+nuevaF.getConcepto()+
-		"', coste='"+nuevaF.getCoste()+"', categoria='"+nuevaF.getCategoria()+"' WHERE codigo="+codigo+";");
 		try {
-			Statement st = con.createStatement();
-			st.executeUpdate(sql);
-			st.close();
+			PreparedStatement modificarFactura = con.prepareStatement("UPDATE Facturas SET fecha = ?, concepto = ?, coste = ?, categoria = ? WHERE codigo = ?");
+			modificarFactura.setDate(1, nuevaFecha);
+			modificarFactura.setString(2, nuevaF.getConcepto());
+			modificarFactura.setDouble(3, nuevaF.getCoste());
+			modificarFactura.setString(4, nuevaF.getCategoria().getNombre());
+			modificarFactura.setInt(5, codigo);
+			modificarFactura.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -155,11 +157,10 @@ public class BaseDatos {
 	
 	/* FUNCIÓN PARA ELIMINAR DATOS */
 	public static void eliminarFacturaBD(Connection con,Integer codigo) {
-		String sql = String.format("DELETE FROM Facturas WHERE codigo="+codigo+";");
 		try {
-			Statement st=con.createStatement();
-			st.executeUpdate(sql);
-			st.close();
+			PreparedStatement eliminarFactura = con.prepareStatement("DELETE FROM Facturas WHERE codigo = ?");
+			eliminarFactura.setInt(1, codigo);
+			eliminarFactura.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -168,11 +169,11 @@ public class BaseDatos {
 	/* FUNCIÓN PARA CARGAR LOS DATOS */
 	public static HashMap<Date, ArrayList<Factura>> cargarFacturaBD(Connection con, String usuario) {
 		HashMap<Date, ArrayList<Factura>> facturasPorFecha= new HashMap<>();
-		String sql = String.format("SELECT codigo, fecha, concepto ,coste ,categoria FROM Facturas WHERE usuarioF='%s'", 
-				usuario);
 		try {
-			Statement st = con.createStatement();
-			ResultSet rs= st.executeQuery(sql);
+			PreparedStatement cargarFactura = con.prepareStatement("SELECT codigo, fecha, concepto, coste, categoria "
+					+ "FROM Facturas WHERE usuarioF = ?");
+			cargarFactura.setString(1, usuario);
+			ResultSet rs= cargarFactura.executeQuery();
 			while(rs.next()) {
 				String stringFecha=rs.getString("fecha");
 				String [] arrayFecha=stringFecha.split("-");
@@ -184,7 +185,7 @@ public class BaseDatos {
 				facturasPorFecha.get(fechaDate).add(f);
 			}
 			rs.close();
-			st.close();
+			cargarFactura.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -196,21 +197,27 @@ public class BaseDatos {
 	
 	/* FUNCION CREAR TABLA DE CATEGORIAS*/
 	public static void crearTablaCategoriasBD(Connection con) {
-		String sql = "CREATE TABLE IF NOT EXISTS Categorias (id_c INTEGER NOT NULL, categoria STRING NOT NULL, PRIMARY KEY(id_c))";
-		String sql1 = "INSERT INTO Categorias VALUES('1','AGUA')";
-		String sql2 = "INSERT INTO Categorias VALUES('2','ALIMENTACION')";
-		String sql3 = "INSERT INTO Categorias VALUES('3','GAS')";
-		String sql4 = "INSERT INTO Categorias VALUES('4','LUZ')";
-		String sql5 = "INSERT INTO Categorias VALUES('5','OCIO')";
 		try {
-			Statement st = con.createStatement();
-			st.executeUpdate(sql);
-			st.executeUpdate(sql1);
-			st.executeUpdate(sql2);
-			st.executeUpdate(sql3);
-			st.executeUpdate(sql4);
-			st.executeUpdate(sql5);
-			st.close();
+			PreparedStatement crearTablaCategorias = con.prepareStatement("CREATE TABLE IF NOT EXISTS Categorias (id_c INTEGER NOT NULL, "
+					+ "categoria STRING NOT NULL, PRIMARY KEY(id_c))");
+			crearTablaCategorias.executeUpdate();
+			PreparedStatement llenarTablaCategorias = con.prepareStatement("INSERT INTO Categorias VALUES(?,?)");
+			llenarTablaCategorias.setInt(1, 1);
+			llenarTablaCategorias.setString(2, "AGUA");
+			llenarTablaCategorias.executeUpdate();
+			llenarTablaCategorias.setInt(1, 2);
+			llenarTablaCategorias.setString(2, "ALIMENTACION");
+			llenarTablaCategorias.executeUpdate();
+			llenarTablaCategorias.setInt(1, 3);
+			llenarTablaCategorias.setString(2, "GAS");
+			llenarTablaCategorias.executeUpdate();
+			llenarTablaCategorias.setInt(1, 4);
+			llenarTablaCategorias.setString(2, "LUZ");
+			llenarTablaCategorias.executeUpdate();
+			llenarTablaCategorias.setInt(1, 5);
+			llenarTablaCategorias.setString(2, "OCIO");
+			llenarTablaCategorias.executeUpdate();
+			
 		} catch (SQLException e) {
 			
 		}
@@ -218,18 +225,18 @@ public class BaseDatos {
 	
 	/* FUNCION BUSCAR CATEGORIAS EN TABLA*/
 	public static Categoria buscarCategoriaBD(Connection con, String nombre) {
-		String sql = String.format("SELECT * FROM Categorias WHERE categoria = '%s'", nombre);
 		Categoria categoria = null;
 		
 		try {
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			PreparedStatement buscarCategoria = con.prepareStatement("SELECT * FROM Categorias WHERE categoria = ?");
+			buscarCategoria.setString(1, nombre);
+			ResultSet rs = buscarCategoria.executeQuery();
 			if(rs.next()) {
 				String c = rs.getString("categoria");
 				categoria = new Categoria(c);
 			}
 			rs.close();
-			st.close();
+			buscarCategoria.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
