@@ -1,8 +1,7 @@
 package gui;
 
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import main.BaseDatos;
@@ -71,44 +70,28 @@ public class VentanaGastos extends JFrame{
 		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) {//Recorreremos el set de columnas de la base de datos
 			listaCategorias.add(c.getNombre());//añadiremos a la lista sus nombres
 		}
-		TableModel modeloTabla= new AbstractTableModel() {
-			@Override
-			public Object getValueAt(int rowIndex, int columnIndex) {
-				// TODO Auto-generated method stub
-				return null;
-					}
-			
-			@Override
-			public int getRowCount() {
-				// TODO Auto-generated method stub
-				if(botonMes.isSelected()) {
-					return 12;
-				}
-				else if(botonTrimestre.isSelected()) {
-					return 4;
-				}
-				else {
-					return 5;
-				}
-			}
-			
-			@Override
-			public int getColumnCount() {
-				// TODO Auto-generated method stub
-				return listaCategorias.size();
-			}
-			public String getColumnName(int index){
-				return (String) listaCategorias.toArray()[index];
-				
-			}
-			
-		};
+		/*Creamos los valores iniciales del modelo, esto se cambiara mas tarde*/
+		Object [] [] datosTabla={ {"Enero","prueba","prueba","prueba","prueba","prueba","prueba"}
+		,{"Febrero","prueba","prueba","prueba","prueba","prueba","prueba"},
+		{"Marzo","prueba","prueba","prueba","prueba","prueba","prueba"},
+		{"Abril","prueba","prueba","prueba","prueba","prueba","prueba"},
+		{"Mayo","prueba","prueba","prueba","prueba","prueba","prueba"},
+		{"Junio","prueba","prueba","prueba","prueba","prueba","prueba"}
+		,{"Julio","prueba","prueba","prueba","prueba","prueba","prueba"},
+		{"Agosto","prueba","prueba","prueba","prueba","prueba","prueba"},
+		{"Septiembre","prueba","prueba","prueba","prueba","prueba","prueba"},
+		{"Octubre","prueba","prueba","prueba","prueba","prueba","prueba"},
+		{"Noviembre","prueba","prueba","prueba","prueba","prueba","prueba"},
+		{"Diciembre","prueba","prueba","prueba","prueba","prueba","prueba"} };
+		
+		TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
 		/*Creamos la tabla y el scroll*/
 		tablaGastos=new JTable(modeloTabla);
 		tablaGastos.setCellSelectionEnabled(false);
 		tablaGastos.setDefaultRenderer(Object.class, new RendererGastos());
 		tablaGastos.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
-			
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 					int row, int column) {
@@ -123,7 +106,6 @@ public class VentanaGastos extends JFrame{
 		
 		scrollTabla=new JScrollPane(tablaGastos);
 		logger.info("Creada la tabla con scroll");
-		
 		/*Añadimos funcionalidades a los botones*/
 		botonVolver.addActionListener(new ActionListener() {
 			
@@ -135,15 +117,29 @@ public class VentanaGastos extends JFrame{
 				logger.info("Cerrada la ventana de gastos y abierta la ventana principal");
 			}
 		});
-		
 		botonMes.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				logger.info("Seleccionado intervalo mensual");
-				tablaGastos.repaint();
+				Object [] [] datosTabla={ {"Enero","prueba","prueba","prueba","prueba","prueba","prueba"}
+				,{"Febrero","prueba","prueba","prueba","prueba","prueba","prueba"},
+				{"Marzo","prueba","prueba","prueba","prueba","prueba","prueba"},
+				{"Abril","prueba","prueba","prueba","prueba","prueba","prueba"},
+				{"Mayo","prueba","prueba","prueba","prueba","prueba","prueba"},
+				{"Junio","prueba","prueba","prueba","prueba","prueba","prueba"}
+				,{"Julio","prueba","prueba","prueba","prueba","prueba","prueba"},
+				{"Agosto","prueba","prueba","prueba","prueba","prueba","prueba"},
+				{"Septiembre","prueba","prueba","prueba","prueba","prueba","prueba"},
+				{"Octubre","prueba","prueba","prueba","prueba","prueba","prueba"},
+				{"Noviembre","prueba","prueba","prueba","prueba","prueba","prueba"},
+				{"Diciembre","prueba","prueba","prueba","prueba","prueba","prueba"} };
+				TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
+				tablaGastos.setModel(modeloTabla);
+				
 			}
+			
 		});
 		
 		botonTrimestre.addActionListener(new ActionListener() {
@@ -152,7 +148,12 @@ public class VentanaGastos extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				logger.info("Seleccionado intervalo trimestral");
-			tablaGastos.repaint();	
+				Object [] [] datosTabla={ {"1er Trimestre","prueba","prueba","prueba","prueba","prueba","prueba"},
+						{"2o Trimestre","prueba","prueba","prueba","prueba","prueba","prueba"},
+						{"3er Trimestre","prueba","prueba","prueba","prueba","prueba","prueba"},
+						{"4to Trimestre","prueba","prueba","prueba","prueba","prueba","prueba"}};
+				TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
+				tablaGastos.setModel(modeloTabla);	
 			}
 		});
 		
@@ -162,7 +163,6 @@ public class VentanaGastos extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				logger.info("Seleccionado intervalo anual");
-				tablaGastos.repaint();
 			}
 		});
 		

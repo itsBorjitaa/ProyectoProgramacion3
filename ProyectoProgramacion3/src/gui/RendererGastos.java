@@ -15,15 +15,14 @@ public class RendererGastos implements TableCellRenderer{
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 		if(column == 0) {
-			//JLabel l = new JLabel(value.toString());
-			JLabel l = new JLabel();
+			JLabel l = new JLabel(value.toString());
 			l.setOpaque(true);
 			l.setFont(new Font(Font.DIALOG, Font.BOLD, 12));
 			l.setBackground(Color.yellow);
 			l.setBorder(BorderFactory.createBevelBorder(0, Color.black, Color.black));
 			return l;
 		}else {
-			JLabel l = new JLabel();
+			JLabel l = new JLabel(value.toString());
 			return l;
 		}
 	}
