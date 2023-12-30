@@ -6,13 +6,16 @@ import javax.swing.table.TableModel;
 
 import main.BaseDatos;
 import main.Categoria;
+import main.Factura;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -70,19 +73,20 @@ public class VentanaGastos extends JFrame{
 		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) {//Recorreremos el set de columnas de la base de datos
 			listaCategorias.add(c.getNombre());//añadiremos a la lista sus nombres
 		}
-		/*Creamos los valores iniciales del modelo, esto se cambiara mas tarde*/
-		Object [] [] datosTabla={ {"Enero","prueba","prueba","prueba","prueba","prueba","prueba"}
-		,{"Febrero","prueba","prueba","prueba","prueba","prueba","prueba"},
-		{"Marzo","prueba","prueba","prueba","prueba","prueba","prueba"},
-		{"Abril","prueba","prueba","prueba","prueba","prueba","prueba"},
-		{"Mayo","prueba","prueba","prueba","prueba","prueba","prueba"},
-		{"Junio","prueba","prueba","prueba","prueba","prueba","prueba"}
-		,{"Julio","prueba","prueba","prueba","prueba","prueba","prueba"},
-		{"Agosto","prueba","prueba","prueba","prueba","prueba","prueba"},
-		{"Septiembre","prueba","prueba","prueba","prueba","prueba","prueba"},
-		{"Octubre","prueba","prueba","prueba","prueba","prueba","prueba"},
-		{"Noviembre","prueba","prueba","prueba","prueba","prueba","prueba"},
-		{"Diciembre","prueba","prueba","prueba","prueba","prueba","prueba"} };
+		/*Creamos los valores iniciales del modelo*/
+		Object [] [] datosTabla={ 
+		cargarCosteMes(1, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),//Vamos añadiendo los gastos de cada mes
+		cargarCosteMes(2, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(3, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(4, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(5, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(6, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(7, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(8, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(9, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(10, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(11, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(12, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray() };
 		
 		TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
 		/*Creamos la tabla y el scroll*/
@@ -123,21 +127,21 @@ public class VentanaGastos extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				logger.info("Seleccionado intervalo mensual");
-				Object [] [] datosTabla={ {"Enero","prueba","prueba","prueba","prueba","prueba","prueba"}
-				,{"Febrero","prueba","prueba","prueba","prueba","prueba","prueba"},
-				{"Marzo","prueba","prueba","prueba","prueba","prueba","prueba"},
-				{"Abril","prueba","prueba","prueba","prueba","prueba","prueba"},
-				{"Mayo","prueba","prueba","prueba","prueba","prueba","prueba"},
-				{"Junio","prueba","prueba","prueba","prueba","prueba","prueba"}
-				,{"Julio","prueba","prueba","prueba","prueba","prueba","prueba"},
-				{"Agosto","prueba","prueba","prueba","prueba","prueba","prueba"},
-				{"Septiembre","prueba","prueba","prueba","prueba","prueba","prueba"},
-				{"Octubre","prueba","prueba","prueba","prueba","prueba","prueba"},
-				{"Noviembre","prueba","prueba","prueba","prueba","prueba","prueba"},
-				{"Diciembre","prueba","prueba","prueba","prueba","prueba","prueba"} };
+				Object [] [] datosTabla={ 
+						cargarCosteMes(1, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(2, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(3, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(4, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(5, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(6, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(7, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(8, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(9, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(10, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(11, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(12, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray() };
 				TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
 				tablaGastos.setModel(modeloTabla);
-				
 			}
 			
 		});
@@ -148,12 +152,6 @@ public class VentanaGastos extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				logger.info("Seleccionado intervalo trimestral");
-				Object [] [] datosTabla={ {"1er Trimestre","prueba","prueba","prueba","prueba","prueba","prueba"},
-						{"2o Trimestre","prueba","prueba","prueba","prueba","prueba","prueba"},
-						{"3er Trimestre","prueba","prueba","prueba","prueba","prueba","prueba"},
-						{"4to Trimestre","prueba","prueba","prueba","prueba","prueba","prueba"}};
-				TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
-				tablaGastos.setModel(modeloTabla);	
 			}
 		});
 		
@@ -187,5 +185,56 @@ public class VentanaGastos extends JFrame{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(350, 100, 800, 600);
 		setVisible(true);
+	}
+	/*Crearemos un metodo para cargar el coste de cada mes*/
+	@SuppressWarnings("deprecation")
+	public List<Object> cargarCosteMes(int fechaNumeral, HashMap<Date, ArrayList<Factura>> facturas) {
+		List<Object> resultado=new ArrayList<>();//Este sera la lista de resultado que devolvemos
+		switch(fechaNumeral) {//Dependiendo del valor numeral de mes que introdujamos el nombre del mes cambiara
+		case 1:resultado.add("Enero");
+		break;
+		case 2:resultado.add("Febrero");
+		break;
+		case 3:resultado.add("Marzo");
+		break;
+		case 4:resultado.add("Abril");
+		break;
+		case 5:resultado.add("Mayo");
+		break;
+		case 6:resultado.add("Junio");
+		break;
+		case 7:resultado.add("Julio");
+		break;
+		case 8:resultado.add("Agosto");
+		break;
+		case 9:resultado.add("Septiembre");
+		break;
+		case 10:resultado.add("Octubre");
+		break;
+		case 11:resultado.add("Noviembre");
+		break;
+		case 12:resultado.add("Diciembre");
+		break;
+		}
+		ArrayList<ArrayList<Factura>> listaFacturas=new ArrayList<ArrayList<Factura>>();//En esta lista tendremos las 
+		//facturas de la fecha que buscamos
+		
+		for(Date fechaLista: facturas.keySet()) {//Buscaremos las fechas del HashMap
+			if(fechaLista.getMonth()+1==fechaNumeral) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
+				listaFacturas.add(facturas.get(fechaLista));//Entonces añadimos la factura a nuestra lista
+			}
+		}
+		for(int i=1;i<listaCategorias.size();i++) {//Ahora recorreremos la lista de categorias por elemento
+			double coste=0;
+			for (ArrayList<Factura> arrayFacturas: listaFacturas) {//Recorreremos la lista de facturas para conseguir sus arrays
+				for(Factura factura:arrayFacturas) {//Ahora recorremos los arrays para conseguir facturas individuales
+					if(factura.getCategoria().getNombre().equals(listaCategorias.get(i))) {//Si la categoria coincide:
+						coste=coste+factura.getCoste();//Entonces le añadimos su valor al Coste
+					}
+				}
+			}
+			resultado.add(coste);
+		}
+		return resultado;
 	}
 }
