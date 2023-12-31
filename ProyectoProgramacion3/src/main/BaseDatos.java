@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,7 +20,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class BaseDatos {
 	/* BASE DE DATOS FINAL */
@@ -111,7 +109,7 @@ public class BaseDatos {
 	}
 	
 	/* FUNCIÓN PARA INSERTAR DATOS A LA TABLA */
-	public static void insertarFacturaBD(Connection con, Factura f, String usuario, Date fecha) {
+	public static void insertarFacturaBD(Connection con, Factura f, String usuario, String fecha) {
 			Integer codigo=0;
 			try {
 				PreparedStatement generadorCodigo = con.prepareStatement("SELECT codigo FROM Facturas");
@@ -130,7 +128,7 @@ public class BaseDatos {
 						+ " VALUES (?, ?, ?, ?, ?, ?)");
 				insertarFactura.setInt(1, codigo+1);
 				insertarFactura.setString(2, usuario);
-				insertarFactura.setDate(3, fecha);
+				insertarFactura.setString(3, fecha);
 				insertarFactura.setString(4, f.getConcepto());
 				insertarFactura.setDouble(5, f.getCoste());
 				insertarFactura.setString(6, f.getCategoria().getNombre());
@@ -141,10 +139,10 @@ public class BaseDatos {
 		}
 	
 	/* FUNCIÓN PARA MODIFICAR DATOS */
-	public static void modificarFacturaBD(Connection con, Factura nuevaF, Date nuevaFecha, Integer codigo) {
+	public static void modificarFacturaBD(Connection con, Factura nuevaF, String nuevaFecha, Integer codigo) {
 		try {
 			PreparedStatement modificarFactura = con.prepareStatement("UPDATE Facturas SET fecha = ?, concepto = ?, coste = ?, categoria = ? WHERE codigo = ?");
-			modificarFactura.setDate(1, nuevaFecha);
+			modificarFactura.setString(1, nuevaFecha);
 			modificarFactura.setString(2, nuevaF.getConcepto());
 			modificarFactura.setDouble(3, nuevaF.getCoste());
 			modificarFactura.setString(4, nuevaF.getCategoria().getNombre());
@@ -630,9 +628,11 @@ public class BaseDatos {
 			while (sc.hasNext()) {
 				linea = sc.nextLine();
 				String [] partes = linea.split(";");
+				@SuppressWarnings("unused")
 				String usuario = partes[1];
 				String [] categorias = partes[2].split(":");
 				for (int categoria = 0; categoria < categorias.length; categoria++) {
+					@SuppressWarnings("unused")
 					Categoria c = new Categoria(categorias[categoria]);
 				}
 				

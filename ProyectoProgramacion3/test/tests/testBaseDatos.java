@@ -1,10 +1,6 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -46,18 +42,18 @@ public class testBaseDatos {
 	public void testInsertarFacturaBD() {
 		/*Insertamos una factura a la BD*/
 		
-		BaseDatos.insertarFacturaBD(con, new Factura("Agua", 50.00, new Categoria("Agua")),"prueba", new Date(2023-10-2));
+		BaseDatos.insertarFacturaBD(con, new Factura("Agua", 50.00, new Categoria("Agua")),"prueba", new Date(2023-10-2).toString());
 		
 		//Con este segundo saltara un usuario no encontrado:"
 		
-		BaseDatos.insertarFacturaBD(con, new Factura("Agua", 50.00, new Categoria("Agua")),"Pepe", new Date(2023-10-2));
+		BaseDatos.insertarFacturaBD(con, new Factura("Agua", 50.00, new Categoria("Agua")),"Pepe", new Date(2023-10-2).toString());
 		
-		BaseDatos.insertarFacturaBD(con, new Factura("Luz", 50.00, new Categoria("Luz")),"Juan", new Date(2023-10-2));
+		BaseDatos.insertarFacturaBD(con, new Factura("Luz", 50.00, new Categoria("Luz")),"Juan", new Date(2023-10-2).toString());
 	}
 	@Test
 	public void testModificarFacturaBD() {
 		/*Modificaremos el usuario Juan en base a su codigo*/
-		BaseDatos.modificarFacturaBD(con, new Factura("Comida",20.00, new Categoria("Comida")), new Date(2023-10-2), 2);
+		BaseDatos.modificarFacturaBD(con, new Factura("Comida",20.00, new Categoria("Comida")), new Date(2023-10-2).toString(), 2);
 	}
 	@Test
 	public void eliminarFacturaBD() {

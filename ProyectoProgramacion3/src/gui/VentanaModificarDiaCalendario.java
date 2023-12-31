@@ -33,7 +33,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 	private JButton botonModificar,botonCancelar;
 	private JTextField textoConcepto;
 	private JSpinner floatCoste;
-	private JComboBox<Categoria> seleccionadorCategoria;
+	private JComboBox<String> seleccionadorCategoria;
 	private JDateChooser dateChooser;
 	private JPanel panelBotones, panelValores;
 	private Logger logger = Logger.getLogger(VentanaModificarDiaCalendario.class.getName());
@@ -61,7 +61,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		
 		/*Cargamos las categorias con la función*/
 		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { 
-			seleccionadorCategoria.addItem(c);
+			seleccionadorCategoria.addItem(c.getNombre());
 		}
 		
 		/*Cargamos los valores de coste y categoria*/
@@ -81,8 +81,8 @@ public class VentanaModificarDiaCalendario extends JFrame {
 				if (!textoConcepto.getText().isBlank()) {
 				//Modificamos la factura de la BD
 				logger.info("Factura modificada");
-				Factura nuevaFactura=new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem());
-				BaseDatos.modificarFacturaBD(con, nuevaFactura, new Date(dateChooser.getDate().getTime()),codigo);
+				Factura nuevaFactura=new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) new Categoria(seleccionadorCategoria.getSelectedItem().toString()));
+				BaseDatos.modificarFacturaBD(con, nuevaFactura, new Date(dateChooser.getDate().getTime()).toString(),codigo);
 				BaseDatos.closeBD(con);
 				new VentanaDiaCalendario(usuarioActual,fechaSeleccionada);
 				dispose();

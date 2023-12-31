@@ -14,11 +14,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
-
 public class VentanaGastos extends JFrame{
 	
 	/**
@@ -217,10 +217,10 @@ public class VentanaGastos extends JFrame{
 		break;
 		}
 		ArrayList<ArrayList<Factura>> listaFacturas=new ArrayList<ArrayList<Factura>>();//En esta lista tendremos las 
+		LocalDate fechaActual=LocalDate.now();//Sacaremos el año actual con este LocalDate
 		//facturas de la fecha que buscamos
-		
 		for(Date fechaLista: facturas.keySet()) {//Buscaremos las fechas del HashMap
-			if(fechaLista.getMonth()+1==fechaNumeral) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
+			if(fechaLista.getMonth()+1==fechaNumeral && fechaLista.getYear()+1900==fechaActual.getYear()) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
 				listaFacturas.add(facturas.get(fechaLista));//Entonces añadimos la factura a nuestra lista
 			}
 		}

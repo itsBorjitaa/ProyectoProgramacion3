@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -77,7 +76,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 					if (!textoConcepto.getText().isBlank()) {
 					//Añadimos la factura a la BD
 					logger.info("Añadida factura");
-					BaseDatos.insertarFacturaBD(con, new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem()), usuarioActual, new Date(dateChooser.getDate().getTime()));
+					BaseDatos.insertarFacturaBD(con, new Factura(textoConcepto.getText(),(double) floatCoste.getValue(),(Categoria) seleccionadorCategoria.getSelectedItem()), usuarioActual, new Date(dateChooser.getDate().getTime()).toString());
 					JOptionPane.showMessageDialog(null, "Factura añadida exitosamente","FACTURA AÑADIDA",JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "El nombre del concepto no puede estar en blanco","ERROR AL AÑADIR UNA NUEVA FACTURA",JOptionPane.ERROR_MESSAGE);
