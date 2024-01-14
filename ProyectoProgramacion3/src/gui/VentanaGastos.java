@@ -4,9 +4,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import main.BaseDatos;
-import main.Categoria;
-import main.Factura;
+import db.BaseDatos;
+import domain.Categoria;
+import domain.Factura;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import main.BaseDatos;
-import main.Usuario;
+import db.BaseDatos;
+import domain.Usuario;
 
 public class VentanaInicioSesion extends JFrame{
 	/**

@@ -1,4 +1,4 @@
-package main;
+package domain;
 
 public class Factura {
 	private Integer codigo;

@@ -1,4 +1,4 @@
-package main;
+package domain;
 
 public class Categoria implements Comparable<Categoria>{
 	private String nombre;

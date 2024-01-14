@@ -21,9 +21,9 @@ import javax.swing.SpinnerNumberModel;
 
 import com.toedter.calendar.JDateChooser;
 
-import main.BaseDatos;
-import main.Categoria;
-import main.Factura;
+import db.BaseDatos;
+import domain.Categoria;
+import domain.Factura;
 
 public class VentanaModificarDiaCalendario extends JFrame {
 	/**

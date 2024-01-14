@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 
+import db.BaseDatos;
 import gui.VentanaInicioSesion;
 
 @SuppressWarnings("unused")

@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 
 import com.toedter.calendar.JCalendar;
 
-import main.BaseDatos;
+import db.BaseDatos;
 
 public class VentanaPrincipal extends JFrame{
 	/**
@@ -27,7 +27,7 @@ public class VentanaPrincipal extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	private JPanel panelCalendario, panelBotones;
-	private JButton botonCategorias, botonGastos, botonDias, botonCerrarSesion, botonModificarUsuario;
+	private JButton botonCategorias, botonGastos, botonDias, botonCerrarSesion, botonEliminarUsuario;
 	private JFrame vActual;
 	private JCalendar calendario;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
@@ -56,7 +56,7 @@ public class VentanaPrincipal extends JFrame{
 		botonCategorias = new JButton("CATEGORÍAS");
 		botonGastos = new JButton("GASTOS");
 		botonCerrarSesion = new JButton("CERRAR SESIÓN");
-		botonModificarUsuario = new JButton("MODIFICAR USUARIO");
+		botonEliminarUsuario = new JButton("ELIMINAR USUARIO");
 		logger.info("Creados los botones");
 		
 		/**
@@ -65,7 +65,7 @@ public class VentanaPrincipal extends JFrame{
 		panelBotones.add(botonDias);
 		panelBotones.add(botonCategorias);
 		panelBotones.add(botonGastos);
-		panelBotones.add(botonModificarUsuario);
+		panelBotones.add(botonEliminarUsuario);
 		panelBotones.add(botonCerrarSesion);
 		getContentPane().add(panelBotones, BorderLayout.EAST);
 		logger.info("Añadidos los botones al panel de botones");
@@ -92,10 +92,19 @@ public class VentanaPrincipal extends JFrame{
 			logger.info("Se ha cerrado sesión");
 		});
 		
-		botonModificarUsuario.addActionListener((e)->{
-			new VentanaModificarUsuario(usuario);
-			vActual.dispose();
-			logger.info("Se ha abierto la ventana para modificar el usuario");
+		botonEliminarUsuario.addActionListener((e)->{
+			int opcion = JOptionPane.showConfirmDialog(vActual, "¿Estás seguro de querer eliminar tu usuario?", "ELIMINAR USUARIO", JOptionPane.YES_NO_OPTION);
+            
+            if (opcion == JOptionPane.YES_OPTION) {
+            	logger.info("Usuario eliminado correctamente");
+            	//Llamada al método de eliminar usuario
+            	BaseDatos.eliminarUsuarioBD(con, usuarioActual);
+            	//Volver a VentanaLogin
+            	new VentanaInicioSesion();
+            	vActual.dispose();
+            } else {
+            	logger.info("Operación cancelada");
+            }
 		});
 		
 		botonGastos.addActionListener(new ActionListener() {

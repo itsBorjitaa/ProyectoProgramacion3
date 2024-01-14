@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import main.BaseDatos;
-import main.Factura;
+import db.BaseDatos;
+import domain.Factura;
 
 import javax.swing.*;
 import java.awt.*;
