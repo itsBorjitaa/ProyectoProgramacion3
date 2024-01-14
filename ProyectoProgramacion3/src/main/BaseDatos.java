@@ -92,6 +92,9 @@ public class BaseDatos {
 	
 	public static void eliminarUsuarioBD(Connection con, String nombre) {
 	    try {
+		    for(Categoria categoria:BaseDatos.cargarCategoriasPorUsuario(con, nombre)) {
+		    	BaseDatos.borrarCategoriasPorUsuario(con, nombre, categoria);
+		    }
 	        PreparedStatement eliminarUsuario = con.prepareStatement("DELETE FROM Usuario WHERE usuario = ?");
 	        eliminarUsuario.setString(1, nombre);
 	        eliminarUsuario.executeUpdate();
