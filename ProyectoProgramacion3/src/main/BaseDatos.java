@@ -90,6 +90,18 @@ public class BaseDatos {
 		}
 	}
 	
+	public static void eliminarUsuarioBD(Connection con, String nombre) {
+	    try {
+	        PreparedStatement eliminarUsuario = con.prepareStatement("DELETE FROM Usuario WHERE usuario = ?");
+	        eliminarUsuario.setString(1, nombre);
+	        eliminarUsuario.executeUpdate();
+	        eliminarUsuario.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	
 	/* BASE DE DATOS FACTURA POR FECHA */
 	
 	/* FUNCIÓN PARA CREAR LA TABLA SI NO ESTA CREADA */
@@ -494,9 +506,8 @@ public class BaseDatos {
 		}
 		
 	}
-	
-	
 
+	
 	/* BASE DE DATOS USUARIOS CON FICHERO */
 	private static List<Usuario> usuarios = new ArrayList<>();
 	private static Set<Factura> facturas = new TreeSet<>();
