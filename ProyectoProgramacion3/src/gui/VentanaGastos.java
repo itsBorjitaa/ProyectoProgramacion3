@@ -59,7 +59,7 @@ public class VentanaGastos extends JFrame{
 		panelBotones=new JPanel(new GridLayout(5,1));
 		panelTabla=new JPanel(new BorderLayout());
 		panelLista=new JPanel(new BorderLayout());
-		logger.info("Panel de botones y panel de tabla creados");
+		logger.info("Creados los paneles");
 		
 		/*Elementos del panel de botones*/
 		botonVolver=new JButton("Volver");
@@ -67,7 +67,7 @@ public class VentanaGastos extends JFrame{
 		botonTrimestre=new JRadioButton("Trimestral"); 
 		botonAnyo=new JRadioButton("Anual");
 		grupoBotones=new ButtonGroup();
-		logger.info("Botones del panel de botones creados");
+		logger.info("Creados los botones del panel de botones");
 		
 		/*Configuramos el funcionamiento de los botones*/
 		grupoBotones.add(botonMes); grupoBotones.add(botonTrimestre); grupoBotones.add(botonAnyo);

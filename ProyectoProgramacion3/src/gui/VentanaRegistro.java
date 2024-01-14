@@ -63,7 +63,7 @@ public class VentanaRegistro extends JFrame{
 		pBotones = new JPanel(new GridLayout(1,3));
 		getContentPane().add(pDatos, BorderLayout.CENTER);
 		getContentPane().add(pBotones, BorderLayout.SOUTH);
-		logger.info("Panel de datos y panel de botones creados");
+		logger.info("Creados los paneles y componentes");
 		
 		labelUsuario = new JLabel("USUARIO: ");
 		labelContrasenya = new JLabel("CONTRASEÑA: ");

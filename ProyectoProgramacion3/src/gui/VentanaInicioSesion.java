@@ -41,6 +41,7 @@ public class VentanaInicioSesion extends JFrame{
 	
 	protected ImageIcon crearImageIcon(String path) {
         URL imgUrl = getClass().getResource(path);
+        logger.info("Añadido el logo de la app");
         if (imgUrl != null) {
             return new ImageIcon(imgUrl);
         } else {
@@ -70,7 +71,7 @@ public class VentanaInicioSesion extends JFrame{
 		pBotones = new JPanel(new GridLayout(1,3));
 		getContentPane().add(pDatos, BorderLayout.CENTER);
 		getContentPane().add(pBotones, BorderLayout.SOUTH);
-		logger.info("Panel de datos y panel de botones creados");
+		logger.info("Creados los paneles");
 		
 		labelUsuario = new JLabel("USUARIO: ");
 		labelContrasenya = new JLabel("CONTRASEÑA: ");

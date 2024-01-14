@@ -50,6 +50,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		/*Creamos los paneles*/
 		panelBotones=new JPanel(new GridLayout(1,2));
 		panelValores=new JPanel(new GridLayout(4,2));
+		logger.info("Creados los paneles");
 		
 		/*Añadimos los elementos de los paneles*/
 		dateChooser = new JDateChooser(fecha);
@@ -58,11 +59,13 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		floatCoste=new JSpinner(new SpinnerNumberModel(0.00,0.00,null,1));
 		botonAnyadir=new JButton("Añadir");
 		botonCancelar=new JButton("Cancelar");
+		logger.info("Añadidos los elementos a los paneles");
 		
 		/*Cargamos las categorias con la función*/
 		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { 
 			seleccionadorCategoria.addItem(c);
 		}
+		logger.info("Cargadas las categorías");
 		
 		/*Creamos un SpinnerModel para que muestre 2 decimales, use la respuesta de:
 		"https://stackoverflow.com/a/24915447" para hacerlo*/
@@ -115,6 +118,7 @@ public class VentanaAnyadirDiaCalendario extends JFrame {
 		/*Añadimos los paneles al JFrame*/
 		add(panelValores,BorderLayout.NORTH);
 		add(panelBotones,BorderLayout.SOUTH);
+		logger.info("Añadidos los paneles al JFrame");
 		
 		/*Características del Frame*/
 		setVisible(true);

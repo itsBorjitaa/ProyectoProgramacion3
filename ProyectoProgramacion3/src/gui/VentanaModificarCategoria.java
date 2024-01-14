@@ -55,7 +55,7 @@ public class VentanaModificarCategoria extends JFrame{
 		panelArriba.add(txtTitulo);
 		panelAbajo.add(botonModificar);
 		panelAbajo.add(botonCancelar);
-		logger.info("Componentes añadidos a paneles");
+		logger.info("Añadidos los componentes a panel");
 		
 		/*AÑADIR FUNCIONALIDADES A BOTONES*/
 		botonModificar.addActionListener(new ActionListener() {

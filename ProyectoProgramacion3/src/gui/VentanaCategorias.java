@@ -45,7 +45,7 @@ public class VentanaCategorias extends JFrame {
 		/*CREACIÓN DE PANELES*/
 		panelDerechaBotones = new JPanel(new GridLayout(4,1));
 		panelIzquierda = new JPanel(new BorderLayout());
-		logger.info("Panel de botones de la derecha y panel de la izquierda creados");
+		logger.info("Creados los paneles");
 		
 		/*CREACION COMPONENTES DE BOTONES*/
 		botonVolver = new JButton("Volver");

@@ -34,7 +34,7 @@ public class VentanaCargar extends JFrame{
 		lblProgreso = new JLabel("PRUEBAS");
 		pAbajo.add(lblProgreso);
 		pArriba.add(barraProgreso);
-		logger.info("Añaidos barra de progreso y label al panel principal");
+		logger.info("Añadidos barra de progreso y label al panel principal");
 		
 		/*ESPECIFICACION VENTANA*/
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

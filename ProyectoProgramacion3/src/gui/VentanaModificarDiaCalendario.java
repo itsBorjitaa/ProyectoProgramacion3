@@ -50,6 +50,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		/*Creamos los paneles*/
 		panelBotones=new JPanel(new GridLayout(1,2));
 		panelValores=new JPanel(new GridLayout(4,2));
+		logger.info("Creados los paneles");
 		
 		/*Añadimos los elementos de los paneles*/
 		textoConcepto=new JTextField(factura.getConcepto(),20);
@@ -58,14 +59,17 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		seleccionadorCategoria=new JComboBox<>();
 		dateChooser = new JDateChooser(fecha);
 		floatCoste=new JSpinner(new SpinnerNumberModel((double) factura.getCoste(),0.00,null,1));
+		logger.info("Añadidos los componentes a panel");
 		
 		/*Cargamos las categorias con la función*/
 		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) { 
 			seleccionadorCategoria.addItem(c.getNombre());
 		}
+		logger.info("Cargadas las categorías");
 		
 		/*Cargamos los valores de coste y categoria*/
 		seleccionadorCategoria.setSelectedItem(factura.getCategoria().getNombre());
+		logger.info("Cargados los valores de costes y categorías");
 		
 		/*Creamos un SpinnerModel para que muestre 2 decimales, use la respuesta de:
 		"https://stackoverflow.com/a/24915447" para hacerlo*/
@@ -119,10 +123,12 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		
 		panelBotones.add(botonModificar);
 		panelBotones.add(botonCancelar);
+		logger.info("Creados los componentes y añadidos");
 		
 		/*Añadimos los paneles al JFrame*/
 		add(panelValores,BorderLayout.NORTH);
 		add(panelBotones,BorderLayout.SOUTH);
+		logger.info("Añadidos los paneles");
 		
 		/*Características del Frame*/
 		setTitle("DeustoFinanzas");
