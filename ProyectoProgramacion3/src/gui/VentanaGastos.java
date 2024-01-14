@@ -150,8 +150,15 @@ public class VentanaGastos extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				logger.info("Seleccionado intervalo trimestral");
+				Object [] [] datosTabla={ 
+						cargarCosteTrimestre(1, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteTrimestre(2, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteTrimestre(3, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteTrimestre(4, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray()};
+				TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
+				tablaGastos.setModel(modeloTabla);
+				
 			}
 		});
 		
@@ -221,6 +228,40 @@ public class VentanaGastos extends JFrame{
 		//facturas de la fecha que buscamos
 		for(Date fechaLista: facturas.keySet()) {//Buscaremos las fechas del HashMap
 			if(fechaLista.getMonth()+1==fechaNumeral && fechaLista.getYear()+1900==fechaActual.getYear()) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
+				listaFacturas.add(facturas.get(fechaLista));//Entonces añadimos la factura a nuestra lista
+			}
+		}
+		for(int i=1;i<listaCategorias.size();i++) {//Ahora recorreremos la lista de categorias por elemento
+			double coste=0;
+			for (ArrayList<Factura> arrayFacturas: listaFacturas) {//Recorreremos la lista de facturas para conseguir sus arrays
+				for(Factura factura:arrayFacturas) {//Ahora recorremos los arrays para conseguir facturas individuales
+					if(factura.getCategoria().getNombre().equals(listaCategorias.get(i))) {//Si la categoria coincide:
+						coste=coste+factura.getCoste();//Entonces le añadimos su valor al Coste
+					}
+				}
+			}
+			resultado.add(coste);
+		}
+		return resultado;
+	}
+	
+	public List<Object> cargarCosteTrimestre(int numTrimestre, HashMap<Date, ArrayList<Factura>> facturas) {
+		List<Object> resultado=new ArrayList<>();
+		switch(numTrimestre) {
+		case 1: resultado.add("1er Trimestre");
+		break;
+		case 2: resultado.add("2do Trimestre");
+		break;
+		case 3: resultado.add("3er Trimestre");
+		break;
+		case 4: resultado.add("4rto Trimestre");
+		break;
+		}
+		ArrayList<ArrayList<Factura>> listaFacturas=new ArrayList<ArrayList<Factura>>();//En esta lista tendremos las 
+		LocalDate fechaActual=LocalDate.now();//Sacaremos el año actual con este LocalDate
+		//facturas de la fecha que buscamos
+		for(Date fechaLista: facturas.keySet()) {//Buscaremos las fechas del HashMap
+			if((fechaLista.getMonth()+1)<=(numTrimestre*3) && (numTrimestre-1)*3<(fechaLista.getMonth()+1) && fechaLista.getYear()+1900==fechaActual.getYear()) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
 				listaFacturas.add(facturas.get(fechaLista));//Entonces añadimos la factura a nuestra lista
 			}
 		}
