@@ -496,7 +496,6 @@ public class BaseDatos {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			String sql5 = String.format("UPDATE categoriasUsuario SET id_c_cu = '%s' WHERE id_c_cu = '%s' AND usuario_cu = '%s'", id_nuevo, id, usuario);
 			
 			try {
 				PreparedStatement actualizarCategoria = con.prepareStatement("UPDATE categoriasUsuario SET id_c_cu = ? WHERE id_c_cu = ? AND usuario_cu = ?");
