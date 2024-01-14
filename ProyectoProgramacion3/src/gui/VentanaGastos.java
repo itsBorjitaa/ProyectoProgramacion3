@@ -25,13 +25,16 @@ public class VentanaGastos extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel panelTabla,panelBotones;
+	private JPanel panelTabla,panelBotones,panelLista;
 	private JTable tablaGastos;
 	private JScrollPane scrollTabla;
 	private JRadioButton botonMes,botonTrimestre,botonAnyo;
 	private ButtonGroup grupoBotones;
 	private JButton botonVolver;
 	private List<String> listaCategorias;
+	private DefaultListModel<Integer> defaultListaAnyos;
+	private JList<Integer> listaAnyos;
+	private JScrollPane scrollAnyos;
 	private Connection con;
 	private Logger logger = Logger.getLogger(VentanaGastos.class.getName());
 	
@@ -52,6 +55,7 @@ public class VentanaGastos extends JFrame{
 
 		panelBotones=new JPanel(new GridLayout(5,1));
 		panelTabla=new JPanel(new BorderLayout());
+		panelLista=new JPanel(new BorderLayout());
 		logger.info("Panel de botones y panel de tabla creados");
 		
 		/*Elementos del panel de botones*/
@@ -73,6 +77,14 @@ public class VentanaGastos extends JFrame{
 		for(Categoria c: BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual)) {//Recorreremos el set de columnas de la base de datos
 			listaCategorias.add(c.getNombre());//añadiremos a la lista sus nombres
 		}
+		//Creamos el defaultListModel de fechas desde 1990 hasta la fecha actual
+		defaultListaAnyos=new DefaultListModel<>();
+		LocalDate fechaActual=LocalDate.now();
+		for(int i=1990;i<=fechaActual.getYear();i++) {
+			defaultListaAnyos.addElement(i);;
+		}
+		listaAnyos=new JList<>(defaultListaAnyos);
+		scrollAnyos=new JScrollPane(listaAnyos);
 		/*Creamos los valores iniciales del modelo*/
 		Object [] [] datosTabla={ 
 		cargarCosteMes(1, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),//Vamos añadiendo los gastos de cada mes
@@ -179,13 +191,15 @@ public class VentanaGastos extends JFrame{
 		panelBotones.add(botonTrimestre);
 		panelBotones.add(botonAnyo); 
 		panelBotones.add(botonVolver);
+		panelLista.add(scrollAnyos);
 		panelTabla.add(scrollTabla);
 		logger.info("Añadidos los botones al panel de botones y el scroll al panel de tabla");
 		
 		/*Añadimos los paneles*/
 		
-		add(panelTabla,BorderLayout.NORTH);
+		add(panelTabla,BorderLayout.CENTER);
 		add(panelBotones,BorderLayout.SOUTH);
+		add(panelLista,BorderLayout.EAST);
 		logger.info("Añadidos los paneles a la ventana");
 		
 		setTitle("DeustoFinanzas");
@@ -193,6 +207,7 @@ public class VentanaGastos extends JFrame{
 		setBounds(350, 100, 800, 600);
 		setVisible(true);
 	}
+	
 	/*Crearemos un metodo para cargar el coste de cada mes*/
 	@SuppressWarnings("deprecation")
 	public List<Object> cargarCosteMes(int fechaNumeral, HashMap<Date, ArrayList<Factura>> facturas) {
