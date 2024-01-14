@@ -259,25 +259,26 @@ public class BaseDatos {
 	/* FUNCION AÑADIR CATEGORIAS A LA TABLA */
 	public static void insertarCategoriasBD(Connection con, Categoria categoria) {
 		Integer id_c = 0;
-		String consegirID=String.format("SELECT id_c FROM Categorias");
+		String consegirID = "SELECT id_c FROM Categorias";
 		try {
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(consegirID);
+			PreparedStatement buscarId = con.prepareStatement(consegirID);
+			ResultSet rs = buscarId.executeQuery();
 			while(rs.next()){
 				id_c=rs.getInt("id_c");
 			}
 			rs.close();
-			st.close();
+			buscarId.close();
 			}			 
 		catch (SQLException e) {
 			e.printStackTrace();
 			}
 		if (buscarCategoriaBD(con, categoria.getNombre()) == null) {
-			String sql = String.format("INSERT INTO Categorias VALUES('%s','%s')", id_c+1, categoria.getNombre());
 			try {
-				Statement st = con.createStatement();
-				st.executeUpdate(sql);
-				st.close();
+				PreparedStatement insertarCategoria = con.prepareStatement("INSERT INTO Categorias VALUES(?, ?)");
+				insertarCategoria.setString(1, String.valueOf(id_c+1));
+				insertarCategoria.setString(2, categoria.getNombre());
+				insertarCategoria.executeUpdate();
+				insertarCategoria.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -286,27 +287,28 @@ public class BaseDatos {
 	
 	/* FUNCION AÑADIR CATEGORIA A TABLA USURIO*/
 	public static void insertarCategoriasPorUsuario(Connection con, String usuario, Categoria categoria) {
-		String sql = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoria.getNombre());
 		Integer id = 0;
 		
 		try {
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			PreparedStatement buscarIdCategoria = con.prepareStatement("SELECT id_c FROM categorias WHERE categoria = ?");
+			buscarIdCategoria.setString(1, categoria.getNombre());
+			ResultSet rs = buscarIdCategoria.executeQuery();
 			while(rs.next()) {
 				id = rs.getInt("id_c");
 			}
 			rs.close();
-			st.close();
+			buscarIdCategoria.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		String sql1 = String.format("INSERT INTO categoriasUsuario VALUES('%s', '%s')", usuario, id);
 		
 		try {
-			Statement st = con.createStatement();
-			st.executeUpdate(sql1);
-			st.close();
+			PreparedStatement insertarCategoriaUsuario = con.prepareStatement("INSERT INTO categoriasUsuario VALUES(?, ?)");
+			insertarCategoriaUsuario.setString(1, usuario);
+			insertarCategoriaUsuario.setString(2, String.valueOf(id));
+			insertarCategoriaUsuario.executeUpdate();
+			insertarCategoriaUsuario.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -314,12 +316,11 @@ public class BaseDatos {
 	
 	/* CREAR TABLA DE USUARIOS Y CATEGORIAS*/
 	public static void crearTablaCategoriasUsuarioBD(Connection con) {
-		String sql = "CREATE TABLE IF NOT EXISTS categoriasUsuario (usuario_cu String NOT NULL, id_c_cu INTEGER NOT NULL,PRIMARY KEY(usuario_cu, id_c_cu), FOREIGN KEY(usuario_cu) REFERENCES Usuario(usuario) ON DELETE CASCADE, FOREIGN KEY(id_c_cu) REFERENCES  Categorias(id_c) ON DELETE CASCADE)";
 		
 		try {
-			Statement st = con.createStatement();
-			st.executeUpdate(sql);
-			st.close();
+			PreparedStatement crearTablaCategoriasUsuario = con.prepareStatement("CREATE TABLE IF NOT EXISTS categoriasUsuario (usuario_cu String NOT NULL, id_c_cu INTEGER NOT NULL,PRIMARY KEY(usuario_cu, id_c_cu), FOREIGN KEY(usuario_cu) REFERENCES Usuario(usuario) ON DELETE CASCADE, FOREIGN KEY(id_c_cu) REFERENCES  Categorias(id_c) ON DELETE CASCADE)");
+			crearTablaCategoriasUsuario.executeUpdate();
+			crearTablaCategoriasUsuario.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -327,21 +328,21 @@ public class BaseDatos {
 	
 	/* AÑADIR USUARIO NUEVOS A TABLA */
 	public static void anyadirCategoriasUsuarioNuevo(Connection con, String usuario) {
-		
-		String sql1 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 1)", usuario);
-		String sql2 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 2)", usuario);
-		String sql3 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 3)", usuario);
-		String sql4 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 4)", usuario);
-		String sql5 = String.format("INSERT INTO categoriasUsuario VALUES('%s', 5)", usuario);
-		
+				
 		try {
-			Statement st = con.createStatement();
-			st.executeUpdate(sql1);
-			st.executeUpdate(sql2);
-			st.executeUpdate(sql3);
-			st.executeUpdate(sql4);
-			st.executeUpdate(sql5);
-			st.close();
+			PreparedStatement anyadirCategoriasPorDefecto = con.prepareStatement("INSERT INTO categoriasUsuario VALUES(?, ?)");
+			anyadirCategoriasPorDefecto.setString(1, usuario);
+			anyadirCategoriasPorDefecto.setInt(2, 1);
+			anyadirCategoriasPorDefecto.executeUpdate();
+			anyadirCategoriasPorDefecto.setInt(2, 2);
+			anyadirCategoriasPorDefecto.executeUpdate();
+			anyadirCategoriasPorDefecto.setInt(2, 3);
+			anyadirCategoriasPorDefecto.executeUpdate();
+			anyadirCategoriasPorDefecto.setInt(2, 4);
+			anyadirCategoriasPorDefecto.executeUpdate();
+			anyadirCategoriasPorDefecto.setInt(2, 5);
+			anyadirCategoriasPorDefecto.executeUpdate();
+			anyadirCategoriasPorDefecto.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -349,34 +350,33 @@ public class BaseDatos {
 	
 	/* FUNCION CARGAR CATEGORIAS POR USURIO */
 	public static ArrayList<Categoria> cargarCategoriasPorUsuario(Connection con, String usuario) {
-		ArrayList<Integer> idCategorias = new ArrayList<Integer>();
+		ArrayList<Integer> listaIdCategorias = new ArrayList<Integer>();
 		ArrayList<Categoria> listaCategorias = new ArrayList<Categoria>();
-		
-		String sql1 = String.format("SELECT id_c_cu FROM categoriasUsuario WHERE usuario_cu = '%s'", usuario);
-		
+				
 		try {
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql1);
+			PreparedStatement seleccionarIdCategoria = con.prepareStatement("SELECT id_c_cu FROM categoriasUsuario WHERE usuario_cu = ?");
+			seleccionarIdCategoria.setString(1, usuario);
+			ResultSet rs = seleccionarIdCategoria.executeQuery();
 			while (rs.next()) {
-				idCategorias.add(rs.getInt("id_c_cu"));
+				listaIdCategorias.add(rs.getInt("id_c_cu"));
 			}
 			rs.close();
-			st.close();
+			seleccionarIdCategoria.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		for (Integer id: idCategorias) {
-			String sql2 = String.format("SELECT categoria FROM Categorias WHERE id_c = '%s'", id);
+		for (Integer id: listaIdCategorias) {
 			
 			try {
-				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(sql2);
+				PreparedStatement seleccionaCategoria = con.prepareStatement("SELECT categoria FROM Categorias WHERE id_c = ?");
+				seleccionaCategoria.setString(1, String.valueOf(id));
+				ResultSet rs = seleccionaCategoria.executeQuery();
 				while (rs.next()) {
 					listaCategorias.add(new Categoria(rs.getString("categoria")));
 				}
 				rs.close();
-				st.close();
+				seleccionaCategoria.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -388,51 +388,50 @@ public class BaseDatos {
 	/* FUNCION BORRAR CATEGORIAS POR USUARIO */
 	public static void borrarCategoriasPorUsuario(Connection con, String usuario, Categoria categoria) {
 		int id = 0;
-		String sql1 = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoria.getNombre());
 		
 		try {										//BUSCA LA ID DE LA CATEGORIA TENIENDO EN CUENTA EL NOMBRE
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql1);
+			PreparedStatement seleccionaIdCategoria = con.prepareStatement("SELECT id_c FROM categorias WHERE categoria = ?");
+			seleccionaIdCategoria.setString(1, categoria.getNombre());
+			ResultSet rs = seleccionaIdCategoria.executeQuery();
 			if (rs.next()) {
 				id = rs.getInt("id_c");
 			}
 			rs.close();
-			st.close();
+			seleccionaIdCategoria.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		String sql2 = String.format("DELETE FROM categoriasUsuario where id_c_cu = '%s' AND usuario_cu = '%s'", id, usuario);
-		
+				
 		try {										//BORRA LA LINEA DE CATEGORIA DE LA TABLA categoriausuario
-			Statement st = con.createStatement();
-			st.executeUpdate(sql2);
-			st.close();
+			PreparedStatement eliminaCategoria = con.prepareStatement("DELETE FROM categoriasUsuario where id_c_cu = ? AND usuario_cu = ?");
+			eliminaCategoria.setString(1, String.valueOf(id));
+			eliminaCategoria.setString(2, usuario);
+			eliminaCategoria.executeUpdate();
+			eliminaCategoria.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		Integer cantidad = 0;
-		String sql3 = String.format("SELECT COUNT(id_c_cu) AS cantidad FROM categoriasusuario WHERE id_c_cu = '%s'", id);
 		
 		try {										//CUENTA CUANTAS VECES APARECE UNA CATEGORIA EN LA TABLA categoriasusuario
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql3);
+			PreparedStatement contarCategorias = con.prepareStatement("SELECT COUNT(id_c_cu) AS cantidad FROM categoriasusuario WHERE id_c_cu = ?");
+			contarCategorias.setString(1, String.valueOf(id));
+			ResultSet rs = contarCategorias.executeQuery();
 			cantidad = rs.getInt("cantidad");
 			rs.close();
-			st.close();
+			contarCategorias.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		String sql4 = String.format("DELETE FROM categorias WHERE id_c = '%s'", id);
 		
 		if (id >= 6 && cantidad == 0) {
 			try {									//SI NO ES UNA CATEGORIA POR DEFECTO Y NO LA USA NINGUN OTRO USUARIO, BORRA ESA CATEGORIA DE LA TABLA categorias
-				Statement st = con.createStatement();
-				st.executeUpdate(sql4);
-				st.close();
+				PreparedStatement eliminarCategoriaTablaCategoria = con.prepareStatement("DELETE FROM categorias WHERE id_c = ?");
+				eliminarCategoriaTablaCategoria.setString(1, String.valueOf(id));
+				eliminarCategoriaTablaCategoria.executeUpdate();
+				eliminarCategoriaTablaCategoria.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -442,39 +441,41 @@ public class BaseDatos {
 	/* METODO MODIFICAR CATEGORIAS POR USUARIO */
 	public static void modificarCategoriaPorUsuario(Connection con, String usuario, Categoria categoriaNueva, Categoria categoriaVieja) {
 		int id = 0;
-		String sql1 = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoriaVieja.getNombre());
 		
 		try {										//BUSCA LA ID DE LA CATEGORIA TENIENDO EN CUENTA EL NOMBRE
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql1);
+			PreparedStatement buscaCategoriaSegunNombre = con.prepareStatement("SELECT id_c FROM categorias WHERE categoria = ?");
+			buscaCategoriaSegunNombre.setString(1, categoriaVieja.getNombre());
+			ResultSet rs = buscaCategoriaSegunNombre.executeQuery();
 			if (rs.next()) {
 				id = rs.getInt("id_c");
 			}
 			rs.close();
-			st.close();
+			buscaCategoriaSegunNombre.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		Integer cantidad = 0;
-		String sql2 = String.format("SELECT COUNT(id_c_cu) AS cantidad FROM categoriasusuario WHERE id_c_cu = '%s'", id);
 		
 		try {										//CUENTA CUANTAS VECES APARECE UNA CATEGORIA EN LA TABLA categoriasusuario
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery(sql2);
+			PreparedStatement cuentaCategorias = con.prepareStatement("SELECT COUNT(id_c_cu) AS cantidad FROM categoriasusuario WHERE id_c_cu = ?");
+			cuentaCategorias.setString(1, String.valueOf(id));
+			ResultSet rs = cuentaCategorias.executeQuery();
 			cantidad = rs.getInt("cantidad");
 			rs.close();
-			st.close();
+			cuentaCategorias.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		if (cantidad == 1 && id >= 6) {
-			String sql3 = String.format("UPDATE categorias SET categoria = '%s' WHERE categoria = '%s'", categoriaNueva.getNombre(), categoriaVieja.getNombre());
+			
 			try {
-				Statement st = con.createStatement();
-				st.executeUpdate(sql3);
-				st.close();
+				PreparedStatement modificaNombreCategoria = con.prepareStatement("UPDATE categorias SET categoria = ? WHERE categoria = ?");
+				modificaNombreCategoria.setString(1, categoriaNueva.getNombre());
+				modificaNombreCategoria.setString(2, categoriaVieja.getNombre());
+				modificaNombreCategoria.executeUpdate();
+				modificaNombreCategoria.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -482,26 +483,28 @@ public class BaseDatos {
 			BaseDatos.insertarCategoriasBD(con, categoriaNueva);
 			
 			int id_nuevo = 0;
-			String sql4 = String.format("SELECT id_c FROM categorias WHERE categoria = '%s'", categoriaNueva.getNombre());
 			
 			try {										//BUSCA LA ID DE LA CATEGORIA TENIENDO EN CUENTA EL NOMBRE
-				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(sql4);
+				PreparedStatement buscarCategoriaSegunNombre = con.prepareStatement("SELECT id_c FROM categorias WHERE categoria = ?");
+				buscarCategoriaSegunNombre.setString(1, categoriaNueva.getNombre());
+				ResultSet rs = buscarCategoriaSegunNombre.executeQuery();
 				if (rs.next()) {
 					id_nuevo = rs.getInt("id_c");
-		
 				}
 				rs.close();
-				st.close();
+				buscarCategoriaSegunNombre.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			String sql5 = String.format("UPDATE categoriasUsuario SET id_c_cu = '%s' WHERE id_c_cu = '%s' AND usuario_cu = '%s'", id_nuevo, id, usuario);
 			
 			try {
-				Statement st = con.createStatement();
-				st.executeUpdate(sql5);
-				st.close();
+				PreparedStatement actualizarCategoria = con.prepareStatement("UPDATE categoriasUsuario SET id_c_cu = ? WHERE id_c_cu = ? AND usuario_cu = ?");
+				actualizarCategoria.setString(1, String.valueOf(id_nuevo));
+				actualizarCategoria.setString(2, String.valueOf(id));
+				actualizarCategoria.setString(3, usuario);
+				actualizarCategoria.executeUpdate();
+				actualizarCategoria.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
