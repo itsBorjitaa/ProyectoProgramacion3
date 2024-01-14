@@ -393,12 +393,13 @@ public class BaseDatos {
 	/* FUNCION BORRAR CATEGORIAS POR USUARIO */
 	public static void borrarCategoriasPorUsuario(Connection con, String usuario, Categoria categoria) {
 		int id = 0;
-		String sq0 = String.format("DELETE FROM Facturas where categoria = '%s' AND usuarioF = '%s'", categoria, usuario);
 		
 		try {										//BORRA LA LINEA DE CATEGORIA DE LA TABLA categoriausuario
-			Statement st = con.createStatement();
-			st.executeUpdate(sq0);
-			st.close();
+			PreparedStatement borrarFacturasCategoria = con.prepareStatement("DELETE FROM Facturas where categoria = ? AND usuarioF = ?");
+			borrarFacturasCategoria.setString(1, categoria.getNombre());
+			borrarFacturasCategoria.setString(2, usuario);
+			borrarFacturasCategoria.executeUpdate();
+			borrarFacturasCategoria.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
