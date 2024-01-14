@@ -1,4 +1,4 @@
-package main;
+package db;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,6 +16,11 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import domain.Categoria;
+import domain.Factura;
+import domain.Usuario;
+
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;

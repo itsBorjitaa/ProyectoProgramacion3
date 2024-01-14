@@ -14,8 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import main.BaseDatos;
-import main.Categoria;
+import db.BaseDatos;
+import domain.Categoria;
 
 public class VentanaModificarCategoria extends JFrame{
 	

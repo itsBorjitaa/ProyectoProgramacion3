@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import main.BaseDatos;
-import main.Categoria;
+import db.BaseDatos;
+import domain.Categoria;
 
 public class VentanaCategorias extends JFrame {
 	/**

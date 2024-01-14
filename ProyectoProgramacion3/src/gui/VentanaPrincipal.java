@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 
 import com.toedter.calendar.JCalendar;
 
-import main.BaseDatos;
+import db.BaseDatos;
 
 public class VentanaPrincipal extends JFrame{
 	/**
