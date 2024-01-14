@@ -84,21 +84,22 @@ public class VentanaGastos extends JFrame{
 			defaultListaAnyos.addElement(i);;
 		}
 		listaAnyos=new JList<>(defaultListaAnyos);
+		listaAnyos.setSelectedIndex(fechaActual.getYear()-1990);
 		scrollAnyos=new JScrollPane(listaAnyos);
 		/*Creamos los valores iniciales del modelo*/
 		Object [] [] datosTabla={ 
-		cargarCosteMes(1, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),//Vamos añadiendo los gastos de cada mes
-		cargarCosteMes(2, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(3, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(4, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(5, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(6, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(7, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(8, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(9, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(10, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(11, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-		cargarCosteMes(12, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray() };
+		cargarCosteMes(1, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),//Vamos añadiendo los gastos de cada mes
+		cargarCosteMes(2, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(3, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(4, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(5, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(6, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(7, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(8, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(9, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(10, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(11, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+		cargarCosteMes(12, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray() };
 		
 		TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
 		/*Creamos la tabla y el scroll*/
@@ -140,18 +141,18 @@ public class VentanaGastos extends JFrame{
 				// TODO Auto-generated method stub
 				logger.info("Seleccionado intervalo mensual");
 				Object [] [] datosTabla={ 
-						cargarCosteMes(1, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(2, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(3, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(4, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(5, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(6, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(7, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(8, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(9, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(10, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(11, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteMes(12, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray() };
+						cargarCosteMes(1, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(2, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(3, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(4, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(5, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(6, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(7, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(8, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(9, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(10, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(11, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteMes(12, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray() };
 				TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
 				tablaGastos.setModel(modeloTabla);
 			}
@@ -164,10 +165,10 @@ public class VentanaGastos extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				logger.info("Seleccionado intervalo trimestral");
 				Object [] [] datosTabla={ 
-						cargarCosteTrimestre(1, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteTrimestre(2, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteTrimestre(3, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
-						cargarCosteTrimestre(4, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray()};
+						cargarCosteTrimestre(1, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteTrimestre(2, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteTrimestre(3, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteTrimestre(4, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray()};
 				TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
 				tablaGastos.setModel(modeloTabla);
 				
@@ -178,8 +179,13 @@ public class VentanaGastos extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				logger.info("Seleccionado intervalo anual");
+				Object [] [] datosTabla = {
+						cargarCosteAnual(listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteAnual(listaAnyos.getSelectedValue()-1, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+						cargarCosteAnual(listaAnyos.getSelectedValue()-2, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray()};
+				TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
+				tablaGastos.setModel(modeloTabla);
 			}
 		});
 		
@@ -210,7 +216,7 @@ public class VentanaGastos extends JFrame{
 	
 	/*Crearemos un metodo para cargar el coste de cada mes*/
 	@SuppressWarnings("deprecation")
-	public List<Object> cargarCosteMes(int fechaNumeral, HashMap<Date, ArrayList<Factura>> facturas) {
+	public List<Object> cargarCosteMes(int fechaNumeral, int anioSeleccionado, HashMap<Date, ArrayList<Factura>> facturas) {
 		List<Object> resultado=new ArrayList<>();//Este sera la lista de resultado que devolvemos
 		switch(fechaNumeral) {//Dependiendo del valor numeral de mes que introdujamos el nombre del mes cambiara
 		case 1:resultado.add("Enero");
@@ -242,7 +248,7 @@ public class VentanaGastos extends JFrame{
 		LocalDate fechaActual=LocalDate.now();//Sacaremos el año actual con este LocalDate
 		//facturas de la fecha que buscamos
 		for(Date fechaLista: facturas.keySet()) {//Buscaremos las fechas del HashMap
-			if(fechaLista.getMonth()+1==fechaNumeral && fechaLista.getYear()+1900==fechaActual.getYear()) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
+			if(fechaLista.getMonth()+1==fechaNumeral && fechaLista.getYear()+1900==anioSeleccionado) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
 				listaFacturas.add(facturas.get(fechaLista));//Entonces añadimos la factura a nuestra lista
 			}
 		}
@@ -260,7 +266,7 @@ public class VentanaGastos extends JFrame{
 		return resultado;
 	}
 	
-	public List<Object> cargarCosteTrimestre(int numTrimestre, HashMap<Date, ArrayList<Factura>> facturas) {
+	public List<Object> cargarCosteTrimestre(int numTrimestre, int anioSeleccionado,HashMap<Date, ArrayList<Factura>> facturas) {
 		List<Object> resultado=new ArrayList<>();
 		switch(numTrimestre) {
 		case 1: resultado.add("1er Trimestre");
@@ -276,7 +282,30 @@ public class VentanaGastos extends JFrame{
 		LocalDate fechaActual=LocalDate.now();//Sacaremos el año actual con este LocalDate
 		//facturas de la fecha que buscamos
 		for(Date fechaLista: facturas.keySet()) {//Buscaremos las fechas del HashMap
-			if((fechaLista.getMonth()+1)<=(numTrimestre*3) && (numTrimestre-1)*3<(fechaLista.getMonth()+1) && fechaLista.getYear()+1900==fechaActual.getYear()) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
+			if((fechaLista.getMonth()+1)<=(numTrimestre*3) && (numTrimestre-1)*3<(fechaLista.getMonth()+1) && fechaLista.getYear()+1900==anioSeleccionado) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
+				listaFacturas.add(facturas.get(fechaLista));//Entonces añadimos la factura a nuestra lista
+			}
+		}
+		for(int i=1;i<listaCategorias.size();i++) {//Ahora recorreremos la lista de categorias por elemento
+			double coste=0;
+			for (ArrayList<Factura> arrayFacturas: listaFacturas) {//Recorreremos la lista de facturas para conseguir sus arrays
+				for(Factura factura:arrayFacturas) {//Ahora recorremos los arrays para conseguir facturas individuales
+					if(factura.getCategoria().getNombre().equals(listaCategorias.get(i))) {//Si la categoria coincide:
+						coste=coste+factura.getCoste();//Entonces le añadimos su valor al Coste
+					}
+				}
+			}
+			resultado.add(coste);
+		}
+		return resultado;
+	}
+	
+	public List<Object> cargarCosteAnual(int anioSeleccionado, HashMap<Date, ArrayList<Factura>> facturas) {
+		List<Object> resultado=new ArrayList<>();
+		resultado.add(anioSeleccionado);
+		ArrayList<ArrayList<Factura>> listaFacturas=new ArrayList<ArrayList<Factura>>();//En esta lista tendremos las 
+		for(Date fechaLista: facturas.keySet()) {//Buscaremos las fechas del HashMap
+			if(fechaLista.getYear()+1900==anioSeleccionado) {
 				listaFacturas.add(facturas.get(fechaLista));//Entonces añadimos la factura a nuestra lista
 			}
 		}
