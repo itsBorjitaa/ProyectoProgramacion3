@@ -9,6 +9,9 @@ import main.Categoria;
 import main.Factura;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,6 +90,7 @@ public class VentanaGastos extends JFrame{
 		listaAnyos.setSelectedIndex(fechaActual.getYear()-1990);
 		scrollAnyos=new JScrollPane(listaAnyos);
 		/*Creamos los valores iniciales del modelo*/
+		logger.info("Valores mensuales cargados");
 		Object [] [] datosTabla={ 
 		cargarCosteMes(1, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),//Vamos añadiendo los gastos de cada mes
 		cargarCosteMes(2, LocalDate.now().getYear(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
@@ -140,6 +144,7 @@ public class VentanaGastos extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				logger.info("Seleccionado intervalo mensual");
+				logger.info("Valores mensuales cargados");
 				Object [] [] datosTabla={ 
 						cargarCosteMes(1, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
 						cargarCosteMes(2, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
@@ -164,6 +169,7 @@ public class VentanaGastos extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				logger.info("Seleccionado intervalo trimestral");
+				logger.info("Valores trimestrales cargados");
 				Object [] [] datosTabla={ 
 						cargarCosteTrimestre(1, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
 						cargarCosteTrimestre(2, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
@@ -179,6 +185,7 @@ public class VentanaGastos extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				logger.info("Valores anuales cargados");
 				logger.info("Seleccionado intervalo anual");
 				Object [] [] datosTabla = {
 						cargarCosteAnual(listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
@@ -186,6 +193,53 @@ public class VentanaGastos extends JFrame{
 						cargarCosteAnual(listaAnyos.getSelectedValue()-2, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray()};
 				TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
 				tablaGastos.setModel(modeloTabla);
+			}
+		});
+		
+		listaAnyos.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				logger.info("Año seleccionado");
+				if(botonMes.isSelected()) {
+					Object [] [] datosTabla={ 
+							cargarCosteMes(1, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(2, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(3, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(4, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(5, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(6, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(7, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(8, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(9, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(10, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(11, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteMes(12, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray() };
+					TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
+					tablaGastos.setModel(modeloTabla);
+					tablaGastos.repaint();
+					logger.info("Valores mensuales cargados");
+				} else if(botonTrimestre.isSelected()) {
+					Object [] [] datosTabla={ 
+							cargarCosteTrimestre(1, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteTrimestre(2, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteTrimestre(3, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteTrimestre(4, listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray()};
+					TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
+					tablaGastos.setModel(modeloTabla);
+					tablaGastos.repaint();
+					logger.info("Valores trimestrales cargados");
+				} else {
+					Object [] [] datosTabla = {
+							cargarCosteAnual(listaAnyos.getSelectedValue(), BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteAnual(listaAnyos.getSelectedValue()-1, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray(),
+							cargarCosteAnual(listaAnyos.getSelectedValue()-2, BaseDatos.cargarFacturaBD(con, usuarioActual)).toArray()};
+					TableModel modeloTabla= new DefaultTableModel(datosTabla,listaCategorias.toArray());
+					tablaGastos.setModel(modeloTabla);
+					tablaGastos.repaint();
+					logger.info("Valores anuales cargados");
+				}
+				
 			}
 		});
 		
