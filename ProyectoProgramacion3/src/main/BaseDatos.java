@@ -22,6 +22,10 @@ import java.util.TreeSet;
 
 import javax.swing.JOptionPane;
 
+import domain.Categoria;
+import domain.Factura;
+import domain.Usuario;
+
 import java.util.HashMap;
 
 public class BaseDatos {
