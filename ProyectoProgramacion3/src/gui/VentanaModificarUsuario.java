@@ -23,11 +23,12 @@ public class VentanaModificarUsuario extends JFrame{
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
 	public static Connection con;
+	private String usuarioActual;
 	
 	private static final String RUTA_DB = "resources/db/BaseDatos.db";
 	
 	public VentanaModificarUsuario(String usuario) {
-		String usuarioActual=usuario;
+		usuarioActual=usuario;
 		con = BaseDatos.initBD(RUTA_DB);
 		vActual = this;
 
@@ -58,14 +59,18 @@ public class VentanaModificarUsuario extends JFrame{
 
         modificarNombre.addActionListener((e)->{
         	String nuevoNombre = nombre.getText();
-        	if (!nuevoNombre.isEmpty()) {
+        	if (!nuevoNombre.isEmpty()&&BaseDatos.buscarUsuarioBD(con, nuevoNombre)==null) {
         		BaseDatos.modificarNombreUsuarioBD(con, usuarioActual, nuevoNombre);
         		JOptionPane.showMessageDialog(vActual, "Nombre modificado correctamente.");
-        	} else {
-        		JOptionPane.showMessageDialog(vActual, "Ingresa un nuevo nombre.");
+        		usuarioActual=nuevoNombre;
+        	} else if(!nuevoNombre.isEmpty()&&BaseDatos.buscarUsuarioBD(con, nuevoNombre)!=null){
+        		JOptionPane.showMessageDialog(null,"Ese nombre de usuario ya existe.","Error al intentar crear usuario",JOptionPane.ERROR_MESSAGE);
         	}
-        });
-
+        	else {
+        		JOptionPane.showMessageDialog(vActual, "Ingresa un nuevo nombre.");
+        		}
+        	}
+        );
         modificarContrasenya.addActionListener((e)->{
         	String nuevaContrasenya = contrasenya.getText();
         	if (!nuevaContrasenya.isEmpty()) {
@@ -92,7 +97,7 @@ public class VentanaModificarUsuario extends JFrame{
 		});
 
         volverButton.addActionListener((e)->{
-            new VentanaPrincipal(usuario);
+            new VentanaPrincipal(usuarioActual);
             vActual.dispose();
             
         });

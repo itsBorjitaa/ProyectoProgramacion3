@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JOptionPane;
+
 import domain.Categoria;
 import domain.Factura;
 import domain.Usuario;
@@ -111,12 +113,20 @@ public class BaseDatos {
 
 	public static void modificarNombreUsuarioBD(Connection con, String usuario, String nuevoNombre) {
         try {
-            PreparedStatement modificarNombreUsuario = con.prepareStatement("UPDATE Usuario SET usuario = ? WHERE usuario = ?");
-            modificarNombreUsuario.setString(1, nuevoNombre);
-            modificarNombreUsuario.setString(2, usuario);
-            modificarNombreUsuario.executeUpdate();
+        	Usuario datosAntiguoUsuario=buscarUsuarioBD(con, usuario);
+        	Usuario usuarionuevo=new Usuario(nuevoNombre,datosAntiguoUsuario.getContrasenya());
+        	BaseDatos.insertarUsuarioBD(con, usuarionuevo);
+        	PreparedStatement modificarFacturasUsuario = con.prepareStatement("UPDATE Facturas SET usuarioF = ? WHERE usuarioF = ?");
+        	modificarFacturasUsuario.setString(1, usuarionuevo.getNombre());
+            modificarFacturasUsuario.setString(2, usuario);
+            modificarFacturasUsuario.executeUpdate();
+            PreparedStatement modificarcategoriasUsuario = con.prepareStatement("UPDATE categoriasUsuario SET usuario_cu = ? WHERE usuario_cu = ?");
+            modificarcategoriasUsuario.setString(1, usuarionuevo.getNombre());
+            modificarcategoriasUsuario.setString(2, usuario);
+            modificarcategoriasUsuario.executeUpdate();
+            BaseDatos.eliminarUsuarioBD(con, usuario);            
         } catch (SQLException e) {
-            e.printStackTrace();
+        	e.printStackTrace();
         }
     }
 
