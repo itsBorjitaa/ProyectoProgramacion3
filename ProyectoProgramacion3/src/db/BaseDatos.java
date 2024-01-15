@@ -109,7 +109,28 @@ public class BaseDatos {
 	    }
 	}
 
-	
+	public static void modificarNombreUsuarioBD(Connection con, String usuario, String nuevoNombre) {
+        try {
+            PreparedStatement modificarNombreUsuario = con.prepareStatement("UPDATE Usuario SET usuario = ? WHERE usuario = ?");
+            modificarNombreUsuario.setString(1, nuevoNombre);
+            modificarNombreUsuario.setString(2, usuario);
+            modificarNombreUsuario.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void modificarContrasenyaUsuarioBD(Connection con, String usuario, String nuevaContrasenya) {
+        try {
+            PreparedStatement modificarContrasenyaUsuario = con.prepareStatement("UPDATE Usuario SET contrasenya = ? WHERE usuario = ?");
+            modificarContrasenyaUsuario.setString(1, nuevaContrasenya);
+            modificarContrasenyaUsuario.setString(2, usuario);
+            modificarContrasenyaUsuario.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
 	/* BASE DE DATOS FACTURA POR FECHA */
 	
 	/* FUNCIÓN PARA CREAR LA TABLA SI NO ESTA CREADA */

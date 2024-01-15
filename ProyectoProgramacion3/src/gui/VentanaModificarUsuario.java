@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import main.BaseDatos;
+import db.BaseDatos;
 
 public class VentanaModificarUsuario extends JFrame{
 	/**
