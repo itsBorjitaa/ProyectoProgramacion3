@@ -8,7 +8,6 @@
 
 <div align="center">
 
-[![Build Status](https://img.shields.io/travis/tu-usuario/tu-repositorio.svg)](https://travis-ci.org/tu-usuario/tu-repositorio)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 </div>
