@@ -565,7 +565,6 @@ public class BaseDatos {
 			
 		} else {
 			int id_nuevo = 0;
-			System.out.println(id);
 			
 			try {										//BUSCA LA ID DE LA CATEGORIA TENIENDO EN CUENTA EL NOMBRE
 				PreparedStatement buscarCategoriaSegunNombre = con.prepareStatement("SELECT id_c FROM categorias WHERE categoria = ?");
@@ -579,7 +578,6 @@ public class BaseDatos {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			System.out.println(id_nuevo);
 			
 			try {
 				PreparedStatement actualizarCategoria = con.prepareStatement("UPDATE categoriasUsuario SET id_c_cu = ? WHERE id_c_cu = ? AND usuario_cu = ?");
