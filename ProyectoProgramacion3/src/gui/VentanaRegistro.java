@@ -108,16 +108,16 @@ public class VentanaRegistro extends JFrame{
 			}else if((usuario.length()<1)&(contrasenya.length()<1)){ //mediante esta condición detectamos si se ha dejado algún hueco del registro sin rellenar
 				JOptionPane.showMessageDialog(null, "No dejes ningún hueco en blanco para el registro","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
 				logger.info("Error en el registro");
-			}else if((usuario.length()>0)&(contrasenya.length()>0)&!(BaseDatos.buscarUsuario(usuario) == null)){ 
-				JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese nombre","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
-				logger.info("Error en el registro");
 			}else if(usuario.length()<1) {
 				JOptionPane.showMessageDialog(null, "Escribe el nombre del usuario","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
 				logger.info("Error en el registro");
 			}else if(contrasenya.length()<1) {
 				JOptionPane.showMessageDialog(null, "Escribe la contraseña del usuario","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
 				logger.info("Error en el registro");
-			}
+			}else {
+                JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese nombre","ERROR EN EL REGISTRO",JOptionPane.ERROR_MESSAGE);
+                logger.info("Error en el registro");
+            }
 			
 			limpiarCampos();
 		});
