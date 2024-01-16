@@ -265,6 +265,7 @@ public class VentanaGastos extends JFrame{
 		setTitle("DeustoFinanzas");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(350, 100, 800, 600);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
 	}
 	

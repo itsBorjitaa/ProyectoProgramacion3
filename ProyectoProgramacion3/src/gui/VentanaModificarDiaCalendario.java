@@ -135,6 +135,7 @@ public class VentanaModificarDiaCalendario extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	
 	/*Utilizo el metodo cargarCategorias que Borja creo para la clase Categorias

@@ -191,6 +191,7 @@ public class VentanaDiaCalendario extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(450, 300, 600, 400);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		/*Cargamos los valores*/
 		facturasPorFecha=BaseDatos.cargarFacturaBD(con, usuarioActual);
