@@ -488,6 +488,13 @@ public class BaseDatos {
 	public static void modificarCategoriaPorUsuario(Connection con, String usuario, Categoria categoriaNueva, Categoria categoriaVieja) {
 		int id = 0;
 		
+		ArrayList<String> listaCategorias = new ArrayList<String>();
+		listaCategorias.add("AGUA");
+		listaCategorias.add("ALIMENTACION");
+		listaCategorias.add("GAS");
+		listaCategorias.add("LUZ");
+		listaCategorias.add("OCIO");
+		
 		try {										//BUSCA LA ID DE LA CATEGORIA TENIENDO EN CUENTA EL NOMBRE
 			PreparedStatement buscaCategoriaSegunNombre = con.prepareStatement("SELECT id_c FROM categorias WHERE categoria = ?");
 			buscaCategoriaSegunNombre.setString(1, categoriaVieja.getNombre());
@@ -514,7 +521,9 @@ public class BaseDatos {
 			e.printStackTrace();
 		}
 		
-		if (cantidad == 1 && id >= 6) {
+		
+		
+		if (cantidad == 1 && id >= 6 && !listaCategorias.contains(categoriaNueva.getNombre())) {
 			
 			try {
 				PreparedStatement modificaNombreCategoria = con.prepareStatement("UPDATE categorias SET categoria = ? WHERE categoria = ?");
@@ -525,7 +534,7 @@ public class BaseDatos {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
+		} else if (!listaCategorias.contains(categoriaNueva.getNombre())){
 			BaseDatos.insertarCategoriasBD(con, categoriaNueva);
 			
 			int id_nuevo = 0;
@@ -550,6 +559,45 @@ public class BaseDatos {
 				actualizarCategoria.setString(3, usuario);
 				actualizarCategoria.executeUpdate();
 				actualizarCategoria.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		} else {
+			int id_nuevo = 0;
+			System.out.println(id);
+			
+			try {										//BUSCA LA ID DE LA CATEGORIA TENIENDO EN CUENTA EL NOMBRE
+				PreparedStatement buscarCategoriaSegunNombre = con.prepareStatement("SELECT id_c FROM categorias WHERE categoria = ?");
+				buscarCategoriaSegunNombre.setString(1, categoriaNueva.getNombre());
+				ResultSet rs = buscarCategoriaSegunNombre.executeQuery();
+				if (rs.next()) {
+					id_nuevo = rs.getInt("id_c");
+				}
+				rs.close();
+				buscarCategoriaSegunNombre.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			System.out.println(id_nuevo);
+			
+			try {
+				PreparedStatement actualizarCategoria = con.prepareStatement("UPDATE categoriasUsuario SET id_c_cu = ? WHERE id_c_cu = ? AND usuario_cu = ?");
+				actualizarCategoria.setString(1, String.valueOf(id_nuevo));
+				actualizarCategoria.setString(2, String.valueOf(id));
+				actualizarCategoria.setString(3, usuario);
+				actualizarCategoria.executeUpdate();
+				actualizarCategoria.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			try {									//SI NO ES UNA CATEGORIA POR DEFECTO Y NO LA USA NINGUN OTRO USUARIO, BORRA ESA CATEGORIA DE LA TABLA categorias
+				PreparedStatement eliminarCategoriaTablaCategoria = con.prepareStatement("DELETE FROM categorias WHERE id_c = ?");
+				eliminarCategoriaTablaCategoria.setString(1, String.valueOf(id));
+				eliminarCategoriaTablaCategoria.executeUpdate();
+				eliminarCategoriaTablaCategoria.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
