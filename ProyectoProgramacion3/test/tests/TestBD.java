@@ -3,6 +3,7 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,14 +20,19 @@ public class TestBD {
 	Usuario prueba = new Usuario("prueba1","12345");
 	Usuario prueba2 = new Usuario("prueba2", "11111");
 	Categoria agua = new Categoria("AGUA");
+	Categoria pruebaCategoria = new Categoria("prueba");
 	Factura factura = new Factura("pruebaFactura", 20, agua);
+	String[] categoriasPorDefecto = {"AGUA", "ALIMENTACION", "GAS", "LUZ", "OCIO"};
 	
 	@Before
 	public void setUp() throws Exception {
+		/*CREACIÓN DE TABLAS*/
 		BaseDatos.crearTablaUsuariosBD(con);
 		BaseDatos.crearTablaFacturasBD(con);
 		BaseDatos.crearTablaCategoriasBD(con);
 		BaseDatos.crearTablaCategoriasUsuarioBD(con);
+		
+		/*INSERTAR USUARIOS DE PRUEBA*/
 		BaseDatos.insertarUsuarioBD(con, new Usuario("prueba1", "11111"));
 		BaseDatos.insertarUsuarioBD(con, new Usuario("Juan", "1111"));
 		BaseDatos.insertarUsuarioBD(con, new Usuario("prueba3", "11111"));
@@ -64,67 +70,36 @@ public class TestBD {
 		BaseDatos.modificarContrasenyaUsuarioBD(con, "prueba3", "11112");
 		assertTrue(BaseDatos.buscarUsuarioBD(con, "prueba3").getContrasenya().equals("11112"));
 	}
-	
-	
-	
-	@Test
-	public void testModificarFacturaBD() {
-		BaseDatos.modificarFacturaBD(con, factura, "17-01-2024", 5);
-	}
-	
-	@Test
-	public void testEliminarFacturaBD() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCargarFacturaBD() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCrearTablaCategoriasBD() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testBuscarCategoriaBD() {
-		fail("Not yet implemented");
+		assertTrue(BaseDatos.buscarCategoriaBD(con, "AGUA").getNombre().equals("AGUA"));
 	}
 
 	@Test
 	public void testInsertarCategoriasBD() {
-		fail("Not yet implemented");
+		BaseDatos.insertarCategoriasBD(con, new Categoria("prueba"));
+		assertTrue(BaseDatos.buscarCategoriaBD(con, "PRUEBA").getNombre().equals("PRUEBA"));
 	}
 
 	@Test
 	public void testInsertarCategoriasPorUsuario() {
-		fail("Not yet implemented");
+		BaseDatos.insertarCategoriasPorUsuario(con, "prueba4", pruebaCategoria);
+		ArrayList<Categoria> listaCategorias = BaseDatos.cargarCategoriasPorUsuario(con, "prueba4");
+		for (Categoria categoria: listaCategorias) {
+			assertTrue(categoria.getNombre().equals(pruebaCategoria.getNombre()));
+		}
+		BaseDatos.borrarCategoriasPorUsuario(con, "prueba4", pruebaCategoria);
 	}
-
-	@Test
-	public void testCrearTablaCategoriasUsuarioBD() {
-		fail("Not yet implemented");
-	}
-
+	
 	@Test
 	public void testAnyadirCategoriasUsuarioNuevo() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCargarCategoriasPorUsuario() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testBorrarCategoriasPorUsuario() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testModificarCategoriaPorUsuario() {
-		fail("Not yet implemented");
+		BaseDatos.anyadirCategoriasUsuarioNuevo(con, "prueba1");
+		ArrayList<Categoria> listaCategorias = BaseDatos.cargarCategoriasPorUsuario(con, "prueba1");
+		for (int i = 1; i < categoriasPorDefecto.length; i++) {
+			assertEquals(listaCategorias.get(i), categoriasPorDefecto[i]);
+		}
+		BaseDatos.eliminarUsuarioBD(con, "prueba1");
 	}
 	
 	@After
