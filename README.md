@@ -23,9 +23,8 @@
     - [Control de gastos](#control-de-gastos)
     - [Gestión de categorías](#gestión-de-categorías)
     - [Análisis de gastos](#análisis-de-gastos)
-  - [Requisitos del sistema](#requisitos-del-sistema)
   - [Instalación](#instalación)
-  - [Contribuciones](#contribuciones)
+  - [Desarrolladores](#desarrolladores)
   - [Licencia](#licencia)
 
 Bienvenido a Deusto Finanzas, una aplicación de gestión financiera desarrollada en Java Eclipse. Esta aplicación te permite llevar un control detallado de tus finanzas personales, ofreciendo diversas funcionalidades para administrar tus gastos.
