@@ -70,7 +70,7 @@ public class VentanaAnyadirCategoria extends JFrame{
 					arrayCategorias.add(categoria.getNombre());
 				}
 				if (!txtTitulo.getText().isBlank()&&!arrayCategorias.contains(txtTitulo.getText())) {
-				BaseDatos.insertarCategoriasBD(con, new Categoria(txtTitulo.getText()));
+				BaseDatos.insertarCategoriasBD(con, new Categoria(txtTitulo.getText().toUpperCase()));
 				BaseDatos.insertarCategoriasPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()));
 				txtTitulo.setText("");
 				JOptionPane.showMessageDialog(null, "Categoria añadida exitosamente","CATEGORIA AÑADIDA",JOptionPane.INFORMATION_MESSAGE);

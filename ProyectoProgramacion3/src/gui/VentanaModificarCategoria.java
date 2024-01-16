@@ -68,7 +68,7 @@ public class VentanaModificarCategoria extends JFrame{
 				for(Categoria categoria:categoriasActuales) {
 					arrayCategorias.add(categoria.getNombre());
 				}
-				if (!txtTitulo.getText().isBlank()&&!arrayCategorias.contains(txtTitulo.getText())) {
+				if (!txtTitulo.getText().isBlank()&&!arrayCategorias.contains(txtTitulo.getText().toUpperCase())) {
 				BaseDatos.modificarCategoriaPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()), categoriaVieja);
 				txtTitulo.setText("");
 				JOptionPane.showMessageDialog(null, "Categoria modificada exitosamente","CATEGORIA MODIFICADA",JOptionPane.INFORMATION_MESSAGE);
