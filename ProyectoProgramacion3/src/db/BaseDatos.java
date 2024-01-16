@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JOptionPane;
+
 import domain.Categoria;
 import domain.Factura;
 import domain.Usuario;
@@ -183,7 +185,7 @@ public class BaseDatos {
 				insertarFactura.setString(6, f.getCategoria().getNombre());
 				insertarFactura.executeUpdate();
 			} catch (SQLException e) {
-				System.out.println("Usuario no encontrado");
+				JOptionPane.showMessageDialog(null,"Usuario no encontrado.","Error al insertar factura",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	

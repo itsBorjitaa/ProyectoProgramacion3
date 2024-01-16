@@ -124,13 +124,11 @@ public class VentanaPrincipal extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 
 				if(fechaSeleccionada!=null) {
-					System.out.println("Fecha seleccionada: " + fechaSeleccionada);
 					new VentanaDiaCalendario(usuarioActual, fechaSeleccionada);
 					vActual.dispose();
 					logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");
 
 				}else if(fechaPorDefecto!=null){
-					System.out.println("Fecha seleccionada: " + fechaPorDefecto);
 					new VentanaDiaCalendario(usuarioActual, fechaPorDefecto);
 					vActual.dispose();
 					logger.info("Cerrada la ventana principal y abierta la ventana del día del calendario");

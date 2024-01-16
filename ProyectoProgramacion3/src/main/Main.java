@@ -9,6 +9,8 @@ import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 
@@ -43,7 +45,7 @@ public class Main {
 		try (InputStream entrada = Main.class.getClassLoader().getResourceAsStream(PROPIEDADES)) {
 
             if (entrada == null) {
-                System.out.println("No se puede encontrar el archivo " + PROPIEDADES);
+            	JOptionPane.showMessageDialog(null,"No se puede encontrar el archivo " + PROPIEDADES,"Error al intentar acceder al archivo",JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
