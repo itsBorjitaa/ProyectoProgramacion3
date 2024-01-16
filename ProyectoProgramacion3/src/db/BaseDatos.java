@@ -637,6 +637,7 @@ public class BaseDatos {
 	}
 
 	
+	/* TODO ESTE CODIGO ES DE ARCHIVOS Y ESTA OBSOLETO, SU UNICO PROPOSITO ES ENSEÑAR QUE LO UTILIZAMOS */
 	/* BASE DE DATOS USUARIOS CON FICHERO */
 	private static List<Usuario> usuarios = new ArrayList<>();
 	private static Set<Factura> facturas = new TreeSet<>();
