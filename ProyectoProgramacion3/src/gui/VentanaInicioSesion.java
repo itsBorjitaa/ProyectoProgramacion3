@@ -105,6 +105,7 @@ public class VentanaInicioSesion extends JFrame{
 		
 		botonInicioSesion.addActionListener((e)->{
 			String nombre = txtUsuario.getText();
+			@SuppressWarnings("deprecation")
 			String contrasenya = txtContrasenya.getText();
 			Usuario u = BaseDatos.buscarUsuarioBD(con, nombre);
 			//Usuario u = BaseDatos.buscarUsuario(nombre); //Método usando ficheros

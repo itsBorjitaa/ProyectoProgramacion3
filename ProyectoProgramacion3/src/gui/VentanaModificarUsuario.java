@@ -1,8 +1,6 @@
 package gui;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.util.logging.Logger;
 

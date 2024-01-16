@@ -69,6 +69,11 @@ public class VentanaCategorias extends JFrame {
 		/*RENDERER DE LA JLIST*/
 		
 		listaCategorias.setCellRenderer(new DefaultListCellRenderer() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public Component getListCellRendererComponent(JList<?> list,
                     Object value,
                     int index,

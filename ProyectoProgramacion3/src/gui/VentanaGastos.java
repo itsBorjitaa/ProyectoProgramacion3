@@ -299,7 +299,6 @@ public class VentanaGastos extends JFrame{
 		break;
 		}
 		ArrayList<ArrayList<Factura>> listaFacturas=new ArrayList<ArrayList<Factura>>();//En esta lista tendremos las 
-		LocalDate fechaActual=LocalDate.now();//Sacaremos el año actual con este LocalDate
 		//facturas de la fecha que buscamos
 		for(Date fechaLista: facturas.keySet()) {//Buscaremos las fechas del HashMap
 			if(fechaLista.getMonth()+1==fechaNumeral && fechaLista.getYear()+1900==anioSeleccionado) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
@@ -320,6 +319,7 @@ public class VentanaGastos extends JFrame{
 		return resultado;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public List<Object> cargarCosteTrimestre(int numTrimestre, int anioSeleccionado,HashMap<Date, ArrayList<Factura>> facturas) {
 		List<Object> resultado=new ArrayList<>();
 		switch(numTrimestre) {
@@ -333,7 +333,6 @@ public class VentanaGastos extends JFrame{
 		break;
 		}
 		ArrayList<ArrayList<Factura>> listaFacturas=new ArrayList<ArrayList<Factura>>();//En esta lista tendremos las 
-		LocalDate fechaActual=LocalDate.now();//Sacaremos el año actual con este LocalDate
 		//facturas de la fecha que buscamos
 		for(Date fechaLista: facturas.keySet()) {//Buscaremos las fechas del HashMap
 			if((fechaLista.getMonth()+1)<=(numTrimestre*3) && (numTrimestre-1)*3<(fechaLista.getMonth()+1) && fechaLista.getYear()+1900==anioSeleccionado) {//El +1 es por la estructura de java, si la fecha es la que buscamos:
@@ -354,6 +353,7 @@ public class VentanaGastos extends JFrame{
 		return resultado;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public List<Object> cargarCosteAnual(int anioSeleccionado, HashMap<Date, ArrayList<Factura>> facturas) {
 		List<Object> resultado=new ArrayList<>();
 		resultado.add(anioSeleccionado);

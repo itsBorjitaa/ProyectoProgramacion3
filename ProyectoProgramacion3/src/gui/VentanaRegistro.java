@@ -95,6 +95,7 @@ public class VentanaRegistro extends JFrame{
 		
 		botonRegistro.addActionListener((e)->{
 			String usuario = txtUsuario.getText();
+			@SuppressWarnings("deprecation")
 			String contrasenya = txtContrasenya.getText();
 			Usuario u = new Usuario(usuario, contrasenya);
 			

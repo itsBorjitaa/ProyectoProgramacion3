@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.swing.JOptionPane;
-
 import domain.Categoria;
 import domain.Factura;
 import domain.Usuario;
