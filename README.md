@@ -62,7 +62,7 @@ Bienvenido a Deusto Finanzas, una aplicación de gestión financiera desarrollad
 2. Abre el proyecto en Eclipse IDE.
 3. Ejecuta la aplicación.
 
-## Personas desarrolladoras de la aplicación
+## Desarrolladores
 
 Este proyecto ha sido posible gracias a: Sergio Martínez, Borja Rabade, Adrián Roman, Eneko Sáez.
 
