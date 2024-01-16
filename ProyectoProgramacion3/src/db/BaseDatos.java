@@ -534,6 +534,18 @@ public class BaseDatos {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			try {
+				PreparedStatement cambiarFacturasACategoriaNueva = con.prepareStatement("UPDATE Facturas SET categoria = ? WHERE categoria = ? AND usuarioF = ?");
+				cambiarFacturasACategoriaNueva.setString(1, categoriaNueva.getNombre());
+				cambiarFacturasACategoriaNueva.setString(2, categoriaVieja.getNombre());
+				cambiarFacturasACategoriaNueva.setString(3, usuario);
+				cambiarFacturasACategoriaNueva.executeUpdate();
+				cambiarFacturasACategoriaNueva.close();
+			}  catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		} else if (!listaCategorias.contains(categoriaNueva.getNombre())){
 			BaseDatos.insertarCategoriasBD(con, categoriaNueva);
 			
@@ -560,6 +572,17 @@ public class BaseDatos {
 				actualizarCategoria.executeUpdate();
 				actualizarCategoria.close();
 			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			try {
+				PreparedStatement cambiarFacturasACategoriaNueva = con.prepareStatement("UPDATE Facturas SET categoria = ? WHERE categoria = ? AND usuarioF = ?");
+				cambiarFacturasACategoriaNueva.setString(1, categoriaNueva.getNombre());
+				cambiarFacturasACategoriaNueva.setString(2, categoriaVieja.getNombre());
+				cambiarFacturasACategoriaNueva.setString(3, usuario);
+				cambiarFacturasACategoriaNueva.executeUpdate();
+				cambiarFacturasACategoriaNueva.close();
+			}  catch (Exception e) {
 				e.printStackTrace();
 			}
 			
@@ -600,6 +623,17 @@ public class BaseDatos {
 				e.printStackTrace();
 			}
 			
+
+			try {
+				PreparedStatement cambiarFacturasACategoriaNueva = con.prepareStatement("UPDATE Facturas SET categoria = ? WHERE categoria = ? AND usuarioF = ?");
+				cambiarFacturasACategoriaNueva.setString(1, categoriaNueva.getNombre());
+				cambiarFacturasACategoriaNueva.setString(2, categoriaVieja.getNombre());
+				cambiarFacturasACategoriaNueva.setString(3, usuario);
+				cambiarFacturasACategoriaNueva.executeUpdate();
+				cambiarFacturasACategoriaNueva.close();
+			}  catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
