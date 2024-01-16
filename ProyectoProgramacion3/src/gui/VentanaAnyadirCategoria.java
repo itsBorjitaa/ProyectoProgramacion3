@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -63,13 +64,20 @@ public class VentanaAnyadirCategoria extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!txtTitulo.getText().isBlank()) {
+				ArrayList<Categoria> categoriasActuales=BaseDatos.cargarCategoriasPorUsuario(con, usuarioActual);
+				ArrayList<String> arrayCategorias=new ArrayList<String>();
+				for(Categoria categoria:categoriasActuales) {
+					arrayCategorias.add(categoria.getNombre());
+				}
+				if (!txtTitulo.getText().isBlank()&&!arrayCategorias.contains(txtTitulo.getText())) {
 				BaseDatos.insertarCategoriasBD(con, new Categoria(txtTitulo.getText()));
 				BaseDatos.insertarCategoriasPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()));
 				txtTitulo.setText("");
 				JOptionPane.showMessageDialog(null, "Categoria añadida exitosamente","CATEGORIA AÑADIDA",JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "El nombre de la categoria no puede estar en blanco","ERROR AL AÑADIR UNA NUEVA CATEGORIA",JOptionPane.ERROR_MESSAGE);
+				} else if(arrayCategorias.contains(txtTitulo.getText())) {
+					JOptionPane.showMessageDialog(null, "Esta categoria ya existe","ERROR AL MODIFICAR CATEGORIAS",JOptionPane.ERROR_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "El nombre de la categoria no puede estar en blanco","ERROR AL MODIFICAR CATEGORIAS",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
