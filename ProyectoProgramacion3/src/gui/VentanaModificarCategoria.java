@@ -30,6 +30,7 @@ public class VentanaModificarCategoria extends JFrame{
 	private JPanel panelArriba, panelAbajo;
 	private JFrame vActual;
 	private Logger logger = Logger.getLogger(VentanaPrincipal.class.getName());
+	private Categoria categoriaActual;
 	
 	private static final String RUTA_DB = "resources/db/BaseDatos.db";
 	
@@ -37,6 +38,7 @@ public class VentanaModificarCategoria extends JFrame{
 		Connection con = BaseDatos.initBD(RUTA_DB);
 		/*Cargamos el usuario actual*/
 		String usuarioActual=usuario;
+		categoriaActual=categoriaVieja;
 		vActual = this;
 		
 		/*CREACION DE PANELES*/
@@ -69,13 +71,16 @@ public class VentanaModificarCategoria extends JFrame{
 					arrayCategorias.add(categoria.getNombre());
 				}
 				if (!txtTitulo.getText().isBlank()&&!arrayCategorias.contains(txtTitulo.getText().toUpperCase())) {
-				BaseDatos.modificarCategoriaPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()), categoriaVieja);
+				BaseDatos.modificarCategoriaPorUsuario(con, usuarioActual, new Categoria(txtTitulo.getText()), categoriaActual);
+				categoriaActual=new Categoria(txtTitulo.getText().toUpperCase());
 				txtTitulo.setText("");
 				JOptionPane.showMessageDialog(null, "Categoria modificada exitosamente","CATEGORIA MODIFICADA",JOptionPane.INFORMATION_MESSAGE);
 				} else if(arrayCategorias.contains(txtTitulo.getText())) {
 					JOptionPane.showMessageDialog(null, "Esta categoria ya existe","ERROR AL MODIFICAR CATEGORIAS",JOptionPane.ERROR_MESSAGE);
+					txtTitulo.setText("");
 				}else {
 					JOptionPane.showMessageDialog(null, "El nombre de la categoria no puede estar en blanco","ERROR AL MODIFICAR CATEGORIAS",JOptionPane.ERROR_MESSAGE);
+					txtTitulo.setText("");
 				}
 					
 				}
