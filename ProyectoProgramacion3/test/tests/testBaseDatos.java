@@ -13,7 +13,6 @@ import db.BaseDatos;
 import domain.Categoria;
 import domain.Factura;
 import domain.Usuario;
-import main.*;
 
 public class testBaseDatos {
 	//Primero inicializaremos la BD
