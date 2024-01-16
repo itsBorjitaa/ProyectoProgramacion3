@@ -96,14 +96,15 @@ public class TestBD {
 	public void testAnyadirCategoriasUsuarioNuevo() {
 		BaseDatos.anyadirCategoriasUsuarioNuevo(con, "prueba1");
 		ArrayList<Categoria> listaCategorias = BaseDatos.cargarCategoriasPorUsuario(con, "prueba1");
-		for (int i = 1; i < categoriasPorDefecto.length; i++) {
-			assertEquals(listaCategorias.get(i), categoriasPorDefecto[i]);
-		}
-		BaseDatos.eliminarUsuarioBD(con, "prueba1");
+		assertTrue(listaCategorias.get(0).getNombre().equals("AGUA"));
+		assertTrue(listaCategorias.get(1).getNombre().equals("ALIMENTACION"));
+		assertTrue(listaCategorias.get(2).getNombre().equals("GAS"));
+		assertTrue(listaCategorias.get(3).getNombre().equals("LUZ"));
+		assertTrue(listaCategorias.get(4).getNombre().equals("OCIO"));
 	}
-	
 	@After
 	public void tearDown() throws Exception {
+		BaseDatos.eliminarUsuarioBD(con, "prueba1");
 		BaseDatos.closeBD(con);
 	}
 
