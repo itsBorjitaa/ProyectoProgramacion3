@@ -39,7 +39,7 @@ public class VentanaCargar extends JFrame{
 		/*ESPECIFICACION VENTANA*/
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setResizable(false);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setBounds(450, 300, 600, 100);
 		setTitle("DeustoFinanzas");
 		setVisible(true);
 		
